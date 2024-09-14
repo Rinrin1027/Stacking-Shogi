@@ -77,6 +77,7 @@ public class ShogiPieceController : MonoBehaviour
     }
 
     // 駒の移動範囲を表示する
+    // 駒の移動範囲を表示する
     void ShowMoveRange(GameObject piece)
     {
         validMovePositions.Clear(); // 前の駒の移動範囲をクリア
@@ -87,11 +88,15 @@ public class ShogiPieceController : MonoBehaviour
         {
             Vector2Int pieceGridPosition = GetGridPositionFromWorldPosition(piece.transform.position);
 
+            bool isEnemy = piece.tag == "Enemy"; // 駒が敵かどうかを確認
+
             foreach (var move in pieceData.移動)
             {
+                int directionMultiplier = isEnemy ? -1 : 1; // 敵の駒なら移動方向を反転
+
                 for (int i = 1; i <= Mathf.Abs(move.距離); i++)
                 {
-                    Vector2Int newPosition = pieceGridPosition + new Vector2Int(move.x * i, move.y * i);
+                    Vector2Int newPosition = pieceGridPosition + new Vector2Int(move.x * i * directionMultiplier, move.y * i * directionMultiplier);
 
                     // グリッドの範囲内かを確認
                     if (newPosition.x >= 0 && newPosition.x < shogiBoardScript.cols && newPosition.y >= 0 && newPosition.y < shogiBoardScript.rows)
@@ -112,6 +117,7 @@ public class ShogiPieceController : MonoBehaviour
             Debug.LogWarning("移動範囲が見つかりません。");
         }
     }
+
 
     // 駒を移動する
     void MovePiece(GameObject piece, Vector2Int gridPosition)
