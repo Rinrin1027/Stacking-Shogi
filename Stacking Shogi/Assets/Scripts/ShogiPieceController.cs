@@ -9,6 +9,9 @@ public class ShogiPieceController : MonoBehaviour
     private List<Vector3> validMovePositions = new List<Vector3>(); // 有効な移動範囲を保存
     private ShogiBoard shogiBoardScript; // ShogiBoardの参照
 
+    private bool isPlayerTurn = true; // プレイヤーのターンかどうか
+    private string currentPlayerTag = "Player"; // 現在のプレイヤーの駒のタグ（PlayerかEnemy）
+
     void Start()
     {
         // ShogiPieceManagerコンポーネントを取得
@@ -32,8 +35,8 @@ public class ShogiPieceController : MonoBehaviour
 
                 if (selectedPiece == null)
                 {
-                    // 駒が選択されていない場合は駒を選択
-                    if (hitObject.tag == "Piece") // 駒にタグを付けて判定
+                    // ターンに応じた駒を選択
+                    if (hitObject.tag == currentPlayerTag) // タグでプレイヤーか敵の駒か判定
                     {
                         selectedPiece = hitObject;
                         ShowMoveRange(selectedPiece);
@@ -41,7 +44,7 @@ public class ShogiPieceController : MonoBehaviour
                 }
                 else
                 {
-                    // 駒が選択されている場合は移動を行う
+                    // 駒が選択されている場合は移動先をクリックして移動
                     Vector3 newPosition = new Vector3(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y), 0);
 
                     // 有効な移動範囲か確認
@@ -50,6 +53,9 @@ public class ShogiPieceController : MonoBehaviour
                         MovePiece(selectedPiece, newPosition);
                         selectedPiece = null;
                         validMovePositions.Clear(); // 移動後に移動範囲をリセット
+
+                        // ターンを切り替える
+                        SwitchTurn();
                     }
                 }
             }
@@ -88,8 +94,26 @@ public class ShogiPieceController : MonoBehaviour
         // 駒の移動処理
         piece.transform.position = newPosition;
         Debug.Log($"駒 {piece.name} が {newPosition} に移動しました");
-        
+
         // 駒の成り処理などの追加機能もここに追加できます
+    }
+
+    // ターンを切り替える
+    void SwitchTurn()
+    {
+        isPlayerTurn = !isPlayerTurn; // ターンを切り替え
+
+        // 現在のプレイヤーのタグを更新
+        if (isPlayerTurn)
+        {
+            currentPlayerTag = "Player"; // プレイヤーのターン
+        }
+        else
+        {
+            currentPlayerTag = "Enemy"; // 敵のターン
+        }
+        
+        Debug.Log($"次は {currentPlayerTag} のターンです");
     }
 
     // 駒を初期配置する関数
@@ -109,10 +133,15 @@ public class ShogiPieceController : MonoBehaviour
                 piece.transform.position = cell.transform.position; // 駒をセルの位置に配置
                 piece.name = pieceName; // 駒の名前を設定
 
-                // 敵側の駒なら180度回転させる
+                // プレイヤーか敵かに応じてタグを設定
                 if (isEnemy)
                 {
-                    piece.transform.rotation = Quaternion.Euler(0, 0, 180);
+                    piece.transform.rotation = Quaternion.Euler(0, 0, 180); // 敵の駒を回転
+                    piece.tag = "Enemy"; // 敵の駒としてタグを設定
+                }
+                else
+                {
+                    piece.tag = "Player"; // プレイヤーの駒としてタグを設定
                 }
             }
             else
