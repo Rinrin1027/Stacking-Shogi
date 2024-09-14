@@ -6,6 +6,7 @@ public class ShogiBoard : MonoBehaviour
     public int rows = 9;  // 縦のマス数
     public int cols = 9;  // 横のマス数
     public float cellSize = 1.0f;  // 各マスの大きさ
+    public ShogiPieceController pieceController; // 駒の管理クラス
 
     private GameObject[,] boardArray; // 9x9の将棋盤の配列
 
@@ -13,7 +14,7 @@ public class ShogiBoard : MonoBehaviour
     {
         boardArray = new GameObject[rows, cols];
         GenerateBoard();
-        PlaceInitialPieces(); // 駒を配置する
+        PlaceInitialPieces(); // 駒を初期配置する
     }
 
     // 将棋盤を生成する
@@ -42,23 +43,39 @@ public class ShogiBoard : MonoBehaviour
     // 駒を初期配置する
     void PlaceInitialPieces()
     {
-        // 例として歩兵を2段目に配置
+        // 味方側の駒の配置
         for (int x = 0; x < cols; x++)
         {
-            PlacePiece(x, 2, "歩"); // 2段目に歩を配置
+            pieceController.PlacePiece(x, 2, "歩"); // 2段目に歩を配置
         }
+        pieceController.PlacePiece(0, 0, "香車");
+        pieceController.PlacePiece(8, 0, "香車");
+        pieceController.PlacePiece(1, 0, "桂馬");
+        pieceController.PlacePiece(7, 0, "桂馬");
+        pieceController.PlacePiece(2, 0, "銀");
+        pieceController.PlacePiece(6, 0, "銀");
+        pieceController.PlacePiece(3, 0, "金");
+        pieceController.PlacePiece(5, 0, "金");
+        pieceController.PlacePiece(4, 0, "王");
+        pieceController.PlacePiece(1, 1, "飛車");
+        pieceController.PlacePiece(7, 1, "角行");
 
-        // 例: 香車を配置
-        PlacePiece(0, 0, "香車");
-        PlacePiece(8, 0, "香車");
-
-        // その他の駒も同様に配置
-    }
-
-    // 特定の座標に駒を配置する関数
-    void PlacePiece(int x, int y, string pieceName)
-    {
-        // 駒を生成して配置するロジック
+        // 敵側の駒の配置
+        for (int x = 0; x < cols; x++)
+        {
+            pieceController.PlacePiece(x, 6, "歩", true); // 敵側の歩を6段目に配置（isEnemy = true）
+        }
+        pieceController.PlacePiece(0, 8, "香車", true);
+        pieceController.PlacePiece(8, 8, "香車", true);
+        pieceController.PlacePiece(1, 8, "桂馬", true);
+        pieceController.PlacePiece(7, 8, "桂馬", true);
+        pieceController.PlacePiece(2, 8, "銀", true);
+        pieceController.PlacePiece(6, 8, "銀", true);
+        pieceController.PlacePiece(3, 8, "金", true);
+        pieceController.PlacePiece(5, 8, "金", true);
+        pieceController.PlacePiece(4, 8, "王", true);
+        pieceController.PlacePiece(1, 7, "飛車", true);
+        pieceController.PlacePiece(7, 7, "角行", true);
     }
 
     // 特定の座標にあるマス目を取得する関数
