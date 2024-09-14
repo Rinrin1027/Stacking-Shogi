@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class records_logic : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class records_logic : MonoBehaviour
     private Dictionary<string, int> takenPieceCount = new Dictionary<string, int>();
 
     // Start is called before the first frame update
-    void Start(string txt)
+    void Start()//String txt
     {
         createBoard();
         // StreamReader lines = new StreamReader("01.txt"); //txtに置き換える
@@ -39,8 +40,11 @@ public class records_logic : MonoBehaviour
 
     void createBoard()
     {
-        boardWidth = 9;
-        boardHeight = 9;
+        int boardWidth = 9;
+        int boardHeight = 9;
+        float slotWidth = 50f;  // スロットの幅
+        float slotHeight = 50f; // スロットの高さ
+
 
         for(int i = 0; i < boardWidth; i++)
         {
@@ -48,11 +52,18 @@ public class records_logic : MonoBehaviour
             {
                 GameObject newSlot = new GameObject();
                 newSlot.transform.SetParent(displayText.transform.parent);
-                newSlot.AddComponent<Image>().sprite = Resources.Load<Sprite>("Images/Board.png");
-                newSlot.GetComponent<RectTransform>().sizeDelta = new Vector2(50, 50);
-                newSlot.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-                newSlot.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
-                newSlot.GetComponent<Image>().enabled = true;
+                Image image = newSlot.AddComponent<Image>();
+                image.sprite = Resources.Load<Sprite>("Images/将棋版面.png");
+                RectTransform rectTransform = newSlot.GetComponent<RectTransform>();
+                rectTransform.sizeDelta = new Vector2(slotWidth, slotHeight); // スロットのサイズを指定
+                rectTransform.localScale = new Vector3(1, 1, 1);
+                rectTransform.localPosition = new Vector3(i * slotWidth, j * slotHeight, 0); // スロットの位置を設定
+
+            // アスペクト比を維持しながらスロットに収める
+                image.preserveAspect = true;
+
+            // スロットを有効化
+                image.enabled = true;
             }
         }
     }
