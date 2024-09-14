@@ -11,7 +11,7 @@ public class ShogiPieceController : MonoBehaviour
 
     private bool isPlayerTurn = true; // プレイヤーのターンかどうか
     private string currentPlayerTag = "Player"; // 現在のプレイヤーの駒のタグ（PlayerかEnemy）
-    
+
     void Start()
     {
         // ShogiPieceManagerコンポーネントを取得
