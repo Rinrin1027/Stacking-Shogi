@@ -9,6 +9,8 @@ public class ShogiBoard : MonoBehaviour
     public ShogiPieceController pieceController; // 駒の管理クラス
 
     private GameObject[,] boardArray; // 9x9の将棋盤の配列
+    public Sprite defaultSprite; // 通常のマス目スプライト
+    public Sprite highlightedSprite; // ハイライト用のマス目スプライト
 
     void Start()
     {
@@ -36,6 +38,13 @@ public class ShogiBoard : MonoBehaviour
                 GameObject cell = Instantiate(cellPrefab, position, Quaternion.identity);
                 boardArray[x, y] = cell; // 各セルを配列に保存
                 cell.name = $"Cell_{x}_{y}"; // デバッグ用に名前をつける
+
+                // スプライトの設定
+                SpriteRenderer renderer = cell.GetComponent<SpriteRenderer>();
+                if (renderer != null)
+                {
+                    renderer.sprite = defaultSprite;
+                }
             }
         }
     }
@@ -57,8 +66,8 @@ public class ShogiBoard : MonoBehaviour
         pieceController.PlacePiece(3, 0, "金");
         pieceController.PlacePiece(5, 0, "金");
         pieceController.PlacePiece(4, 0, "王");
-        pieceController.PlacePiece(1, 1, "飛車");
-        pieceController.PlacePiece(7, 1, "角行");
+        pieceController.PlacePiece(7, 1, "飛車");
+        pieceController.PlacePiece(1, 1, "角行");
 
         // 敵側の駒の配置
         for (int x = 0; x < cols; x++)
@@ -74,8 +83,8 @@ public class ShogiBoard : MonoBehaviour
         pieceController.PlacePiece(3, 8, "金", true);
         pieceController.PlacePiece(5, 8, "金", true);
         pieceController.PlacePiece(4, 8, "王", true);
-        pieceController.PlacePiece(1, 7, "飛車", true);
-        pieceController.PlacePiece(7, 7, "角行", true);
+        pieceController.PlacePiece(7, 7, "飛車", true);
+        pieceController.PlacePiece(1, 7, "角行", true);
     }
 
     // 特定の座標にあるマス目を取得する関数
@@ -86,5 +95,19 @@ public class ShogiBoard : MonoBehaviour
             return boardArray[x, y];
         }
         return null;
+    }
+
+    // グリッドのスプライトを変更
+    public void HighlightCell(int x, int y, bool highlight)
+    {
+        GameObject cell = GetCellAtPosition(x, y);
+        if (cell != null)
+        {
+            SpriteRenderer renderer = cell.GetComponent<SpriteRenderer>();
+            if (renderer != null)
+            {
+                renderer.sprite = highlight ? highlightedSprite : defaultSprite;
+            }
+        }
     }
 }
