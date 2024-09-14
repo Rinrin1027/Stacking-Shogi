@@ -26,6 +26,7 @@ public class ShogiPieceDictionary
     public Dictionary<string, ShogiPieceData> 駒;
 }
 
+
 public class ShogiPieceManager : MonoBehaviour
 {
     // 駒のPrefabを設定する
