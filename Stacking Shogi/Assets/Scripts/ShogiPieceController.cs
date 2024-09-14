@@ -128,6 +128,8 @@ public class ShogiPieceController : MonoBehaviour
     // 駒を初期配置する関数
     public void PlacePiece(int x, int y, string pieceName, bool isEnemy = false)
     {
+        Debug.Log($"駒 {pieceName} を ({x}, {y}) に配置します。");
+
         // 駒の名前に応じたPrefabを取得
         GameObject piecePrefab = pieceManager.GetPiecePrefab(pieceName);
 
@@ -137,6 +139,8 @@ public class ShogiPieceController : MonoBehaviour
             GameObject cell = shogiBoardScript.GetCellAtPosition(x, y);
             if (cell != null)
             {
+                Debug.Log($"セル ({x}, {y}) が見つかりました。駒を生成します。");
+
                 // 駒を生成して盤上に配置
                 GameObject piece = Instantiate(piecePrefab);
                 piece.transform.position = cell.transform.position; // 駒をセルの位置に配置
@@ -155,5 +159,11 @@ public class ShogiPieceController : MonoBehaviour
                 Debug.LogError($"セルが見つかりません: ({x}, {y})");
             }
         }
+        else
+        {
+            Debug.LogError($"駒 {pieceName} のPrefabが見つかりませんでした。");
+        }
     }
 }
+    
+
