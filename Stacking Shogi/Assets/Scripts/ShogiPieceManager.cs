@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 // 駒の移動情報を格納するクラス
 [System.Serializable]
@@ -17,6 +18,7 @@ public class ShogiPieceData
     public string 名前;
     public List<PieceMove> 移動;
     public string 成り;
+    
 }
 
 // JSON全体を格納するクラス
@@ -25,6 +27,7 @@ public class ShogiPieceDictionary
 {
     public Dictionary<string, ShogiPieceData> 駒;
 }
+
 
 public class ShogiPieceManager : MonoBehaviour
 {
@@ -62,7 +65,6 @@ public class ShogiPieceManager : MonoBehaviour
             { "竜馬", promotedBishopPrefab }
         };
 
-        Debug.Log("駒のPrefabが辞書に登録されました。");
         LoadShogiPiecesData(); // JSONを読み込む
     }
 
@@ -70,15 +72,7 @@ public class ShogiPieceManager : MonoBehaviour
     void LoadShogiPiecesData()
     {
         TextAsset jsonText = Resources.Load<TextAsset>("ShogiPieces"); // ShogiPieces.jsonを読み込む
-        if (jsonText != null)
-        {
-            shogiPiecesData = JsonUtility.FromJson<ShogiPieceDictionary>(jsonText.text);
-            Debug.Log("JSONデータが正常に読み込まれました。");
-        }
-        else
-        {
-            Debug.LogError("ShogiPieces.json が見つかりませんでした。");
-        }
+        shogiPiecesData = JsonConvert.DeserializeObject<ShogiPieceDictionary>(jsonText.text);
     }
 
     // 駒のPrefabを取得する関数
@@ -86,7 +80,6 @@ public class ShogiPieceManager : MonoBehaviour
     {
         if (piecePrefabDictionary.ContainsKey(pieceName))
         {
-            Debug.Log($"駒のPrefabが見つかりました: {pieceName}");
             return piecePrefabDictionary[pieceName];
         }
         else
@@ -99,14 +92,14 @@ public class ShogiPieceManager : MonoBehaviour
     // 指定された駒のデータを取得
     public ShogiPieceData GetPieceData(string pieceName)
     {
-        if (shogiPiecesData != null && shogiPiecesData.駒.ContainsKey(pieceName))
+        Debug.Log(shogiPiecesData.駒.Count);
+        if (shogiPiecesData.駒.ContainsKey(pieceName))
         {
-            Debug.Log($"駒データが見つかりました: {pieceName}");
             return shogiPiecesData.駒[pieceName];
         }
         else
         {
-            Debug.LogError("駒データが見つかりません: " + pieceName);
+            Debug.LogError("駒が見つかりません: " + pieceName);
             return null;
         }
     }

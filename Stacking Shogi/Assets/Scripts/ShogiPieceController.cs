@@ -1,3 +1,5 @@
+// ShogiPieceController.cs
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,8 +13,8 @@ public class ShogiPieceController : MonoBehaviour
 
     private bool isPlayerTurn = true; // プレイヤーのターンかどうか
     private string currentPlayerTag = "Player"; // 現在のプレイヤーの駒のタグ（PlayerかEnemy）
-
-    void Start()
+    
+    void Awake()
     {
         // ShogiPieceManagerコンポーネントを取得
         pieceManager = shogiBoard.GetComponent<ShogiPieceManager>();
@@ -95,10 +97,19 @@ public class ShogiPieceController : MonoBehaviour
                     if (newPosition.x >= 0 && newPosition.x < shogiBoardScript.cols && newPosition.y >= 0 && newPosition.y < shogiBoardScript.rows)
                     {
                         validMovePositions.Add(newPosition);
+                        // グリッドをハイライト
+                        shogiBoardScript.HighlightCell(newPosition.x, newPosition.y, true);
                         Debug.Log($"駒 {pieceName} が移動できる範囲: {newPosition}");
                     }
                 }
             }
+        }
+
+        // デバッグ用
+        Debug.Log($"移動範囲のセル数: {validMovePositions.Count}");
+        if (validMovePositions.Count == 0)
+        {
+            Debug.LogWarning("移動範囲が見つかりません。");
         }
     }
 
@@ -111,6 +122,12 @@ public class ShogiPieceController : MonoBehaviour
         {
             piece.transform.position = cell.transform.position; // 駒をセルの位置にスナップ
             Debug.Log($"駒 {piece.name} が {gridPosition} に移動しました");
+
+            // 移動が完了したら、ハイライトを元に戻す
+            foreach (Vector2Int pos in validMovePositions)
+            {
+                shogiBoardScript.HighlightCell(pos.x, pos.y, false); // ハイライトを元に戻す
+            }
         }
     }
 
@@ -128,8 +145,6 @@ public class ShogiPieceController : MonoBehaviour
     // 駒を初期配置する関数
     public void PlacePiece(int x, int y, string pieceName, bool isEnemy = false)
     {
-        Debug.Log($"駒 {pieceName} を ({x}, {y}) に配置します。");
-
         // 駒の名前に応じたPrefabを取得
         GameObject piecePrefab = pieceManager.GetPiecePrefab(pieceName);
 
@@ -139,8 +154,6 @@ public class ShogiPieceController : MonoBehaviour
             GameObject cell = shogiBoardScript.GetCellAtPosition(x, y);
             if (cell != null)
             {
-                Debug.Log($"セル ({x}, {y}) が見つかりました。駒を生成します。");
-
                 // 駒を生成して盤上に配置
                 GameObject piece = Instantiate(piecePrefab);
                 piece.transform.position = cell.transform.position; // 駒をセルの位置に配置
@@ -159,11 +172,5 @@ public class ShogiPieceController : MonoBehaviour
                 Debug.LogError($"セルが見つかりません: ({x}, {y})");
             }
         }
-        else
-        {
-            Debug.LogError($"駒 {pieceName} のPrefabが見つかりませんでした。");
-        }
     }
 }
-    
-
