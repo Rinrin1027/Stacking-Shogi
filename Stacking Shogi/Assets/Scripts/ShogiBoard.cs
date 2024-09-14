@@ -3,10 +3,9 @@ using UnityEngine;
 public class ShogiBoard : MonoBehaviour
 {
     public GameObject cellPrefab;  // マス目のPrefab
-    public GameObject piecePrefab; // 駒のPrefab
-    public int rows = 9;
-    public int cols = 9;
-    public float cellSize = 1.0f;
+    public int rows = 9;  // 縦のマス数
+    public int cols = 9;  // 横のマス数
+    public float cellSize = 1.0f;  // 各マスの大きさ
 
     private GameObject[,] boardArray; // 9x9の将棋盤の配列
 
@@ -20,11 +19,19 @@ public class ShogiBoard : MonoBehaviour
     // 将棋盤を生成する
     void GenerateBoard()
     {
+        // グリッド全体の幅と高さ
+        float gridWidth = cols * cellSize;
+        float gridHeight = rows * cellSize;
+
+        // 中心を(0, 0)にするためのオフセット
+        Vector2 offset = new Vector2(gridWidth / 2 - cellSize / 2, gridHeight / 2 - cellSize / 2);
+
         for (int y = 0; y < rows; y++)
         {
             for (int x = 0; x < cols; x++)
             {
-                Vector3 position = new Vector3(x * cellSize, 0, y * cellSize);
+                // オフセットを適用して、中心を(0, 0)に調整
+                Vector3 position = new Vector3(x * cellSize - offset.x, y * cellSize - offset.y, 0);
                 GameObject cell = Instantiate(cellPrefab, position, Quaternion.identity);
                 boardArray[x, y] = cell; // 各セルを配列に保存
                 cell.name = $"Cell_{x}_{y}"; // デバッグ用に名前をつける
@@ -51,11 +58,7 @@ public class ShogiBoard : MonoBehaviour
     // 特定の座標に駒を配置する関数
     void PlacePiece(int x, int y, string pieceName)
     {
-        // 駒の生成
-        GameObject piece = Instantiate(piecePrefab);
-        piece.transform.position = boardArray[x, y].transform.position + new Vector3(0, 0.5f, 0); // マスの上に配置
-        piece.name = pieceName;
-        // ここに駒の種類に応じた表示やロジックを追加
+        // 駒を生成して配置するロジック
     }
 
     // 特定の座標にあるマス目を取得する関数
