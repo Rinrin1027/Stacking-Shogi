@@ -225,6 +225,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1259669180}
   - component: {fileID: 1259669179}
+  - component: {fileID: 1259669181}
   m_Layer: 0
   m_Name: SyougiBoard
   m_TagString: Untagged
@@ -248,6 +249,7 @@ MonoBehaviour:
   rows: 9
   cols: 9
   cellSize: 1
+  pieceController: {fileID: 1345624496}
 --- !u!4 &1259669180
 Transform:
   m_ObjectHideFlags: 0
@@ -263,9 +265,78 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1259669181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1259669178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 006168f4181494b7ea4bb67b94b5ee2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pawnPrefab: {fileID: 6215884487801149712, guid: 0483431b086074cd1bb7a6928892c890, type: 3}
+  rookPrefab: {fileID: 6840942833145540052, guid: 33fe067d984054c29ba4899b85f73f94, type: 3}
+  lancePrefab: {fileID: 3493151500906275183, guid: 2914c08338634433492a6079ca042d1b, type: 3}
+  knightPrefab: {fileID: 7504359141255216193, guid: f74c507bff5f848848e642a3b735450c, type: 3}
+  bishopPrefab: {fileID: 2326860487988308537, guid: 60aba53810c4a4fd1a103d60e31bc9fb, type: 3}
+  goldPrefab: {fileID: 6032958838164629484, guid: 546044f92712845058fa189af1f78953, type: 3}
+  silverPrefab: {fileID: 5185333693657173764, guid: d64c51f71c2304a6b8b6a3b99861797e, type: 3}
+  kingPrefab: {fileID: 324927797114228403, guid: 227047876fd194cb9b2d7eeed167c409, type: 3}
+  promotedPawnPrefab: {fileID: 3331374121607220427, guid: c67ff047082c24c1387d13b41b1c5941, type: 3}
+  promotedRookPrefab: {fileID: 5844345671130577368, guid: e776ea01541024c2ca4d0e582b137a21, type: 3}
+  promotedBishopPrefab: {fileID: 8932080873203744503, guid: 112bcff3027104f769e7ebe0c3ea20c1, type: 3}
+--- !u!1 &1345624494
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1345624495}
+  - component: {fileID: 1345624496}
+  m_Layer: 0
+  m_Name: ShogiPieceController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1345624495
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1345624494}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.0311193, y: -13.373512, z: -0.16318321}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1345624496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1345624494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ea894bba788c4c2abab9d7d3ef61dd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shogiBoard: {fileID: 1259669178}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 1259669180}
+  - {fileID: 1345624495}
