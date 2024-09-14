@@ -71,8 +71,8 @@ public class ShogiPieceController : MonoBehaviour
     Vector2Int GetGridPositionFromWorldPosition(Vector3 worldPosition)
     {
         Vector2 offset = new Vector2(shogiBoardScript.cellSize * shogiBoardScript.cols / 2, shogiBoardScript.cellSize * shogiBoardScript.rows / 2);
-        int x = Mathf.RoundToInt((worldPosition.x + offset.x) / shogiBoardScript.cellSize);
-        int y = Mathf.RoundToInt((worldPosition.y + offset.y) / shogiBoardScript.cellSize);
+        int x = Mathf.FloorToInt((worldPosition.x + offset.x) / shogiBoardScript.cellSize);
+        int y = Mathf.FloorToInt((worldPosition.y + offset.y) / shogiBoardScript.cellSize);
         return new Vector2Int(x, y);
     }
 
