@@ -1,5 +1,3 @@
-// ShogiPieceController.cs
-
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +11,7 @@ public class ShogiPieceController : MonoBehaviour
 
     private bool isPlayerTurn = true; // プレイヤーのターンかどうか
     private string currentPlayerTag = "Player"; // 現在のプレイヤーの駒のタグ（PlayerかEnemy）
-    
+
     void Awake()
     {
         // ShogiPieceManagerコンポーネントを取得
@@ -59,12 +57,25 @@ public class ShogiPieceController : MonoBehaviour
                         SwitchTurn(); // ターンを切り替える
                     }
 
+                    // 前回の駒の移動範囲をリセット
+                    ClearMoveRange();
+
                     // 選択解除
                     selectedPiece = null;
                     validMovePositions.Clear(); // 移動範囲をリセット
                 }
             }
         }
+    }
+
+    // 前の駒の移動範囲ハイライトをリセット
+    void ClearMoveRange()
+    {
+        foreach (Vector2Int pos in validMovePositions)
+        {
+            shogiBoardScript.HighlightCell(pos.x, pos.y, false); // ハイライトを元に戻す
+        }
+        validMovePositions.Clear();
     }
 
     // グリッド座標をワールド座標から計算
@@ -77,10 +88,11 @@ public class ShogiPieceController : MonoBehaviour
     }
 
     // 駒の移動範囲を表示する
-    // 駒の移動範囲を表示する
     void ShowMoveRange(GameObject piece)
     {
-        validMovePositions.Clear(); // 前の駒の移動範囲をクリア
+        // 新しい駒を選択する前に前回の駒の移動範囲ハイライトをクリア
+        ClearMoveRange();
+
         string pieceName = piece.name; // 駒の名前を取得
         ShogiPieceData pieceData = pieceManager.GetPieceData(pieceName); // 駒の移動データを取得
 
@@ -118,7 +130,6 @@ public class ShogiPieceController : MonoBehaviour
         }
     }
 
-
     // 駒を移動する
     void MovePiece(GameObject piece, Vector2Int gridPosition)
     {
@@ -130,10 +141,7 @@ public class ShogiPieceController : MonoBehaviour
             Debug.Log($"駒 {piece.name} が {gridPosition} に移動しました");
 
             // 移動が完了したら、ハイライトを元に戻す
-            foreach (Vector2Int pos in validMovePositions)
-            {
-                shogiBoardScript.HighlightCell(pos.x, pos.y, false); // ハイライトを元に戻す
-            }
+            ClearMoveRange();
         }
     }
 
