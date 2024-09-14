@@ -66,8 +66,8 @@ public class ShogiBoard : MonoBehaviour
         pieceController.PlacePiece(3, 0, "金");
         pieceController.PlacePiece(5, 0, "金");
         pieceController.PlacePiece(4, 0, "王");
-        pieceController.PlacePiece(1, 1, "飛車");
-        pieceController.PlacePiece(7, 1, "角行");
+        pieceController.PlacePiece(7, 1, "飛車");
+        pieceController.PlacePiece(1, 1, "角行");
 
         // 敵側の駒の配置
         for (int x = 0; x < cols; x++)
@@ -83,8 +83,8 @@ public class ShogiBoard : MonoBehaviour
         pieceController.PlacePiece(3, 8, "金", true);
         pieceController.PlacePiece(5, 8, "金", true);
         pieceController.PlacePiece(4, 8, "王", true);
-        pieceController.PlacePiece(1, 7, "飛車", true);
-        pieceController.PlacePiece(7, 7, "角行", true);
+        pieceController.PlacePiece(7, 7, "飛車", true);
+        pieceController.PlacePiece(1, 7, "角行", true);
     }
 
     // 特定の座標にあるマス目を取得する関数
