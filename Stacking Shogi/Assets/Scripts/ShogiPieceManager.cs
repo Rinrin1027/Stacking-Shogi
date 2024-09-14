@@ -47,7 +47,7 @@ public class ShogiPieceManager : MonoBehaviour
     private Dictionary<string, GameObject> piecePrefabDictionary; // 駒名とPrefabの対応を保存する辞書
     private ShogiPieceDictionary shogiPiecesData; // 駒データを格納する変数
 
-    void Start()
+    void Awake()
     {
         // 駒のPrefabを辞書に登録
         piecePrefabDictionary = new Dictionary<string, GameObject>
