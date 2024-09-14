@@ -5,15 +5,13 @@ public class ShogiPieceController : MonoBehaviour
 {
     public GameObject shogiBoard; // 将棋盤オブジェクト
     private ShogiPieceManager pieceManager; // 駒データの管理クラス
-    private GameObject selectedPiece = null; // 現在ドラッグ中の駒
+    private GameObject selectedPiece = null; // 現在選択されている駒
     private List<Vector2Int> validMovePositions = new List<Vector2Int>(); // 有効な移動範囲を保存
     private ShogiBoard shogiBoardScript; // ShogiBoardの参照
 
-    private bool isDragging = false; // 駒がドラッグされているか
     private bool isPlayerTurn = true; // プレイヤーのターンかどうか
     private string currentPlayerTag = "Player"; // 現在のプレイヤーの駒のタグ（PlayerかEnemy）
-    private Vector3 originalPosition; // 駒の元の位置
-
+    
     void Start()
     {
         // ShogiPieceManagerコンポーネントを取得
@@ -25,11 +23,11 @@ public class ShogiPieceController : MonoBehaviour
 
     void Update()
     {
-        HandleDragAndDrop();
+        HandlePieceSelectionAndMovement();
     }
 
-    // ドラッグとドロップ処理
-    void HandleDragAndDrop()
+    // 駒の選択と移動を処理
+    void HandlePieceSelectionAndMovement()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -41,42 +39,29 @@ public class ShogiPieceController : MonoBehaviour
             {
                 GameObject hitObject = hit.collider.gameObject;
 
-                // プレイヤーの駒か敵の駒か確認して、ターンのプレイヤーかどうかを判断
-                if (hitObject.tag == currentPlayerTag && selectedPiece == null)
+                // 駒をクリックした場合
+                if (selectedPiece == null && hitObject.tag == currentPlayerTag)
                 {
-                    // 駒を選択し、ドラッグを開始
-                    selectedPiece = hitObject;
-                    isDragging = true;
-                    originalPosition = selectedPiece.transform.position; // 元の位置を記録
+                    selectedPiece = hitObject; // 駒を選択
                     ShowMoveRange(selectedPiece); // 駒の移動範囲を表示
                 }
+                // 駒が選択されていて、別の場所をクリックした場合
+                else if (selectedPiece != null)
+                {
+                    Vector2Int clickedGridPosition = GetGridPositionFromWorldPosition(mousePos);
+
+                    // 有効な移動範囲か確認
+                    if (validMovePositions.Contains(clickedGridPosition))
+                    {
+                        MovePiece(selectedPiece, clickedGridPosition); // 駒を移動
+                        SwitchTurn(); // ターンを切り替える
+                    }
+
+                    // 選択解除
+                    selectedPiece = null;
+                    validMovePositions.Clear(); // 移動範囲をリセット
+                }
             }
-        }
-
-        if (isDragging && selectedPiece != null) // 駒をドラッグ中
-        {
-            selectedPiece.transform.position = new Vector3(mousePos.x, mousePos.y, 0); // マウスの位置に駒を追従させる
-        }
-
-        if (Input.GetMouseButtonUp(0) && selectedPiece != null) // マウスボタンが離された時
-        {
-            Vector2Int droppedGridPosition = GetGridPositionFromWorldPosition(selectedPiece.transform.position);
-
-            // 有効な移動範囲か確認
-            if (validMovePositions.Contains(droppedGridPosition))
-            {
-                MovePiece(selectedPiece, droppedGridPosition); // 駒を移動
-                SwitchTurn(); // ターンを切り替える
-            }
-            else
-            {
-                // 無効な場所にドロップされた場合、元の位置に戻す
-                selectedPiece.transform.position = originalPosition;
-            }
-
-            selectedPiece = null;
-            isDragging = false;
-            validMovePositions.Clear(); // 移動範囲をリセット
         }
     }
 
