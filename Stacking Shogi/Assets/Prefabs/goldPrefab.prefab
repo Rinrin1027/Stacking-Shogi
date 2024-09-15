@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6396044785396088510}
   - component: {fileID: 2388288991342682016}
   - component: {fileID: -9072262807752028386}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: goldPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}

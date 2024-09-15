@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7805412790032256612}
   - component: {fileID: 3311446716736660533}
   - component: {fileID: 1161296314516472822}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: knightPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
