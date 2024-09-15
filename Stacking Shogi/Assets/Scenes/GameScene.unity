@@ -153,7 +153,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1090130671}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -170,8 +170,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -286,8 +286,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
   m_BlockingObjects: 0
   m_BlockingMask:
@@ -303,8 +303,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
@@ -350,8 +350,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1090130671}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -386,8 +385,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9849e73cdba1547d78acbd4578d00c7b, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   shogiBoard: {fileID: 1259669179}
   shogiPieceController: {fileID: 1345624496}
   currentPlayerTag: Player
@@ -434,8 +433,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
@@ -454,8 +453,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
@@ -679,8 +678,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7f6472f284f546dd965312db5a7ea55, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   cellPrefab: {fileID: 7584310855334089019, guid: aed3e53f3661046898bdcad654b3ffd5, type: 3}
   rows: 9
   cols: 9
@@ -713,11 +712,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 006168f4181494b7ea4bb67b94b5ee2e, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   pawnPrefab: {fileID: 6215884487801149712, guid: 0483431b086074cd1bb7a6928892c890, type: 3}
   rookPrefab: {fileID: 6840942833145540052, guid: 33fe067d984054c29ba4899b85f73f94, type: 3}
-  lancePrefab: {fileID: 3493151500906275183, guid: 2914c08338634433492a6079ca042d1b, type: 3}
+  lancePrefab: {fileID: 6271430128993247837, guid: 8da223c7d8e5d4de3aef4c0ab1080f75, type: 3}
   knightPrefab: {fileID: 7504359141255216193, guid: f74c507bff5f848848e642a3b735450c, type: 3}
   bishopPrefab: {fileID: 2326860487988308537, guid: 60aba53810c4a4fd1a103d60e31bc9fb, type: 3}
   goldPrefab: {fileID: 6032958838164629484, guid: 546044f92712845058fa189af1f78953, type: 3}
@@ -823,11 +822,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ea894bba788c4c2abab9d7d3ef61dd2, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   gameManager: {fileID: 246820406}
   shogiBoard: {fileID: 1259669178}
-  playerCapturedPieces: {fileID: 1090130670}
+  playerCapturedPieces: {fileID: 0}
   enemyCapturedPieces: {fileID: 0}
   pieceLayerMask:
     serializedVersion: 2
@@ -877,8 +876,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7fcc1304a19e94f85ae4a1bb347a1e27, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   pieceManager: {fileID: 1259669181}
   shogiBoard: {fileID: 1259669179}
 --- !u!1660057539 &9223372036854775807
@@ -891,3 +890,6 @@ SceneRoots:
   - {fileID: 1345624495}
   - {fileID: 1557040284}
   - {fileID: 1037154325}
+  - {fileID: 22913411}
+  - {fileID: 161470632}
+  - {fileID: 284122185}
