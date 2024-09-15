@@ -49,13 +49,13 @@ public class CapturedPieces : MonoBehaviour
             pieces.Add(pieceNames[i], 0);
             int x = i % 4, y = i / 4;
             GameObject piece = Instantiate(pieceManager.GetPiecePrefab(pieceNames[i]), gameObject.transform);
-            piece.name = "持ち駒 " + pieceNames[i];
+            piece.name = pieceNames[i];
             piece.transform.position = origin + new Vector3(x * offset.x, -y * offset.y, 0);
             piece.transform.localScale = new Vector3(pieceSize, pieceSize, pieceSize);
-            piece.tag = gameObject.tag;
+            piece.tag = gameObject.CompareTag("Player") ? "CapturedPlayer" : "CapturedEnemy";
             
             GameObject pieceCounter = Instantiate(pieceCounterPrefab, gameObject.transform);
-            pieceCounter.name = "持ち駒の個数 " + pieceNames[i];
+            pieceCounter.name = pieceNames[i] + " の個数";
             pieceCounter.transform.position = origin + new Vector3(x * offset.x + textOffset, -y * offset.y, 0);
             numofPiecesTexts[pieceNames[i]] = pieceCounter.GetComponent<TextMeshProUGUI>();
         }
