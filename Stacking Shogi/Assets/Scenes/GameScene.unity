@@ -447,6 +447,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shogiBoard: {fileID: 1259669179}
   shogiPieceController: {fileID: 1345624496}
+  shogiPromotionManager: {fileID: 1557040285}
   currentPlayerTag: Player
 --- !u!4 &246820407
 Transform:
@@ -1221,6 +1222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 246820406}
   shogiBoard: {fileID: 1259669178}
+  movedPiece: {fileID: 0}
   playerCapturedPieces: {fileID: 219199275}
   enemyCapturedPieces: {fileID: 1710518047}
   moveSoundEffect: {fileID: 8300000, guid: 91ebef8518936496da17d4d9498069b7, type: 3}

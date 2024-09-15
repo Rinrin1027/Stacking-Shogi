@@ -10,6 +10,7 @@ public class ShogiPieceController : MonoBehaviour
     private GameObject selectedPiece = null; // 現在選択されている駒
     private bool isCapturedPiece = false; // 持ち駒を選択しているかどうか
     private List<Vector2Int> validMovePositions = new List<Vector2Int>(); // 有効な移動範囲を保存
+    public GameObject movedPiece = null;
     private ShogiBoard shogiBoardScript; // ShogiBoardの参照
     [SerializeField] private CapturedPieces playerCapturedPieces; // プレイヤーの持ち駒
     [SerializeField] private CapturedPieces enemyCapturedPieces; // 敵の持ち駒
@@ -48,6 +49,7 @@ public class ShogiPieceController : MonoBehaviour
     // 駒の選択と移動を処理
     public bool HandlePieceSelectionAndMovement()
     {
+        movedPiece = null;
         bool turnEnded = false;
         
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -285,6 +287,8 @@ public class ShogiPieceController : MonoBehaviour
 
             // 移動が完了したら、ハイライトを元に戻す
             ClearMoveRange();
+            
+            movedPiece = piece;
         }
     }
 
