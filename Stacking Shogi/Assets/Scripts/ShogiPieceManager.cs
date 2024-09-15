@@ -61,7 +61,7 @@ public class ShogiPieceManager : MonoBehaviour
     public GameObject kyousyanarikeiPrefab; // 香車成桂のPrefab
     public GameObject narikyounarikeiPrefab; // 成香成桂のPrefab
     public GameObject huhyouginsyouPrefab; // 歩兵銀将のPrefab
-    public GameObject tokingunsyouPrefab; // と金銀将のPrefab
+    public GameObject tokinginsyouPrefab; // と金銀将のPrefab
     public GameObject huhyounariginPrefab; // 歩兵成銀のPrefab
     public GameObject tokinnariginPrefab; // と金成銀のPrefab
     public GameObject kyousyaginsyouPrefab; // 香車銀将のPrefab
@@ -167,7 +167,7 @@ public class ShogiPieceManager : MonoBehaviour
             { "香車成桂", kyousyanarikeiPrefab },
             { "成香成桂", narikyounarikeiPrefab },
             { "歩兵銀将", huhyouginsyouPrefab },
-            { "と金銀将", tokingunsyouPrefab },
+            { "と金銀将", tokinginsyouPrefab },
             { "歩兵成銀", huhyounariginPrefab },
             { "と金成銀", tokinnariginPrefab },
             { "香車銀将", kyousyaginsyouPrefab },

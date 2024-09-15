@@ -1174,78 +1174,78 @@ MonoBehaviour:
   promotedLancePrefab: {fileID: 3331374121607220427, guid: c67ff047082c24c1387d13b41b1c5941, type: 3}
   promotedKnightPrefab: {fileID: 3331374121607220427, guid: c67ff047082c24c1387d13b41b1c5941, type: 3}
   promotedSilverPrefab: {fileID: 3331374121607220427, guid: c67ff047082c24c1387d13b41b1c5941, type: 3}
-  huhyoukyousyaPrefab: {fileID: 0}
-  tokinkyousyaPrefab: {fileID: 0}
-  huhyounarikyouPrefab: {fileID: 0}
-  tokinnarikyouPrefab: {fileID: 0}
-  huhyoukeimaPrefab: {fileID: 0}
-  tokinkeimaPrefab: {fileID: 0}
-  huhyounarikeiPrefab: {fileID: 0}
-  tokinnarikeiPrefab: {fileID: 0}
-  kyousyakeimaPrefab: {fileID: 0}
-  narikyoukeimaPrefab: {fileID: 0}
-  kyousyanarikeiPrefab: {fileID: 0}
-  narikyounarikeiPrefab: {fileID: 0}
-  huhyouginsyouPrefab: {fileID: 0}
-  tokingunsyouPrefab: {fileID: 0}
-  huhyounariginPrefab: {fileID: 0}
-  tokinnariginPrefab: {fileID: 0}
-  kyousyaginsyouPrefab: {fileID: 0}
-  narikyouginsyouPrefab: {fileID: 0}
-  kyousyanariginPrefab: {fileID: 0}
-  narikyounariginPrefab: {fileID: 0}
-  keimaginsyouPrefab: {fileID: 0}
-  narikeiginsyouPrefab: {fileID: 0}
-  keimanariginPrefab: {fileID: 0}
-  narikeinariginPrefab: {fileID: 0}
-  huhyoukinsyouPrefab: {fileID: 0}
-  tokinkinsyouPrefab: {fileID: 0}
-  kyousyakinsyouPrefab: {fileID: 0}
-  narikyoukinsyouPrefab: {fileID: 0}
-  keimakinsyouPrefab: {fileID: 0}
-  narikeikinsyouPrefab: {fileID: 0}
-  ginsyoukinsyouPrefab: {fileID: 0}
-  nariginkinsyouPrefab: {fileID: 0}
-  huhyoukakugyouPrefab: {fileID: 0}
-  tokinkakugyouPrefab: {fileID: 0}
-  huhyouryumaPrefab: {fileID: 0}
-  tokinryumaPrefab: {fileID: 0}
-  kyousyakakugyouPrefab: {fileID: 0}
-  narikyoukakugyouPrefab: {fileID: 0}
-  kyousyaryumaPrefab: {fileID: 0}
-  narikyouryumaPrefab: {fileID: 0}
-  keimakakugyouPrefab: {fileID: 0}
-  narikeikakugyouPrefab: {fileID: 0}
-  keimaryumaPrefab: {fileID: 0}
-  narikeiryumaPrefab: {fileID: 0}
-  ginsyoukakugyouPrefab: {fileID: 0}
-  nariginkakugyouPrefab: {fileID: 0}
-  ginsyouryumaPrefab: {fileID: 0}
-  nariginryumaPrefab: {fileID: 0}
-  kinsyoukakugyouPrefab: {fileID: 0}
-  kinsyouryumaPrefab: {fileID: 0}
-  huhyouhisyaPrefab: {fileID: 0}
-  tokinhisyaPrefab: {fileID: 0}
-  huhyouryuouPrefab: {fileID: 0}
-  tokinryuouPrefab: {fileID: 0}
-  kyousyahisyaPrefab: {fileID: 0}
-  narikyouhisyaPrefab: {fileID: 0}
-  kyousyaryuouPrefab: {fileID: 0}
-  narikyouryuouPrefab: {fileID: 0}
-  keimahisyaPrefab: {fileID: 0}
-  narikeihisyaPrefab: {fileID: 0}
-  keimaryuouPrefab: {fileID: 0}
-  narikeiryuouPrefab: {fileID: 0}
-  ginsyouhisyaPrefab: {fileID: 0}
-  nariginhisyaPrefab: {fileID: 0}
-  ginsyouryuouPrefab: {fileID: 0}
-  nariginryuouPrefab: {fileID: 0}
-  kinsyouhisyaPrefab: {fileID: 0}
-  kinsyouryuouPrefab: {fileID: 0}
-  kakugyouhisyaPrefab: {fileID: 0}
-  ryumahisyaPrefab: {fileID: 0}
-  kakugyouryuouPrefab: {fileID: 0}
-  ryumaryuouPrefab: {fileID: 0}
+  huhyoukyousyaPrefab: {fileID: 7442921391115449284, guid: dab93d3f506bec44191b48b18edecfcf, type: 3}
+  tokinkyousyaPrefab: {fileID: 5016941722118373350, guid: e40bd4ec3ffd694498b2b062a8a8894e, type: 3}
+  huhyounarikyouPrefab: {fileID: 3853716880415799730, guid: 5139fec61d3a6b344861eafc6cd0efee, type: 3}
+  tokinnarikyouPrefab: {fileID: 8191554837250912647, guid: b4a4317576696074692973538df34548, type: 3}
+  huhyoukeimaPrefab: {fileID: 9035919120735784903, guid: 69546ba5aba51234794f14a52ce68035, type: 3}
+  tokinkeimaPrefab: {fileID: 129403326145009087, guid: 438e305b9fc72b24ab3067431dfcf79b, type: 3}
+  huhyounarikeiPrefab: {fileID: 9035919120735784903, guid: 69546ba5aba51234794f14a52ce68035, type: 3}
+  tokinnarikeiPrefab: {fileID: 3911420343357279015, guid: 2ced73eac2f3931468b4d122b34bb771, type: 3}
+  kyousyakeimaPrefab: {fileID: 1401106681290013618, guid: b4e3cc2aef8503342a6feed11439d118, type: 3}
+  narikyoukeimaPrefab: {fileID: 4718256326156137603, guid: fdc7dfd7de5b3a74d9fdc850276a17fc, type: 3}
+  kyousyanarikeiPrefab: {fileID: 2606169211525839710, guid: 640f61a9ce6de9d4f84d7fbb835b33ea, type: 3}
+  narikyounarikeiPrefab: {fileID: 2297475356811812505, guid: ede6200a009cff746ae47116e11368d4, type: 3}
+  huhyouginsyouPrefab: {fileID: 4915364438913881904, guid: 862dd22c8e1f0934b8b9ce32cedbe3ba, type: 3}
+  tokinginsyouPrefab: {fileID: 407965694295141740, guid: e9a4e538fc36f4147a47513987f7c104, type: 3}
+  huhyounariginPrefab: {fileID: 8379776422254660973, guid: 22e28f9c5a3fb474eb2bee554753207d, type: 3}
+  tokinnariginPrefab: {fileID: 3214552341153083636, guid: c4b2cad597429ee47af70bcb5a00e044, type: 3}
+  kyousyaginsyouPrefab: {fileID: 2940415224536180881, guid: ee8263929e971704c8eb8014adb39e76, type: 3}
+  narikyouginsyouPrefab: {fileID: 6376971884756024294, guid: d97e53540767ec44dbe2fb528a7db4d7, type: 3}
+  kyousyanariginPrefab: {fileID: 6966284364846041976, guid: 8140eb96ec8405d48afa9069682178df, type: 3}
+  narikyounariginPrefab: {fileID: 1066878640684616914, guid: 46f710ecaadb7eb49bc07787e0a3d32d, type: 3}
+  keimaginsyouPrefab: {fileID: 6819968586506745232, guid: 45f9a32cf35326148a4b9ca9538130f6, type: 3}
+  narikeiginsyouPrefab: {fileID: 1558530632180536860, guid: ccf098c080e8c49448936c877b493fec, type: 3}
+  keimanariginPrefab: {fileID: 5195514447382338143, guid: c6b17f759b94fad4ca8f44900df3e2b7, type: 3}
+  narikeinariginPrefab: {fileID: 3535764352574966646, guid: 5fa398e9793970d47b2bbd6485e35913, type: 3}
+  huhyoukinsyouPrefab: {fileID: 4154373870625690986, guid: 7517156fbe57c1e4498de3767a8d9d75, type: 3}
+  tokinkinsyouPrefab: {fileID: 6370461021657083534, guid: fac2408ac94b87f4b88ebd5b14aca476, type: 3}
+  kyousyakinsyouPrefab: {fileID: 8795469831035981580, guid: cf8cefbcb7cac2d4e8728ea22cd7f5fd, type: 3}
+  narikyoukinsyouPrefab: {fileID: 2934939495325746802, guid: c8a46a3da5233cc47b169d2339a32037, type: 3}
+  keimakinsyouPrefab: {fileID: 7535866145446188705, guid: fdd614a32dc58cb49ae56d4bbd9eff8a, type: 3}
+  narikeikinsyouPrefab: {fileID: 4076351780922078853, guid: ea365d3861507de4c903fc115f20a2e0, type: 3}
+  ginsyoukinsyouPrefab: {fileID: 498297083725996689, guid: 70445488340e3b7448ddbc206542fc83, type: 3}
+  nariginkinsyouPrefab: {fileID: 4793450427376715359, guid: f2fc38c4b53dc6c4db0ae8d3b9a4f7b0, type: 3}
+  huhyoukakugyouPrefab: {fileID: 2606825079767244206, guid: 500639f220750dc4e9f45d802bfa2ad5, type: 3}
+  tokinkakugyouPrefab: {fileID: 6823143678298612454, guid: f333ba7afc5f7f049b66116d20d2a43b, type: 3}
+  huhyouryumaPrefab: {fileID: 1095073287680712458, guid: 5578bcc6e57287b469ad8421ec10e863, type: 3}
+  tokinryumaPrefab: {fileID: 1355500091825371835, guid: 458634911b8046140ad2b5c0f487bb2c, type: 3}
+  kyousyakakugyouPrefab: {fileID: 7045605044721322320, guid: b0c33e3faf4bf3a439dcb085f668e1c4, type: 3}
+  narikyoukakugyouPrefab: {fileID: 6406524195802539225, guid: 779c35571ec09dd409665ec9c1a0e658, type: 3}
+  kyousyaryumaPrefab: {fileID: 6246457000079864805, guid: 9bab9d1f69ed57243b51f9cda3e149c5, type: 3}
+  narikyouryumaPrefab: {fileID: 3728510261419100480, guid: c4381c57aafd8084a88a1803f39d09ea, type: 3}
+  keimakakugyouPrefab: {fileID: 1541878669115217845, guid: c34440bf5d3bbac429248729bbd27f1e, type: 3}
+  narikeikakugyouPrefab: {fileID: 516370593961087106, guid: 0b4731b289f6e1041b835afb0cde82af, type: 3}
+  keimaryumaPrefab: {fileID: 509400233608146469, guid: 0bd3981e43266bc4aac39ee9e4e914af, type: 3}
+  narikeiryumaPrefab: {fileID: 6313494719643808083, guid: 0c97223a625a4e842a5ed17dd9740368, type: 3}
+  ginsyoukakugyouPrefab: {fileID: 169480526236978347, guid: f502787f62ffda649bf67ea00b83ea86, type: 3}
+  nariginkakugyouPrefab: {fileID: 1460796547386686840, guid: aa92daa8e4c198c47ae6373ddd030bdb, type: 3}
+  ginsyouryumaPrefab: {fileID: 2018974171041178051, guid: d31045c0e2887ca4e883a2ecface8ac6, type: 3}
+  nariginryumaPrefab: {fileID: 3104964252532551514, guid: 63ce68a4590be34468c989129fd8d7d5, type: 3}
+  kinsyoukakugyouPrefab: {fileID: 4534443658763371150, guid: 1618407939f7aa4489cca96e291aa04e, type: 3}
+  kinsyouryumaPrefab: {fileID: 712256886987334573, guid: 8e281bdea70ef354695feabcbd2be306, type: 3}
+  huhyouhisyaPrefab: {fileID: 7916334636167049340, guid: 18009cd169dda034a9fea9bd66b61fa2, type: 3}
+  tokinhisyaPrefab: {fileID: 2375449714596005238, guid: 07ca5393e9e36f24b8a1831e543bb5bd, type: 3}
+  huhyouryuouPrefab: {fileID: 2578338884583836796, guid: 1468f3b6eedc0a5479d59fccfad4e6ee, type: 3}
+  tokinryuouPrefab: {fileID: 1773129387972762067, guid: 436f45afa2a9d0f4880d6be2ef5558cb, type: 3}
+  kyousyahisyaPrefab: {fileID: 3155283046033074747, guid: 4df0a59b90596e2498db82ea7df34152, type: 3}
+  narikyouhisyaPrefab: {fileID: 8932072345448191576, guid: 2aa490533de367f4589dbd089a90d7e6, type: 3}
+  kyousyaryuouPrefab: {fileID: 4231764792328524375, guid: ff7b48050f4407e4a84761a878901ff2, type: 3}
+  narikyouryuouPrefab: {fileID: 4002789061339674665, guid: f5715933cacc36e4e968713d6a53156e, type: 3}
+  keimahisyaPrefab: {fileID: 768847343400184040, guid: 265996cd076fff541b3b91b4aee7b9b1, type: 3}
+  narikeihisyaPrefab: {fileID: 2800198866781920315, guid: 7eb0740ddbdc9bf4691f5d490b99d19d, type: 3}
+  keimaryuouPrefab: {fileID: 1805808070354992948, guid: 45999ab016ef633418ca1720901b4aec, type: 3}
+  narikeiryuouPrefab: {fileID: 2557358707964523167, guid: 6d3845fab0bdbaf468a56f067a581217, type: 3}
+  ginsyouhisyaPrefab: {fileID: 2837356754891360279, guid: 5304dcbd5d03a4e97a2b84fbc26d8626, type: 3}
+  nariginhisyaPrefab: {fileID: 7526504198336390643, guid: 526d1e1cbdf25db4cad2fd29624bdfff, type: 3}
+  ginsyouryuouPrefab: {fileID: 5365548372404194079, guid: 97ee8a2b55437a64093a059bc5e43357, type: 3}
+  nariginryuouPrefab: {fileID: 415983884029343527, guid: e14d3d93b4bc2ba4e95a9243a6c3d483, type: 3}
+  kinsyouhisyaPrefab: {fileID: 5371450000905707382, guid: bde8be10667b3a14fb9cbd347c7130e9, type: 3}
+  kinsyouryuouPrefab: {fileID: 5503487042314244281, guid: bd8ed1dea7f4a5048968200fbaebf266, type: 3}
+  kakugyouhisyaPrefab: {fileID: 8582306182322912283, guid: d4c4ac2296b5006438ff0606eb591288, type: 3}
+  ryumahisyaPrefab: {fileID: 1369484294593846077, guid: dc054ed06b9a8f5418012f841a933e1e, type: 3}
+  kakugyouryuouPrefab: {fileID: 1464315879247059498, guid: 61fa5a6912aea034197c8a08eae822dc, type: 3}
+  ryumaryuouPrefab: {fileID: 7278632514278037389, guid: 2d79fa48646316f46941fa1da4c29786, type: 3}
 --- !u!212 &1259669182
 SpriteRenderer:
   m_ObjectHideFlags: 0
