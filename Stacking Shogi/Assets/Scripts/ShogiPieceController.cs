@@ -174,8 +174,8 @@ public class ShogiPieceController : MonoBehaviour
             if (shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] != null && !shogiBoardScript
                     .pieceArray[gridPosition.x, gridPosition.y].CompareTag(gameManager.GetCurrentPlayerTag()))
             {
-                Destroy(shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y]);
                 capturedPieces[gameManager.GetCurrentPlayerTag()].AddPiece(shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y].name);
+                Destroy(shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y]);
             }
             
             shogiBoardScript.pieceArray[originPosition.x, originPosition.y] = null; // 元の位置の配列をクリア

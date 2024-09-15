@@ -24,13 +24,13 @@ public class CapturedPieces : MonoBehaviour
     [SerializeField] GameObject pieceCounterPrefab;
 
     private Dictionary<string, int> pieces;
-    private Dictionary<string, TextMeshPro> numofPiecesTexts;
+    private Dictionary<string, TextMeshProUGUI> numofPiecesTexts;
 
     // Start is called before the first frame update
     void Start()
     {
         pieces = new Dictionary<string, int>();
-        numofPiecesTexts = new Dictionary<string, TextMeshPro>();
+        numofPiecesTexts = new Dictionary<string, TextMeshProUGUI>();
         if (gameObject.CompareTag("Enemy"))
         {
             offset = -offset;
@@ -45,6 +45,7 @@ public class CapturedPieces : MonoBehaviour
         Vector3 origin = gameObject.transform.position;
         for (int i = 0; i < pieceNames.Length; i++)
         {
+            pieces.Add(pieceNames[i], 0);
             int x = i % 4, y = i / 4;
             GameObject piece = Instantiate(pieceManager.GetPiecePrefab(pieceNames[i]), gameObject.transform);
             piece.name = "持ち駒 " + pieceNames[i];
@@ -55,6 +56,7 @@ public class CapturedPieces : MonoBehaviour
             GameObject pieceCounter = Instantiate(pieceCounterPrefab, gameObject.transform);
             pieceCounter.name = "持ち駒の個数 " + pieceNames[i];
             pieceCounter.transform.position = origin + new Vector3(x * offset.x + textOffset, -y * offset.y, 0);
+            numofPiecesTexts[pieceNames[i]] = pieceCounter.GetComponent<TextMeshProUGUI>();
         }
     }
 
@@ -68,17 +70,26 @@ public class CapturedPieces : MonoBehaviour
     public void AddPiece(string pieceName)
     {
         pieces[pieceName]++;
+        UpdateUI();
     }
     
     // 持ち駒を削除する
     public void RemovePiece(string pieceName)
     {
-        pieces[pieceName]++;
+        pieces[pieceName]--;
+        UpdateUI();
     }
 
     public bool HasPiece(string pieceName)
     {
         return pieces[pieceName] > 0;
     }
-    
+
+    void UpdateUI()
+    {
+        for (int i = 0; i < pieceNames.Length; i++)
+        {
+            numofPiecesTexts[pieceNames[i]].text = "×" + pieces[pieceNames[i]];
+        }
+    }
 }
