@@ -6,7 +6,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ShogiBoard shogiBoard;
     [SerializeField] private ShogiPieceController shogiPieceController;
     [SerializeField] private ShogiPromotionManager shogiPromotionManager;
-    
+    [SerializeField] private TimerManager timerManager; // TimerManagerの参照
+
     private bool isPlayerTurn = true; // プレイヤーのターンかどうか
     [SerializeField] private string currentPlayerTag = "Player"; // 現在のプレイヤーのタグ
 
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour
     {
         isPlayerTurn = !isPlayerTurn; // ターンを切り替え
         currentPlayerTag = isPlayerTurn ? "Player" : "Enemy"; // タグを更新
+        timerManager.SwitchTurn(isPlayerTurn); // TimerManagerに現在のターンを伝える
         Debug.Log($"次は {currentPlayerTag} のターンです");
     }
 
