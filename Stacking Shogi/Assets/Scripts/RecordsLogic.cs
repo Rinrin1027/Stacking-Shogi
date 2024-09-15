@@ -21,6 +21,7 @@ public class RecordsLogic : MonoBehaviour
     {
         shogiBoard.GenerateBoard();
         shogiBoard.PlaceInitialPieces();
+        List<string> lines = recordControllerTest.ReadTextFile();
         
         recordInitialBoard();
         generatedRecord();
@@ -63,27 +64,24 @@ public class RecordsLogic : MonoBehaviour
 
     void generatedRecord()
     {
-        // foreach()
+        // foreach(line in lines)
         // {
-        //     // recordBoard[,] = null;
-        //     // recordBoard[,] = piece;
+        //     string[] element = line.Split(",");
+        //     // piece = element[3];
+        //     // recordBoard[element[1]/10,element[1]%10] = null;
+        //     // recordBoard[element[2]/10,element[2]%10] = piece;
         //     // count++;
 
         //     collectionBoards.Add(count, recordBoard);
         // }
-        // //手数を数える
-        // int count = 0;
-        // //手数を表示
-        // displayText.text = "手数: " + count;
-        // //盤面を保存
-        // collectionBoards.Add(count, recordBoard);
     }
     // Update is called once per frame
     void Update()
     {
         // if (recordControllerTest.OnRightButtonClick() ) //ボタン押したら次の手に進む
         // {
-        // } else if (recordControllerTest.OnLeftButtonClick()) //ボタン押したら前の手に戻る
+        // } 
+        // else if (recordControllerTest.OnLeftButtonClick()) //ボタン押したら前の手に戻る
         // { 
         // }
     }
