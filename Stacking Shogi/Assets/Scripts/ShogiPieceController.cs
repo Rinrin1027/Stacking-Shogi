@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ShogiPieceController : MonoBehaviour
 {
+    public GameManager gameManager;
     public GameObject shogiBoard; // 将棋盤オブジェクト
     private ShogiPieceManager pieceManager; // 駒データの管理クラス
     private GameObject selectedPiece = null; // 現在選択されている駒
@@ -10,7 +11,6 @@ public class ShogiPieceController : MonoBehaviour
     private ShogiBoard shogiBoardScript; // ShogiBoardの参照
 
     private bool isPlayerTurn = true; // プレイヤーのターンかどうか
-    private string currentPlayerTag = "Player"; // 現在のプレイヤーの駒のタグ（PlayerかEnemy）
 
     void Awake()
     {
@@ -23,12 +23,13 @@ public class ShogiPieceController : MonoBehaviour
 
     void Update()
     {
-        HandlePieceSelectionAndMovement();
     }
 
     // 駒の選択と移動を処理
-    void HandlePieceSelectionAndMovement()
+    public bool HandlePieceSelectionAndMovement()
     {
+        bool turnEnded = false;
+        
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetMouseButtonDown(0)) // マウスボタンが押された時
@@ -41,7 +42,7 @@ public class ShogiPieceController : MonoBehaviour
                 GameObject hitObject = hit.collider.gameObject;
 
                 // 駒をクリックした場合
-                if (selectedPiece == null && hitObject.tag == currentPlayerTag)
+                if (selectedPiece == null && hitObject.tag == gameManager.GetCurrentPlayerTag())
                 {
                     Debug.Log("駒が選択されました");
                     selectedPiece = hitObject; // 駒を選択
@@ -51,13 +52,13 @@ public class ShogiPieceController : MonoBehaviour
                 else if (selectedPiece != null)
                 {
                     Debug.Log("別の場所がクリックされました");
-                    Vector2Int clickedGridPosition = GetGridPositionFromWorldPosition(mousePos);
+                    Vector2Int clickedGridPosition = shogiBoardScript.GetGridPositionFromWorldPosition(mousePos);
 
                     // 有効な移動範囲か確認
                     if (validMovePositions.Contains(clickedGridPosition))
                     {
                         MovePiece(selectedPiece, clickedGridPosition); // 駒を移動
-                        SwitchTurn(); // ターンを切り替える
+                        turnEnded = true;
                     }
 
                     // 前回の駒の移動範囲をリセット
@@ -69,6 +70,8 @@ public class ShogiPieceController : MonoBehaviour
                 }
             }
         }
+
+        return turnEnded;
     }
 
     // 前の駒の移動範囲ハイライトをリセット
@@ -79,15 +82,6 @@ public class ShogiPieceController : MonoBehaviour
             shogiBoardScript.HighlightCell(pos.x, pos.y, false); // ハイライトを元に戻す
         }
         validMovePositions.Clear();
-    }
-
-    // グリッド座標をワールド座標から計算
-    Vector2Int GetGridPositionFromWorldPosition(Vector3 worldPosition)
-    {
-        Vector2 offset = new Vector2(shogiBoardScript.cellSize * shogiBoardScript.cols / 2, shogiBoardScript.cellSize * shogiBoardScript.rows / 2);
-        int x = Mathf.FloorToInt((worldPosition.x + offset.x) / shogiBoardScript.cellSize);
-        int y = Mathf.FloorToInt((worldPosition.y + offset.y) / shogiBoardScript.cellSize);
-        return new Vector2Int(x, y);
     }
 
     // 駒の移動範囲を表示する
@@ -101,7 +95,7 @@ public class ShogiPieceController : MonoBehaviour
 
         if (pieceData != null)
         {
-            Vector2Int pieceGridPosition = GetGridPositionFromWorldPosition(piece.transform.position);
+            Vector2Int pieceGridPosition = shogiBoardScript.GetGridPositionFromWorldPosition(piece.transform.position);
 
             bool isEnemy = piece.tag == "Enemy"; // 駒が敵かどうかを確認
 
@@ -118,7 +112,7 @@ public class ShogiPieceController : MonoBehaviour
                     {   
                         if (shogiBoardScript.pieceArray[newPosition.x, newPosition.y] != null)
                         {
-                            if (shogiBoardScript.pieceArray[newPosition.x, newPosition.y].CompareTag(currentPlayerTag))
+                            if (shogiBoardScript.pieceArray[newPosition.x, newPosition.y].CompareTag(gameManager.GetCurrentPlayerTag()))
                             {
                                 break;
                             }
@@ -160,7 +154,7 @@ public class ShogiPieceController : MonoBehaviour
         GameObject cell = shogiBoardScript.GetCellAtPosition(gridPosition.x, gridPosition.y);
         if (cell != null)
         {
-            Vector2Int originPosition = GetGridPositionFromWorldPosition(piece.transform.position); // 元の位置を取得
+            Vector2Int originPosition = shogiBoardScript.GetGridPositionFromWorldPosition(piece.transform.position); // 元の位置を取得
             
             piece.transform.position = cell.transform.position; // 駒をセルの位置にスナップ
             Debug.Log($"駒 {piece.name} が {originPosition} から {gridPosition} に移動しました");
@@ -172,19 +166,7 @@ public class ShogiPieceController : MonoBehaviour
             ClearMoveRange();
         }
     }
-
-    // ターンを切り替える
-    void SwitchTurn()
-    {
-        isPlayerTurn = !isPlayerTurn; // ターンを切り替え
-
-        // 現在のプレイヤーのタグを更新
-        currentPlayerTag = isPlayerTurn ? "Player" : "Enemy"; // タグを更新
-
-        Debug.Log($"次は {currentPlayerTag} のターンです");
-        LogPieceArray();
-    }
-
+    
     // 駒を初期配置する関数
     public void PlacePiece(int x, int y, string pieceName, bool isEnemy = false)
     {

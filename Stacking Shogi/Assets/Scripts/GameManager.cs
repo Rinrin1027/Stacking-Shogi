@@ -1,7 +1,11 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private ShogiBoard shogiBoard;
+    [SerializeField] private ShogiPieceController shogiPieceController;
+    
     private bool isPlayerTurn = true; // プレイヤーのターンかどうか
     private string currentPlayerTag = "Player"; // 現在のプレイヤーのタグ
 
@@ -14,7 +18,15 @@ public class GameManager : MonoBehaviour
     // ゲームの初期化処理
     private void InitializeGame()
     {
+        shogiBoard.GenerateBoard();
+        shogiBoard.PlaceInitialPieces();
         Debug.Log("ゲームを初期化しました。プレイヤーから開始します。");
+    }
+
+    private void Update()
+    {
+        bool turnEnded = shogiPieceController.HandlePieceSelectionAndMovement();
+        if (turnEnded) SwitchTurn();
     }
 
     // ターンを切り替える
