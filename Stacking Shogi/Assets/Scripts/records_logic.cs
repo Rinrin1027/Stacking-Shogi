@@ -20,22 +20,26 @@ public class records_logic : MonoBehaviour
         createBoard();
         setPieces();
         // StreamReader lines = new StreamReader("01.txt"); //txtに置き換える
+        int count = 0;
 
         // foreach (string line in lines)
         // {
         //     string[] element = line.Split(',');
-
+        //     count++;  //手数をカウント
+        //指した手を表示
         //     displayText.text = element[0];
+        //駒移動
+        //     pieceMove(element[1].Parse(),elment[2].Parse(),element[3]);
         //     if(element[4] == 1){
-        //         string piece = element[5];
-        //         if (takenPieceCount.ContainsKey(piece))
+        //         string takenpiece = element[5];
+        //         if (takenPieceCount.ContainsKey(takenpiece))
         //         {
-        //             takenPieceCount[piece]++;
+        //             takenPieceCount[takenpiece]++;
         //         }
         //         else
         //         {
-        //             takenPieceCount.Add(piece, 1);
-        //             createNewPieceSlot(piece);
+        //             takenPieceCount.Add(takenpiece, 1);
+        //             createNewPieceSlot(takenpiece);
         //         }
 
                 
@@ -63,41 +67,77 @@ public class records_logic : MonoBehaviour
 
     void setPieces()
     {
-        // 味方側の駒の配置
-        for (int x = 0; x < 9; x++)
-        {
-            pieceController.PlacePiece(x, 2, "歩"); // 2段目に歩を配置
-        }
-        pieceController.PlacePiece(0, 0, "香車");
-        pieceController.PlacePiece(8, 0, "香車");
-        pieceController.PlacePiece(1, 0, "桂馬");
-        pieceController.PlacePiece(7, 0, "桂馬");
-        pieceController.PlacePiece(2, 0, "銀");
-        pieceController.PlacePiece(6, 0, "銀");
-        pieceController.PlacePiece(3, 0, "金");
-        pieceController.PlacePiece(5, 0, "金");
-        pieceController.PlacePiece(4, 0, "王");
-        pieceController.PlacePiece(1, 1, "飛車");
-        pieceController.PlacePiece(7, 1, "角行");
+        // // 味方側の駒の配置
+        // for (int x = 0; x < 9; x++)
+        // {
+        //     pieceController.PlacePiece(x, 2, "歩"); // 2段目に歩を配置
+        // }
+        // pieceController.PlacePiece(0, 0, "香車");
+        // pieceController.PlacePiece(8, 0, "香車");
+        // pieceController.PlacePiece(1, 0, "桂馬");
+        // pieceController.PlacePiece(7, 0, "桂馬");
+        // pieceController.PlacePiece(2, 0, "銀");
+        // pieceController.PlacePiece(6, 0, "銀");
+        // pieceController.PlacePiece(3, 0, "金");
+        // pieceController.PlacePiece(5, 0, "金");
+        // pieceController.PlacePiece(4, 0, "王");
+        // pieceController.PlacePiece(1, 1, "飛車");
+        // pieceController.PlacePiece(7, 1, "角行");
 
-        // 敵側の駒の配置
-        for (int x = 0; x < 9; x++)
-        {
-            pieceController.PlacePiece(x, 6, "歩", true); // 6段目に歩を配置
-        }
-        pieceController.PlacePiece(0, 8, "香車", true);
-        pieceController.PlacePiece(8, 8, "香車", true);
-        pieceController.PlacePiece(1, 8, "桂馬", true);
-        pieceController.PlacePiece(7, 8, "桂馬", true);
-        pieceController.PlacePiece(2, 8, "銀", true);
-        pieceController.PlacePiece(6, 8, "銀", true);
-        pieceController.PlacePiece(3, 8, "金", true);
-        pieceController.PlacePiece(5, 8, "金", true);
-        pieceController.PlacePiece(4, 8, "王", true);
-        pieceController.PlacePiece(1, 7, "飛車", true);
-        pieceController.PlacePiece(7, 7, "角行", true);
+        // // 敵側の駒の配置
+        // for (int x = 0; x < 9; x++)
+        // {
+        //     pieceController.PlacePiece(x, 6, "歩", true); // 6段目に歩を配置
+        // }
+        // pieceController.PlacePiece(0, 8, "香車", true);
+        // pieceController.PlacePiece(8, 8, "香車", true);
+        // pieceController.PlacePiece(1, 8, "桂馬", true);
+        // pieceController.PlacePiece(7, 8, "桂馬", true);
+        // pieceController.PlacePiece(2, 8, "銀", true);
+        // pieceController.PlacePiece(6, 8, "銀", true);
+        // pieceController.PlacePiece(3, 8, "金", true);
+        // pieceController.PlacePiece(5, 8, "金", true);
+        // pieceController.PlacePiece(4, 8, "王", true);
+        // pieceController.PlacePiece(1, 7, "飛車", true);
+        // pieceController.PlacePiece(7, 7, "角行", true);
     }
 
+    void pieceMove(int startpoint, int endpoint, string piece)
+    {
+        if (element[1] == 0)
+        {
+            takenPieceCount[piece]--;
+            if (takenPieceCount[piece] == 0)
+            {
+                takenPieceCount.Remove(piece);
+                //持ち駒削除
+            }
+        }
+        else
+        {
+            removePiece(startpoint);
+            pieceController.PlacePiece(endpoint / 10, endpoint % 10, piece);
+        }
+    
+    }
+
+    void removePiece(int position)
+    {
+    // ShogiPieceControllerから指定された位置の駒を取得
+        GameObject piece = pieceController.GetPieceAtPosition(position/10, position%10);
+
+        if (piece != null)
+        {
+            // 駒を盤上から削除
+            Destroy(piece);
+            Debug.Log($"位置 {position} にある駒を削除しました。");
+        }
+        else
+        {
+            Debug.LogError($"位置 {position} に駒が存在しません。");
+        }
+
+    }
     void createNewPieceSlot(string piece)
     {
     }
