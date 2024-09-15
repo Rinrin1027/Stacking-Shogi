@@ -1374,6 +1374,7 @@ MonoBehaviour:
   pieceController: {fileID: 1345624496}
   defaultSprite: {fileID: 21300000, guid: c560216f8e6c64a019aae86e5b51df60, type: 3}
   highlightedSprite: {fileID: 21300000, guid: 6a7c8382efd404eef83668969c34c761, type: 3}
+  friendlyHighlightSprite: {fileID: 21300000, guid: 7bd4437100167450fb3d0b37feff5b71, type: 3}
 --- !u!4 &1259669180
 Transform:
   m_ObjectHideFlags: 0
