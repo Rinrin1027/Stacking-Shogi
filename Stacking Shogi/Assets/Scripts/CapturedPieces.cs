@@ -7,6 +7,7 @@ public class CapturedPieces : MonoBehaviour
 {
     public float pieceSize;
     public Vector2 offset;
+    public float textOffset;
     
     string[] pieceNames =
     {
@@ -30,6 +31,11 @@ public class CapturedPieces : MonoBehaviour
     {
         pieces = new Dictionary<string, int>();
         numofPiecesTexts = new Dictionary<string, TextMeshPro>();
+        if (gameObject.CompareTag("Enemy"))
+        {
+            offset = -offset;
+            textOffset = -textOffset;
+        }
         
         Init();
     }
@@ -48,7 +54,7 @@ public class CapturedPieces : MonoBehaviour
             
             GameObject pieceCounter = Instantiate(pieceCounterPrefab, gameObject.transform);
             pieceCounter.name = "持ち駒の個数 " + pieceNames[i];
-            pieceCounter.transform.position = origin + new Vector3(x * offset.x + 0.5f, -y * offset.y, 0);
+            pieceCounter.transform.position = origin + new Vector3(x * offset.x + textOffset, -y * offset.y, 0);
         }
     }
 
