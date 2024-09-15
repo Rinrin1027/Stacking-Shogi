@@ -56,7 +56,9 @@ public class ShogiPieceController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)) // マウスボタンが押された時
         {
-            if (selectedPiece == null)
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+
+            if (hit.collider != null)
             {
                 // 駒を選択する処理（駒レイヤーのみを対象）
                 RaycastHit2D hitPiece = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, pieceLayerMask);
@@ -88,13 +90,8 @@ public class ShogiPieceController : MonoBehaviour
                         }
                     }
                 }
-            }
-            else
-            {
-                // セルをクリックして駒を移動する処理（セルレイヤーを対象）
-                RaycastHit2D hitCell = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, cellLayerMask);
-
-                if (hitCell.collider != null)
+                // 駒が選択されていて、別の場所をクリックした場合
+                else if (selectedPiece != null)
                 {
                     Debug.Log($"セルがクリックされました: {hitCell.collider.gameObject.name}");
                     Vector2Int clickedGridPosition = shogiBoardScript.GetGridPositionFromWorldPosition(mousePos);
@@ -191,8 +188,8 @@ public class ShogiPieceController : MonoBehaviour
                         }
                         else // 駒がない場合
                         {
-                            AddValidMovePosition(newPosition);
-                            Debug.Log($"駒 {pieceName} が移動できる範囲: {newPosition}");
+                           AddValidMovePosition(newPosition);
+                           Debug.Log($"駒 {pieceName} が移動できる範囲: {newPosition}");
                         }
                     }
                 }
@@ -206,7 +203,6 @@ public class ShogiPieceController : MonoBehaviour
             Debug.LogWarning("移動範囲が見つかりません。");
         }
     }
-    
     // 持ち駒の打てる範囲を表示する
     void ShowPutRange(GameObject piece)
     {
@@ -254,7 +250,6 @@ public class ShogiPieceController : MonoBehaviour
             }
         }
     }
-
     void AddValidMovePosition(Vector2Int newPosition)
     {
         validMovePositions.Add(newPosition);
@@ -365,12 +360,11 @@ public class ShogiPieceController : MonoBehaviour
 
         return true;
     }
-
     void LogPieceArray()
     {
         string log = "";
 
-        for (int y = shogiBoardScript.rows - 1; y >= 0; y--)
+        for (int y = shogiBoardScript.rows - 1; y >= 0 ; y--)
         {
             for (int x = 0; x < shogiBoardScript.cols; x++)
             {

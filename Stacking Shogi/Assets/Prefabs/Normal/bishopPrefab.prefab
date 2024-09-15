@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6005718947056875678}
   - component: {fileID: 8776823744289310995}
   - component: {fileID: 734652184474074773}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: bishopPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
