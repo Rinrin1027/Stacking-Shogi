@@ -17,7 +17,7 @@ public class ShogiPieceData
 {
     public string 名前;
     public List<PieceMove> 移動;
-    public string 成り;  // このフィールドで成り先の駒名を指定
+    public List<string>成り;  // このフィールドで成り先の駒名を指定
 }
 
 // JSON全体を格納するクラス
@@ -55,14 +55,14 @@ public class ShogiPieceManager : MonoBehaviour
         // 駒のPrefabを辞書に登録
         piecePrefabDictionary = new Dictionary<string, GameObject>
         {
-            { "歩", pawnPrefab },
+            { "歩兵", pawnPrefab },
             { "飛車", rookPrefab },
             { "香車", lancePrefab },
             { "桂馬", knightPrefab },
             { "角行", bishopPrefab },
-            { "金", goldPrefab },
-            { "銀", silverPrefab },
-            { "王", kingPrefab }
+            { "金将", goldPrefab },
+            { "銀将", silverPrefab },
+            { "玉", kingPrefab }
         };
 
         // 成り駒のPrefabを辞書に登録

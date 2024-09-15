@@ -11,11 +11,11 @@ public class CapturedPieces : MonoBehaviour
     
     string[] pieceNames =
     {
-        "歩",
+        "歩兵",
         "香車",
         "桂馬",
-        "銀",
-        "金",
+        "銀将",
+        "金将",
         "角行",
         "飛車",
     };
