@@ -48,10 +48,10 @@ public class ShogiPieceManager : MonoBehaviour
     public GameObject promotedLancePrefab;  // 成香のPrefab
     public GameObject promotedKnightPrefab; // 成桂のPrefab
     public GameObject promotedSilverPrefab; // 成銀のPrefab
-    public GameObject huhyoukyousyaPrehab; // 歩兵香車のPrefab
+    public GameObject huhyoukyousyaPrefab; // 歩兵香車のPrefab
     public GameObject tokinkyousyaPrefab; // と金香車のPrefab
-    public GameObject huhyounarikyouPrehab; // 歩兵成香のPrefab
-    public GameObject tokinnarikyouPrehab; // と金成香のPrefab
+    public GameObject huhyounarikyouPrefab; // 歩兵成香のPrefab
+    public GameObject tokinnarikyouPrefab; // と金成香のPrefab
     public GameObject huhyoukeimaPrefab; // 歩兵桂馬のPrefab
     public GameObject tokinkeimaPrefab; // と金桂馬のPrefab
     public GameObject huhyounarikeiPrefab; // 歩兵成桂のPrefab
@@ -154,10 +154,10 @@ public class ShogiPieceManager : MonoBehaviour
             { "成香", promotedLancePrefab },
             { "成桂", promotedKnightPrefab },
             { "成銀", promotedSilverPrefab },
-            { "歩兵香車", huhyoukyousyaPrehab },
+            { "歩兵香車", huhyoukyousyaPrefab },
             { "と金香車", tokinkyousyaPrefab },
-            { "歩兵成香", huhyounarikyouPrehab },
-            { "と金成香", tokinnarikyouPrehab },
+            { "歩兵成香", huhyounarikyouPrefab },
+            { "と金成香", tokinnarikyouPrefab },
             { "歩兵桂馬", huhyoukeimaPrefab },
             { "と金桂馬", tokinkeimaPrefab },
             { "歩兵成桂", huhyounarikeiPrefab },
