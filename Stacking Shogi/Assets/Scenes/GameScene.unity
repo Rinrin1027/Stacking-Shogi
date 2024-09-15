@@ -319,9 +319,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: 14d3825c99b364691a6f42bf34f19d50, type: 3}
-  m_Color: {r: 1, g: 0.8812754, b: 0.5990566, a: 1}
+  m_Color: {r: 1, g: 0.9098039, b: 0.7058824, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -380,7 +380,7 @@ MonoBehaviour:
   cellPrefab: {fileID: 7584310855334089019, guid: aed3e53f3661046898bdcad654b3ffd5, type: 3}
   rows: 9
   cols: 9
-  cellSize: 0.5
+  cellSize: 0.52
   pieceController: {fileID: 1345624496}
   defaultSprite: {fileID: 21300000, guid: c560216f8e6c64a019aae86e5b51df60, type: 3}
   highlightedSprite: {fileID: 21300000, guid: 6a7c8382efd404eef83668969c34c761, type: 3}
@@ -422,6 +422,9 @@ MonoBehaviour:
   promotedPawnPrefab: {fileID: 3331374121607220427, guid: c67ff047082c24c1387d13b41b1c5941, type: 3}
   promotedRookPrefab: {fileID: 5844345671130577368, guid: e776ea01541024c2ca4d0e582b137a21, type: 3}
   promotedBishopPrefab: {fileID: 8932080873203744503, guid: 112bcff3027104f769e7ebe0c3ea20c1, type: 3}
+  promotedLancePrefab: {fileID: 3331374121607220427, guid: c67ff047082c24c1387d13b41b1c5941, type: 3}
+  promotedKnightPrefab: {fileID: 3331374121607220427, guid: c67ff047082c24c1387d13b41b1c5941, type: 3}
+  promotedSilverPrefab: {fileID: 3331374121607220427, guid: c67ff047082c24c1387d13b41b1c5941, type: 3}
 --- !u!212 &1259669182
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -462,7 +465,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 087c9cd5e1ad142a5b615691e8a759ee, type: 3}
   m_Color: {r: 0.3301887, g: 0.19376887, b: 0.076317206, a: 0.8156863}
   m_FlipX: 0
@@ -525,7 +528,7 @@ MonoBehaviour:
     m_Bits: 8
   cellLayerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
 --- !u!1 &1557040283
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,6 +538,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1557040284}
+  - component: {fileID: 1557040285}
   m_Layer: 0
   m_Name: PromotionManager
   m_TagString: Untagged
@@ -557,6 +561,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1557040285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557040283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fcc1304a19e94f85ae4a1bb347a1e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pieceManager: {fileID: 1259669181}
+  shogiBoard: {fileID: 1259669179}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
