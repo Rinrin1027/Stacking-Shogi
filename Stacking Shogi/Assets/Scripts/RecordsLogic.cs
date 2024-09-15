@@ -3,24 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class RecordsLogic : MonoBehaviour
 {
-    public Text displayText; //指した手を表示するUI要素
-    public Image takenPieceImage; //取った駒を表示するUI要素
-    public ShogiPieceController pieceController; // 駒の配置を行うスクリプト
+    [SerializeField]private Text displayText; //指した手を表示するUI要素
+    [SerializeField]private GameObject takenPieceImage; //取った駒を表示するUI要素
+    [SerializeField]private ShogiPieceController pieceController; // 駒の配置を行うスクリプト
+
+    [SerializeField]public ShogiBoard shogiBoard; //将棋盤のスクリプト
+
+    private string[,] recordBoard = new string[9,9]; //盤面を保存する配列
+    private Dictionary<int, string[,]> collectionBoards = new Dictionary<int, string[,]>(); //盤面を保存する辞書
+    private int count = 0; //手数を数える
 
     // Start is called before the first frame update
     void Start()//String txt
     {
-        shougiBoard.GenerateBoard();
-        shougiBoard.PlaceInitialPieces();
-        StreamReader lines = new StreamReader("01.txt"); //txtに置き換える
-        string[] line = lines.ReadLine();
-        string[,] recordBoard = new string[9, 9]; //盤面を保存する配列
+        shogiBoard.GenerateBoard();
+        shogiBoard.PlaceInitialPieces();
+        
         recordInitialBoard();
-        Dictionary<int, string> collectionBoards = new Dictionary<int, string>(); //各盤面とそのIDを保存する辞書
-        int previousBoardId = ; //前の盤面を保存
+        generatedRecord();
+        int previousBoardId = 0; //前の盤面を保存
     }
 
     void recordInitialBoard()
@@ -57,6 +60,23 @@ public class RecordsLogic : MonoBehaviour
         collectionBoards.Add(0, recordBoard);
     }
 
+    void generatedRecord()
+    {
+        foreach()
+        {
+            // recordBoard[,] = null;
+            // recordBoard[,] = piece;
+            // count++;
+
+            collectionBoards.Add(count, recordBoard);
+        }
+        // //手数を数える
+        // int count = 0;
+        // //手数を表示
+        // displayText.text = "手数: " + count;
+        // //盤面を保存
+        // collectionBoards.Add(count, recordBoard);
+    }
     // Update is called once per frame
     void Update()
     {
