@@ -236,46 +236,26 @@ public class ShogiPieceManager : MonoBehaviour
         Dictionary<(string, string), string> combinePatterns = new Dictionary<(string, string), string>
         {
             { ("歩兵", "香車"), "歩兵香車" },
-            { ("香車", "歩兵"), "歩兵香車" },
             { ("歩兵", "飛車"), "歩兵飛車" },
-            { ("飛車", "歩兵"), "歩兵飛車" },
             { ("歩兵", "桂馬"), "歩兵桂馬" },
-            { ("桂馬", "歩兵"), "歩兵桂馬" },
-            { ("金将", "銀将"), "金将銀将" },
-            { ("銀将", "金将"), "金将銀将" },
+            { ("銀将", "金将"), "銀将金将" },
             { ("飛車", "角行"), "角行飛車" },
             { ("竜馬", "竜王"), "竜馬竜王" },
             { ("歩兵", "銀将"), "歩兵銀将" },
-            { ("銀将", "歩兵"), "歩兵銀将" },
             { ("桂馬", "銀将"), "桂馬銀将" },
-            { ("銀将", "桂馬"), "桂馬銀将" },
             { ("香車", "桂馬"), "香車桂馬" },
-            { ("桂馬", "香車"), "香車桂馬" },
             { ("香車", "銀将"), "香車銀将" },
-            { ("銀将", "香車"), "香車銀将" },
             { ("歩兵", "角行"), "歩兵角行" },
-            { ("角行", "歩兵"), "歩兵角行" },
             { ("歩兵", "竜王"), "歩兵竜王" },
-            { ("竜王", "歩兵"), "歩兵竜王" },
             { ("香車", "飛車"), "香車飛車" },
-            { ("飛車", "香車"), "香車飛車" },
             { ("香車", "竜王"), "香車竜王" },
-            { ("竜王", "香車"), "香車竜王" },
             { ("桂馬", "飛車"), "桂馬飛車" },
-            { ("飛車", "桂馬"), "桂馬飛車" },
             { ("桂馬", "竜王"), "桂馬竜王" },
-            { ("竜王", "桂馬"), "桂馬竜王" },
             { ("銀将", "飛車"), "銀将飛車" },
-            { ("飛車", "銀将"), "銀将飛車" },
             { ("銀将", "竜王"), "銀将竜王" },
-            { ("竜王", "銀将"), "銀将竜王" },
             { ("金将", "飛車"), "金将飛車" },
-            { ("飛車", "金将"), "金将飛車" },
             { ("金将", "竜王"), "金将竜王" },
-            { ("竜王", "金将"), "金将竜王" },
             { ("角行", "飛車"), "角行飛車" },
-            { ("飛車", "角行"), "角行飛車" },
-            { ("角行", "竜馬"), "角行竜馬" },
             { ("竜馬", "角行"), "角行竜馬" },
         };
 
@@ -310,6 +290,33 @@ public class ShogiPieceManager : MonoBehaviour
             return null;
         }
     }
+    public GameObject GetCombinedPiecePrefab(string pieceName1, string pieceName2, bool isEnemy = false)
+    {
+        // 合成された駒の名前を取得
+        string combinedPieceName = GetCombinedPieceName(pieceName1, pieceName2);
+
+        // 駒のPrefabを取得
+        GameObject combinedPiecePrefab = GetPiecePrefab(combinedPieceName);
+
+        if (combinedPiecePrefab != null)
+        {
+            // 駒を生成
+            GameObject newPiece = Instantiate(combinedPiecePrefab);
+
+            // 敵側の駒であれば180度回転させる
+            if (isEnemy)
+            {
+                newPiece.transform.rotation = Quaternion.Euler(0, 0, 180); // 180度回転
+            }
+
+            return newPiece;
+        }
+
+        // もし駒が見つからなければnullを返す
+        return null;
+    }
+
+
 
     // 指定された駒のデータを取得
     public ShogiPieceData GetPieceData(string pieceName)

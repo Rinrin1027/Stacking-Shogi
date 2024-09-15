@@ -130,7 +130,45 @@ public class ShogiPieceController : MonoBehaviour
 
         return turnEnded;
     }
+// 持ち駒の打てる範囲を表示する
+    void ShowPutRange(GameObject piece)
+    {
+        // 新しい駒を選択する前に前回の駒の移動範囲ハイライトをクリア
+        ClearMoveRange();
 
+        string pieceName = piece.name; // 駒の名前を取得
+        ShogiPieceData pieceData = pieceManager.GetPieceData(pieceName); // 駒の移動データを取得
+
+        if (pieceData != null)
+        {
+            for (int r = 0; r < shogiBoardScript.rows; r++)
+            {
+                for (int c = 0; c < shogiBoardScript.cols; c++)
+                {
+                    // 打てるマス候補
+                    Vector2Int candidateGridPosition = new Vector2Int(c, r);
+                
+                    // 駒がない
+                    if (shogiBoardScript.pieceArray[candidateGridPosition.x, candidateGridPosition.y] == null)
+                    {
+                        if (pieceName == "歩兵")
+                        {
+                            // 歩兵は2歩禁止
+                            if (NoHuhyou(candidateGridPosition.x))
+                            {
+                                AddValidMovePosition(candidateGridPosition);
+                            }
+                        }
+                        else
+                        {
+                            AddValidMovePosition(candidateGridPosition);
+                        }
+                    }
+                }
+            }
+        }
+    }
+   
     // 駒を動かす時のSEを再生する
     void PlayMoveSound()
     {
@@ -207,53 +245,6 @@ public class ShogiPieceController : MonoBehaviour
         }
     }
 
-    // 持ち駒の打てる範囲を表示する
-    void ShowPutRange(GameObject piece)
-    {
-        // 新しい駒を選択する前に前回の駒の移動範囲ハイライトをクリア
-        ClearMoveRange();
-        
-        string pieceName = piece.name; // 駒の名前を取得
-        ShogiPieceData pieceData = pieceManager.GetPieceData(pieceName); // 駒の移動データを取得
-
-        if (pieceData != null)
-        {
-            int frontMin = shogiBoardScript.rows - 1; // 最小前進マス数
-            foreach (var move in pieceData.移動)
-            {
-                if (move.y < frontMin) frontMin = move.y;
-            }
-
-            for (int r = 0; r < Math.Min(shogiBoardScript.rows, shogiBoardScript.rows - frontMin); r++)
-            {
-                for (int c = 0; c < shogiBoardScript.cols; c++)
-                {
-                    // 打てるマス候補
-                    Vector2Int candidateGridPosition = piece.CompareTag("CapturedPlayer")
-                        ? new Vector2Int(c, r)
-                        : new Vector2Int(c, shogiBoardScript.rows - 1 - r);
-                    
-                    // 駒がない
-                    if (shogiBoardScript.pieceArray[candidateGridPosition.x, candidateGridPosition.y] == null)
-                    {
-                        if (pieceName == "歩兵")
-                        {
-                            // 歩兵は2歩禁止
-                            if (NoHuhyou(candidateGridPosition.x))
-                            {
-                                AddValidMovePosition(candidateGridPosition);
-                            }
-                        }
-                        else
-                        {
-                            AddValidMovePosition(candidateGridPosition);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     void AddValidMovePosition(Vector2Int newPosition, bool isFriendly = false)
     {
         validMovePositions.Add(newPosition);
@@ -261,7 +252,6 @@ public class ShogiPieceController : MonoBehaviour
         shogiBoardScript.HighlightCell(newPosition.x, newPosition.y, true, isFriendly);
     }
 
-    // 駒を移動する
     void MovePiece(GameObject piece, Vector2Int gridPosition)
     {
         // 駒をグリッドの中央にスナップさせる
@@ -269,36 +259,37 @@ public class ShogiPieceController : MonoBehaviour
         if (cell != null)
         {
             Vector2Int originPosition = shogiBoardScript.GetGridPositionFromWorldPosition(piece.transform.position); // 元の位置を取得
-        
+    
             piece.transform.position = cell.transform.position; // 駒をセルの位置にスナップ
             Debug.Log($"駒 {piece.name} が {originPosition} から {gridPosition} に移動しました");
-        
-            // 移動先に相手の駒があった場合
+    
+            // 移動先に味方の駒がある場合、合成処理を実行
             GameObject targetPiece = shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y];
-            if (targetPiece != null && !targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
+            if (targetPiece != null && targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
             {
-                // 玉将が取られた場合、ゲーム終了処理を実行
-                if (targetPiece.name == "玉将")
+                // 合成された駒を取得
+                GameObject combinedPiece = pieceManager.GetCombinedPiecePrefab(piece.name, targetPiece.name, piece.CompareTag("Enemy"));
+
+                if (combinedPiece != null)
                 {
-                    Debug.Log("玉将が取られました。ゲーム終了処理を実行します。");
-                    // 玉将が取られた場合の特別な処理（ゲーム終了など）
-                    EndGameForKingCapture(targetPiece.tag);
-                    Destroy(targetPiece); // 王を削除
-                }
-                else
-                {
-                    // 玉将以外の駒を持ち駒に追加
-                    capturedPieces[gameManager.GetCurrentPlayerTag()].AddPiece(targetPiece.name);
-                    Destroy(targetPiece); // 玉将以外の駒を削除
+                    // 合成された駒を配置し、元の駒を削除
+                    Destroy(piece);
+                    Destroy(targetPiece);
+                    combinedPiece.transform.position = cell.transform.position; // 新しい駒をセルに配置
+                    shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = combinedPiece; // 合成された駒を配列に保存
+                    Debug.Log($"駒が合成されました: {piece.name} と {targetPiece.name}");
                 }
             }
-        
-            shogiBoardScript.pieceArray[originPosition.x, originPosition.y] = null; // 元の位置の配列をクリア
-            shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = piece; // 駒を配列に保存
+            else
+            {
+                // 通常の移動処理
+                shogiBoardScript.pieceArray[originPosition.x, originPosition.y] = null; // 元の位置の配列をクリア
+                shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = piece; // 駒を配列に保存
+            }
 
             // 移動が完了したら、ハイライトを元に戻す
             ClearMoveRange();
-            
+        
             movedPiece = piece;
         }
     }
