@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private ShogiBoard shogiBoard;
     [SerializeField] private ShogiPieceController shogiPieceController;
+    [SerializeField] private ShogiPromotionManager shogiPromotionManager;
     
     private bool isPlayerTurn = true; // プレイヤーのターンかどうか
     [SerializeField] private string currentPlayerTag = "Player"; // 現在のプレイヤーのタグ
@@ -26,6 +27,11 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         bool turnEnded = shogiPieceController.HandlePieceSelectionAndMovement();
+        if (shogiPieceController.movedPiece != null)
+        {
+            shogiPromotionManager.HandlePromotion(shogiPieceController.movedPiece);
+        }
+
         if (turnEnded) SwitchTurn();
     }
 
