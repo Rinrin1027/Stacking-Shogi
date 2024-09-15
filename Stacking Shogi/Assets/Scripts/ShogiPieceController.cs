@@ -153,71 +153,129 @@ public class ShogiPieceController : MonoBehaviour
         validMovePositions.Clear();
     }
 
+    // 駒の移動範囲を表示
     void ShowMoveRange(GameObject piece)
     {
-        // 新しい駒を選択する前に前回の駒の移動範囲ハイライトをクリア
-        ClearMoveRange();
-
-        string pieceName = piece.name; // 駒の名前を取得
-        ShogiPieceData pieceData = pieceManager.GetPieceData(pieceName); // 駒の移動データを取得
+        ClearMoveRange(); // 前回の駒の移動範囲ハイライトをリセット
+        string pieceName = piece.name; 
+        ShogiPieceData pieceData = pieceManager.GetPieceData(pieceName);
 
         if (pieceData != null)
         {
             Vector2Int pieceGridPosition = shogiBoardScript.GetGridPositionFromWorldPosition(piece.transform.position);
-
-            bool isEnemy = piece.tag == "Enemy"; // 駒が敵かどうかを確認
+            bool isEnemy = piece.tag == "Enemy"; 
 
             foreach (var move in pieceData.移動)
             {
-                int directionMultiplier = isEnemy ? -1 : 1; // 敵の駒なら移動方向を反転
-
+                int directionMultiplier = isEnemy ? -1 : 1; 
                 for (int i = 1; i <= Mathf.Abs(move.距離); i++)
                 {
                     Vector2Int newPosition = pieceGridPosition + new Vector2Int(move.x * i * directionMultiplier, move.y * i * directionMultiplier);
 
-                    // グリッドの範囲内かを確認
                     if (newPosition.x >= 0 && newPosition.x < shogiBoardScript.cols && newPosition.y >= 0 && newPosition.y < shogiBoardScript.rows)
                     {   
                         GameObject targetPiece = shogiBoardScript.pieceArray[newPosition.x, newPosition.y];
-                        
-                        // 味方の駒があれば合成可能範囲として追加
+
+                        if (targetPiece != null && (targetPiece.name == "玉将" || targetPiece.name == pieceName || IsFourCharacter(targetPiece.name)))
+                        {
+                            continue; // 玉将、同じ駒、四文字の駒に移動不可
+                        }
+
                         if (targetPiece != null && targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
                         {
-                            AddValidMovePosition(newPosition, true); // 味方の上に移動可能な位置として追加
-                            break; // それ以上進めない
+                            if (pieceName != "玉将" && !IsFourCharacter(pieceName)) 
+                            {
+                                AddValidMovePosition(newPosition, true); 
+                            }
+                            break; 
                         }
                         else if (targetPiece != null && targetPiece.CompareTag("Enemy"))
                         {
-                            // 敵の駒があれば、その駒を取ることができるので追加
                             AddValidMovePosition(newPosition);
-                            break; // それ以上進めない
+                            break; 
                         }
                         else
                         {
-                            // 駒がない場合は移動範囲に追加
                             AddValidMovePosition(newPosition);
                         }
                     }
                 }
             }
         }
+    }
 
-        // デバッグ用
-        Debug.Log($"移動範囲のセル数: {validMovePositions.Count}");
-        if (validMovePositions.Count == 0)
+    // 合成された駒が四文字かどうかを判定
+    bool IsFourCharacter(string pieceName)
+    {
+        return pieceName.Length == 4;
+    }
+
+    // 駒を移動させる処理
+    void MovePiece(GameObject piece, Vector2Int gridPosition)
+    {
+        GameObject cell = shogiBoardScript.GetCellAtPosition(gridPosition.x, gridPosition.y);
+        if (cell != null)
         {
-            Debug.LogWarning("移動範囲が見つかりません。");
+            Vector2Int originPosition = shogiBoardScript.GetGridPositionFromWorldPosition(piece.transform.position);
+            piece.transform.position = cell.transform.position;
+            shogiBoardScript.pieceArray[originPosition.x, originPosition.y] = null;
+
+            GameObject targetPiece = shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y];
+
+            if (piece.name == "玉将" || IsFourCharacter(piece.name))
+            {
+                Debug.Log("玉将や四文字の駒は合成できません。");
+                return;
+            }
+
+            if (targetPiece != null && (targetPiece.name == "玉将" || targetPiece.name == piece.name || IsFourCharacter(targetPiece.name)))
+            {
+                Debug.Log("玉将や同じ駒、四文字の駒との合成はスキップされます。");
+                return;
+            }
+
+            if (targetPiece != null && targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
+            {
+                GameObject combinedPiece = pieceManager.GetCombinedPiecePrefab(piece.name, targetPiece.name, piece.CompareTag("Enemy"));
+
+                if (combinedPiece != null)
+                {
+                    Destroy(piece);
+                    Destroy(targetPiece);
+                    combinedPiece.transform.position = cell.transform.position;
+                    shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = combinedPiece;
+                    Debug.Log($"駒が合成されました: {piece.name} と {targetPiece.name}");
+                }
+            }
+            else if (targetPiece != null && !targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
+            {
+                if (targetPiece.name == "玉将")
+                {
+                    EndGameForKingCapture(targetPiece.tag);
+                }
+                else
+                {
+                    shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = piece;
+                    capturedPieces[gameManager.GetCurrentPlayerTag()].AddPiece(targetPiece.name);
+                    Destroy(targetPiece);
+                }
+            }
+            else
+            {
+                shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = piece;
+            }
+
+            ClearMoveRange();
+            movedPiece = piece;
         }
     }
-    
-    // 持ち駒の打てる範囲を表示する
+
+    // 持ち駒の打てる範囲を表示
     void ShowPutRange(GameObject piece)
     {
-        // 新しい駒を選択する前に前回の駒の移動範囲ハイライトをクリア
         ClearMoveRange();
-
-        string pieceName = piece.name; // 駒の名前を取得
-        ShogiPieceData pieceData = pieceManager.GetPieceData(pieceName); // 駒の移動データを取得
+        string pieceName = piece.name; 
+        ShogiPieceData pieceData = pieceManager.GetPieceData(pieceName);
 
         if (pieceData != null)
         {
@@ -225,134 +283,59 @@ public class ShogiPieceController : MonoBehaviour
             {
                 for (int c = 0; c < shogiBoardScript.cols; c++)
                 {
-                    // 打てるマス候補
                     Vector2Int candidateGridPosition = new Vector2Int(c, r);
-                
-                    // 駒がない
+
                     if (shogiBoardScript.pieceArray[candidateGridPosition.x, candidateGridPosition.y] == null)
                     {
-                        if (pieceName == "歩兵")
+                        if (pieceName == "歩兵" && !NoHuhyou(candidateGridPosition.x))
                         {
-                            // 歩兵は2歩禁止
-                            if (NoHuhyou(candidateGridPosition.x))
-                            {
-                                AddValidMovePosition(candidateGridPosition);
-                            }
+                            continue;
                         }
-                        else
-                        {
-                            AddValidMovePosition(candidateGridPosition);
-                        }
+
+                        AddValidMovePosition(candidateGridPosition);
                     }
                 }
             }
         }
     }
 
+    // 合成対象を味方にするためのメソッド
     void AddValidMovePosition(Vector2Int newPosition, bool isFriendly = false)
     {
         validMovePositions.Add(newPosition);
-        // グリッドをハイライト（味方の駒がある場合は特別なスプライトを使用）
         shogiBoardScript.HighlightCell(newPosition.x, newPosition.y, true, isFriendly);
     }
 
-    void MovePiece(GameObject piece, Vector2Int gridPosition)
-    {
-        // 駒をグリッドの中央にスナップさせる
-        GameObject cell = shogiBoardScript.GetCellAtPosition(gridPosition.x, gridPosition.y);
-        if (cell != null)
-        {
-            Vector2Int originPosition = shogiBoardScript.GetGridPositionFromWorldPosition(piece.transform.position); // 元の位置を取得
-    
-            piece.transform.position = cell.transform.position; // 駒をセルの位置にスナップ
-            Debug.Log($"駒 {piece.name} が {originPosition} から {gridPosition} に移動しました");
-    
-            shogiBoardScript.pieceArray[originPosition.x, originPosition.y] = null; // 元の位置の配列をクリア
-
-            GameObject targetPiece = shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y];
-            if (targetPiece != null && targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
-            {
-                // 移動先に味方の駒がある場合、合成処理を実行
-                Debug.Log("味方の駒が存在するため、合成処理を実行します。");
-                // 合成された駒を取得
-                GameObject combinedPiece = pieceManager.GetCombinedPiecePrefab(piece.name, targetPiece.name, piece.CompareTag("Enemy"));
-
-                if (combinedPiece != null)
-                {
-                    // 合成された駒を配置し、元の駒を削除
-                    Destroy(piece);
-                    Destroy(targetPiece);
-                    combinedPiece.transform.position = cell.transform.position; // 新しい駒をセルに配置
-                    shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = combinedPiece; // 合成された駒を配列に保存
-                    Debug.Log($"駒が合成されました: {piece.name} と {targetPiece.name}");
-                }
-            }
-            else if (targetPiece != null && !targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
-            {
-                // 移動先に敵の駒がある場合、取る処理を実行
-                Debug.Log("敵の駒が存在するため、取る処理を実行します。");
-                if (targetPiece.name == "玉将")
-                {
-                    // 玉将が取られた場合はゲーム終了処理を実行
-                    EndGameForKingCapture(targetPiece.tag);
-                }
-                else
-                {
-                    // 敵の駒を取る
-                    shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = piece; // 駒を配列に保存
-                    capturedPieces[gameManager.GetCurrentPlayerTag()].AddPiece(targetPiece.name);
-                    Destroy(targetPiece);
-                }
-            }
-            else {
-                // 通常の移動処理
-                shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = piece; // 駒を配列に保存
-            }
-
-            // 移動が完了したら、ハイライトを元に戻す
-            ClearMoveRange();
-        
-            movedPiece = piece;
-        }
-    }
-
-    // 玉将が取られた際のゲーム終了処理を実行する関数
+    // 玉将が取られた際のゲーム終了処理
     void EndGameForKingCapture(string capturedKingTag)
     {
-        // 玉将が取られたプレイヤーを確認し、勝者のシーンに遷移する
         string winnerScene = (capturedKingTag == "Player") ? "SecondMoveWin" : "FirstMoveWin";
         Debug.Log($"{capturedKingTag} の王が取られました。{winnerScene} に遷移します。");
 
-        // 勝利シーンに遷移
         UnityEngine.SceneManagement.SceneManager.LoadScene(winnerScene);
     }
 
-    // 駒を新しく配置する関数
+    // 駒を新しく配置する処理
     public void PlacePiece(int x, int y, string pieceName, bool isEnemy = false)
     {
-        // 駒の名前に応じたPrefabを取得
         GameObject piecePrefab = pieceManager.GetPiecePrefab(pieceName);
 
         if (piecePrefab != null)
         {
-            // ShogiBoardのGetCellAtPositionを使ってセルを取得
             GameObject cell = shogiBoardScript.GetCellAtPosition(x, y);
             if (cell != null)
             {
-                // 駒を生成して盤上に配置
                 GameObject piece = Instantiate(piecePrefab);
-                piece.transform.position = cell.transform.position; // 駒をセルの位置に配置
-                piece.name = pieceName; // 駒の名前を設定
-
-                // プレイヤーか敵かに応じてタグを設定
+                piece.transform.position = cell.transform.position;
+                piece.name = pieceName;
                 piece.tag = isEnemy ? "Enemy" : "Player";
 
                 if (isEnemy)
                 {
-                    piece.transform.rotation = Quaternion.Euler(0, 0, 180); // 敵の駒を回転
+                    piece.transform.rotation = Quaternion.Euler(0, 0, 180);
                 }
                 
-                shogiBoardScript.pieceArray[x, y] = piece; // 駒を配列に保存
+                shogiBoardScript.pieceArray[x, y] = piece;
             }
             else
             {
@@ -366,9 +349,7 @@ public class ShogiPieceController : MonoBehaviour
     {
         for (int y = 0; y < shogiBoardScript.rows; y++)
         {
-            if (shogiBoardScript.pieceArray[x, y] != null && 
-                shogiBoardScript.pieceArray[x, y].name == "歩兵" &&
-                shogiBoardScript.pieceArray[x, y].CompareTag(gameManager.GetCurrentPlayerTag())) 
+            if (shogiBoardScript.pieceArray[x, y] != null && shogiBoardScript.pieceArray[x, y].name == "歩兵" && shogiBoardScript.pieceArray[x, y].CompareTag(gameManager.GetCurrentPlayerTag())) 
             {
                 return false;
             }

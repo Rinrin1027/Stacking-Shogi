@@ -233,42 +233,48 @@ public class ShogiPieceManager : MonoBehaviour
     public string GetCombinedPieceName(string pieceName1, string pieceName2)
     {
         // 合成パターンを網羅
-        Dictionary<(string, string), string> combinePatterns = new Dictionary<(string, string), string>
-        {
-            { ("歩兵", "香車"), "歩兵香車" },
-            { ("歩兵", "飛車"), "歩兵飛車" },
-            { ("歩兵", "桂馬"), "歩兵桂馬" },
-            { ("銀将", "金将"), "銀将金将" },
-            { ("飛車", "角行"), "角行飛車" },
-            { ("竜馬", "竜王"), "竜馬竜王" },
-            { ("歩兵", "銀将"), "歩兵銀将" },
-            { ("桂馬", "銀将"), "桂馬銀将" },
-            { ("香車", "桂馬"), "香車桂馬" },
-            { ("香車", "銀将"), "香車銀将" },
-            { ("歩兵", "角行"), "歩兵角行" },
-            { ("歩兵", "竜王"), "歩兵竜王" },
-            { ("香車", "飛車"), "香車飛車" },
-            { ("香車", "竜王"), "香車竜王" },
-            { ("桂馬", "飛車"), "桂馬飛車" },
-            { ("桂馬", "竜王"), "桂馬竜王" },
-            { ("銀将", "飛車"), "銀将飛車" },
-            { ("銀将", "竜王"), "銀将竜王" },
-            { ("金将", "飛車"), "金将飛車" },
-            { ("金将", "竜王"), "金将竜王" },
-            { ("角行", "飛車"), "角行飛車" },
-            { ("竜馬", "角行"), "角行竜馬" },
-        };
+            Dictionary<(string, string), string> combinePatterns = new Dictionary<(string, string), string>
+            {
+                { ("歩兵", "香車"), "歩兵香車" },
+                { ("歩兵", "飛車"), "歩兵飛車" },
+                { ("歩兵", "桂馬"), "歩兵桂馬" },
+                { ("銀将", "金将"), "銀将金将" },
+                { ("飛車", "角行"), "角行飛車" },
+                { ("竜馬", "竜王"), "竜馬竜王" },
+                { ("歩兵", "銀将"), "歩兵銀将" },
+                { ("桂馬", "銀将"), "桂馬銀将" },
+                { ("香車", "桂馬"), "香車桂馬" },
+                { ("香車", "銀将"), "香車銀将" },
+                { ("歩兵", "角行"), "歩兵角行" },
+                { ("歩兵", "竜王"), "歩兵竜王" },
+                { ("香車", "飛車"), "香車飛車" },
+                { ("香車", "竜王"), "香車竜王" },
+                { ("桂馬", "飛車"), "桂馬飛車" },
+                { ("桂馬", "竜王"), "桂馬竜王" },
+                { ("銀将", "飛車"), "銀将飛車" },
+                { ("銀将", "竜王"), "銀将竜王" },
+                { ("金将", "飛車"), "金将飛車" },
+                { ("金将", "竜王"), "金将竜王" },
+                { ("角行", "飛車"), "角行飛車" },
+                { ("竜馬", "角行"), "角行竜馬" },
+            };
 
-        // 組み合わせが辞書に存在する場合は合成した名前を返す
-        var key = (pieceName1, pieceName2);
-        if (combinePatterns.ContainsKey(key))
-        {
-            return combinePatterns[key];
+            // 組み合わせが辞書に存在する場合は合成した名前を返す
+            var key1 = (pieceName1, pieceName2);
+            var key2 = (pieceName2, pieceName1);  // 順番を逆にしたキー
+
+            if (combinePatterns.ContainsKey(key1))
+            {
+                return combinePatterns[key1];
+            }
+            else if (combinePatterns.ContainsKey(key2))
+            {
+                return combinePatterns[key2];  // 順番逆の場合の結果を返す
+            }
+
+            // 存在しない場合は片方の駒を返す
+            return pieceName1;
         }
-
-        // 存在しない場合は片方の駒を返す
-        return pieceName1;
-    }
 
     // JSONファイルから駒データを読み込む
     void LoadShogiPiecesData()
