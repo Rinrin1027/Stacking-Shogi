@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public class ShogiPieceController : MonoBehaviour
     public GameObject shogiBoard; // 将棋盤オブジェクト
     private ShogiPieceManager pieceManager; // 駒データの管理クラス
     private GameObject selectedPiece = null; // 現在選択されている駒
+    private bool isCapturedPiece = false; // 持ち駒を選択しているかどうか
     private List<Vector2Int> validMovePositions = new List<Vector2Int>(); // 有効な移動範囲を保存
     private ShogiBoard shogiBoardScript; // ShogiBoardの参照
     [SerializeField] private CapturedPieces playerCapturedPieces; // プレイヤーの持ち駒
@@ -32,7 +34,8 @@ public class ShogiPieceController : MonoBehaviour
             // AudioSourceが存在しない場合は自動で追加
             audioSource = gameObject.AddComponent<AudioSource>();
         }
-
+        
+        // 持ち駒オブジェクトを辞書で管理
         capturedPieces = new Dictionary<string, CapturedPieces>();
         capturedPieces["Player"] = playerCapturedPieces;
         capturedPieces["Enemy"] = enemyCapturedPieces;
@@ -55,13 +58,33 @@ public class ShogiPieceController : MonoBehaviour
             {
                 // 駒を選択する処理（駒レイヤーのみを対象）
                 RaycastHit2D hitPiece = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, pieceLayerMask);
-
-
-                if (hitPiece.collider != null && hitPiece.collider.gameObject.CompareTag(gameManager.GetCurrentPlayerTag()))
+                
+                if (hitPiece.collider != null)
                 {
-                    Debug.Log($"駒が選択されました: {hitPiece.collider.gameObject.name}");
-                    selectedPiece = hitPiece.collider.gameObject; // 駒を選択
-                    ShowMoveRange(selectedPiece); // 駒の移動範囲を表示
+                    if (hitPiece.collider.gameObject.CompareTag(gameManager.GetCurrentPlayerTag()))
+                    {
+                        // 盤上の駒が選択された
+                        Debug.Log($"駒が選択されました: {hitPiece.collider.gameObject.name}");
+                        selectedPiece = hitPiece.collider.gameObject; // 駒を選択
+                        isCapturedPiece = false;
+                        ShowMoveRange(selectedPiece); // 駒の移動範囲を表示
+                    }
+                    else if (hitPiece.collider.gameObject.CompareTag("Captured" + gameManager.GetCurrentPlayerTag()))
+                    {
+                        // 持ち駒が選択された
+                        if (capturedPieces[gameManager.GetCurrentPlayerTag()]
+                            .HasPiece(hitPiece.collider.gameObject.name))
+                        {
+                            Debug.Log($"持ち駒が選択されました: {hitPiece.collider.gameObject.name}");
+                            selectedPiece = hitPiece.collider.gameObject; // 駒を選択
+                            isCapturedPiece = true;
+                            ShowPutRange(selectedPiece); // 持ち駒の打てる範囲を表示
+                        }
+                        else
+                        {
+                            Debug.Log("その駒は持っていません");
+                        }
+                    }
                 }
             }
             else
@@ -77,7 +100,18 @@ public class ShogiPieceController : MonoBehaviour
                     // 有効な移動範囲か確認
                     if (validMovePositions.Contains(clickedGridPosition))
                     {
-                        MovePiece(selectedPiece, clickedGridPosition); // 駒を移動
+                        if (isCapturedPiece)
+                        {
+                            // 持ち駒なら駒を新規配置
+                            PlacePiece(clickedGridPosition.x, clickedGridPosition.y, selectedPiece.name, selectedPiece.CompareTag("CapturedEnemy"));
+                            capturedPieces[gameManager.GetCurrentPlayerTag()].RemovePiece(selectedPiece.name);
+                        }
+                        else
+                        {
+                            // 盤上の駒ならその駒を移動
+                            MovePiece(selectedPiece, clickedGridPosition); 
+                        }
+
                         // SEを再生する
                         PlayMoveSound();
                         turnEnded = true;
@@ -167,6 +201,41 @@ public class ShogiPieceController : MonoBehaviour
         if (validMovePositions.Count == 0)
         {
             Debug.LogWarning("移動範囲が見つかりません。");
+        }
+    }
+    
+    // 持ち駒の打てる範囲を表示する
+    void ShowPutRange(GameObject piece)
+    {
+        // 新しい駒を選択する前に前回の駒の移動範囲ハイライトをクリア
+        ClearMoveRange();
+        
+        string pieceName = piece.name; // 駒の名前を取得
+        ShogiPieceData pieceData = pieceManager.GetPieceData(pieceName); // 駒の移動データを取得
+
+        if (pieceData != null)
+        {
+            int frontMin = shogiBoardScript.rows - 1; // 最小前進マス数
+            foreach (var move in pieceData.移動)
+            {
+                if (move.y < frontMin) frontMin = move.y;
+            }
+
+            for (int r = 0; r < Math.Min(shogiBoardScript.rows, shogiBoardScript.rows - frontMin); r++)
+            {
+                for (int c = 0; c < shogiBoardScript.cols; c++)
+                {
+                    // 打てるマス候補
+                    Vector2Int candidateGridPosition = piece.CompareTag("CapturedPlayer")
+                        ? new Vector2Int(c, r)
+                        : new Vector2Int(c, shogiBoardScript.rows - 1 - r);
+           
+                    if (shogiBoardScript.pieceArray[candidateGridPosition.x, candidateGridPosition.y] == null)
+                    {
+                        AddValidMovePosition(candidateGridPosition);
+                    }
+                }
+            }
         }
     }
 
