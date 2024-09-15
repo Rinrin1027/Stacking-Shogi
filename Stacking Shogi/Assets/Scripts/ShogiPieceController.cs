@@ -258,11 +258,19 @@ public class ShogiPieceController : MonoBehaviour
 
         if (pieceData != null)
         {
-            for (int r = 0; r < shogiBoardScript.rows; r++)
+            int frontMin = shogiBoardScript.rows - 1;
+            foreach (var move in pieceData.移動)
             {
-                for (int c = 0; c < shogiBoardScript.cols; c++)
+                frontMin = Math.Min(frontMin, move.y);
+            }
+            
+            for (int y = 0; y < Math.Min(shogiBoardScript.rows, shogiBoardScript.rows - frontMin); y++)
+            {
+                for (int x = 0; x < shogiBoardScript.cols; x++)
                 {
-                    Vector2Int candidateGridPosition = new Vector2Int(c, r);
+                    Vector2Int candidateGridPosition = gameManager.GetCurrentPlayerTag() == "Player"
+                        ? new Vector2Int(x, y)
+                        : new Vector2Int(x, shogiBoardScript.rows - 1 - y);
 
                     if (shogiBoardScript.pieceArray[candidateGridPosition.x, candidateGridPosition.y] == null)
                     {
