@@ -56,9 +56,8 @@ public class ShogiPieceController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)) // マウスボタンが押された時
         {
-            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-
-            if (hit.collider != null)
+            Debug.Log("マウスがクリックされました");
+            if (selectedPiece == null)
             {
                 // 駒を選択する処理（駒レイヤーのみを対象）
                 RaycastHit2D hitPiece = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, pieceLayerMask);
@@ -89,9 +88,16 @@ public class ShogiPieceController : MonoBehaviour
                         }
                     }
                 }
-                // 駒が選択されていて、別の場所をクリックした場合
-                else if (selectedPiece != null)
+            }
+            else
+            {
+                Debug.Log("駒が選択されています");
+                // セルをクリックして駒を移動する処理（セルレイヤーを対象）
+                RaycastHit2D hitCell = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, cellLayerMask);
+
+                if (hitCell.collider != null)
                 {
+                    Debug.Log($"セルがクリックされました: {hitCell.collider.gameObject.name}");
                     Vector2Int clickedGridPosition = shogiBoardScript.GetGridPositionFromWorldPosition(mousePos);
 
                     // 有効な移動範囲か確認
@@ -121,12 +127,13 @@ public class ShogiPieceController : MonoBehaviour
                     selectedPiece = null;
                     validMovePositions.Clear(); // 移動範囲をリセット
                 }
+
             }
         }
 
         return turnEnded;
     }
-
+   
     // 駒を動かす時のSEを再生する
     void PlayMoveSound()
     {
@@ -187,10 +194,8 @@ public class ShogiPieceController : MonoBehaviour
                         }
                         else
                         {
-
                             // 駒がない場合は移動範囲に追加
                             AddValidMovePosition(newPosition);
-
                         }
                     }
                 }
@@ -204,34 +209,25 @@ public class ShogiPieceController : MonoBehaviour
             Debug.LogWarning("移動範囲が見つかりません。");
         }
     }
-
-
+    
     // 持ち駒の打てる範囲を表示する
     void ShowPutRange(GameObject piece)
     {
         // 新しい駒を選択する前に前回の駒の移動範囲ハイライトをクリア
         ClearMoveRange();
-        
+
         string pieceName = piece.name; // 駒の名前を取得
         ShogiPieceData pieceData = pieceManager.GetPieceData(pieceName); // 駒の移動データを取得
 
         if (pieceData != null)
         {
-            int frontMin = shogiBoardScript.rows - 1; // 最小前進マス数
-            foreach (var move in pieceData.移動)
-            {
-                if (move.y < frontMin) frontMin = move.y;
-            }
-
-            for (int r = 0; r < Math.Min(shogiBoardScript.rows, shogiBoardScript.rows - frontMin); r++)
+            for (int r = 0; r < shogiBoardScript.rows; r++)
             {
                 for (int c = 0; c < shogiBoardScript.cols; c++)
                 {
                     // 打てるマス候補
-                    Vector2Int candidateGridPosition = piece.CompareTag("CapturedPlayer")
-                        ? new Vector2Int(c, r)
-                        : new Vector2Int(c, shogiBoardScript.rows - 1 - r);
-                    
+                    Vector2Int candidateGridPosition = new Vector2Int(c, r);
+                
                     // 駒がない
                     if (shogiBoardScript.pieceArray[candidateGridPosition.x, candidateGridPosition.y] == null)
                     {
@@ -241,7 +237,6 @@ public class ShogiPieceController : MonoBehaviour
                             if (NoHuhyou(candidateGridPosition.x))
                             {
                                 AddValidMovePosition(candidateGridPosition);
-                                
                             }
                         }
                         else
@@ -272,10 +267,13 @@ public class ShogiPieceController : MonoBehaviour
             piece.transform.position = cell.transform.position; // 駒をセルの位置にスナップ
             Debug.Log($"駒 {piece.name} が {originPosition} から {gridPosition} に移動しました");
     
-            // 移動先に味方の駒がある場合、合成処理を実行
+            shogiBoardScript.pieceArray[originPosition.x, originPosition.y] = null; // 元の位置の配列をクリア
+
             GameObject targetPiece = shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y];
             if (targetPiece != null && targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
             {
+                // 移動先に味方の駒がある場合、合成処理を実行
+                Debug.Log("味方の駒が存在するため、合成処理を実行します。");
                 // 合成された駒を取得
                 GameObject combinedPiece = pieceManager.GetCombinedPiecePrefab(piece.name, targetPiece.name, piece.CompareTag("Enemy"));
 
@@ -289,10 +287,25 @@ public class ShogiPieceController : MonoBehaviour
                     Debug.Log($"駒が合成されました: {piece.name} と {targetPiece.name}");
                 }
             }
-            else
+            else if (targetPiece != null && !targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
             {
+                // 移動先に敵の駒がある場合、取る処理を実行
+                Debug.Log("敵の駒が存在するため、取る処理を実行します。");
+                if (targetPiece.name == "玉将")
+                {
+                    // 玉将が取られた場合はゲーム終了処理を実行
+                    EndGameForKingCapture(targetPiece.tag);
+                }
+                else
+                {
+                    // 敵の駒を取る
+                    shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = piece; // 駒を配列に保存
+                    capturedPieces[gameManager.GetCurrentPlayerTag()].AddPiece(targetPiece.name);
+                    Destroy(targetPiece);
+                }
+            }
+            else {
                 // 通常の移動処理
-                shogiBoardScript.pieceArray[originPosition.x, originPosition.y] = null; // 元の位置の配列をクリア
                 shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = piece; // 駒を配列に保存
             }
 
@@ -363,11 +376,12 @@ public class ShogiPieceController : MonoBehaviour
 
         return true;
     }
+
     void LogPieceArray()
     {
         string log = "";
 
-        for (int y = shogiBoardScript.rows - 1; y >= 0 ; y--)
+        for (int y = shogiBoardScript.rows - 1; y >= 0; y--)
         {
             for (int x = 0; x < shogiBoardScript.cols; x++)
             {

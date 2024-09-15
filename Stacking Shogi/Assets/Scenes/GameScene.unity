@@ -1729,7 +1729,7 @@ MonoBehaviour:
     m_Bits: 8
   cellLayerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
 --- !u!1 &1410123257
 GameObject:
   m_ObjectHideFlags: 0
