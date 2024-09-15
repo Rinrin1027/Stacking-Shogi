@@ -57,9 +57,8 @@ public class ShogiPieceController : MonoBehaviour
 
                 if (hitCell.collider != null)
                 {
-
                     Debug.Log($"セルがクリックされました: {hitCell.collider.gameObject.name}");
-                    Vector2Int clickedGridPosition = GetGridPositionFromWorldPosition(mousePos);
+                    Vector2Int clickedGridPosition = shogiBoardScript.GetGridPositionFromWorldPosition(mousePos);
 
                     // 有効な移動範囲か確認
                     if (validMovePositions.Contains(clickedGridPosition))
