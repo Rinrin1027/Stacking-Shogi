@@ -70,7 +70,14 @@ public class CapturedPieces : MonoBehaviour
     // 持ち駒を追加する
     public void AddPiece(string pieceName)
     {
-        pieces[pieceName]++;
+        if (pieces.ContainsKey(pieceName))
+        {
+            pieces[pieceName]++;
+        }
+        else
+        {
+            pieces[pieceManager.toNormal[pieceName]]++;
+        }
         UpdateUI();
     }
     
