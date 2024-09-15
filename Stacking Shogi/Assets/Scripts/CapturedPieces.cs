@@ -33,6 +33,7 @@ public class CapturedPieces : MonoBehaviour
         numofPiecesTexts = new Dictionary<string, TextMeshProUGUI>();
         if (gameObject.CompareTag("Enemy"))
         {
+            gameObject.transform.rotation = Quaternion.Euler(0, 0, 180);
             offset = -offset;
             textOffset = -textOffset;
         }
