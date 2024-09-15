@@ -245,7 +245,7 @@ public class ShogiPieceController : MonoBehaviour
             }
 
             ClearMoveRange();
-            movedPiece = piece;
+            movedPiece = shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y];
         }
     }
 
