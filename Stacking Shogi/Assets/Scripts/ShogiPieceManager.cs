@@ -64,7 +64,7 @@ public class ShogiPieceManager : MonoBehaviour
             { "竜王", promotedRookPrefab },
             { "竜馬", promotedBishopPrefab }
         };
-
+        
         LoadShogiPiecesData(); // JSONを読み込む
     }
 
