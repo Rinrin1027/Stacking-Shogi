@@ -49,9 +49,9 @@ public class ShogiPromotionManager : MonoBehaviour
         ShogiPieceData data = pieceManager.GetPieceData(piece.name);
         GameObject promotedPiecePrefab = null;
 
-        if (data.成り != "false")
+        if (data.成り.Count != 0)
         {
-            promotedPiecePrefab = pieceManager.GetPromotedPiecePrefab(data.成り);
+            promotedPiecePrefab = pieceManager.GetPromotedPiecePrefab(data.成り[0]);
         }
 
         if (promotedPiecePrefab != null)
@@ -63,7 +63,7 @@ public class ShogiPromotionManager : MonoBehaviour
             Destroy(piece);
             GameObject promotedPiece = Instantiate(promotedPiecePrefab, promotedPiecePosition, promotedPieceRotation);
             promotedPiece.tag = isEnemy ? "Enemy" : "Player";
-            promotedPiece.name = data.成り;
+            promotedPiece.name = data.成り[0];
             
             Vector2Int gridPosition = shogiBoard.GetGridPositionFromWorldPosition(promotedPiecePosition);
             shogiBoard.pieceArray[gridPosition.x, gridPosition.y] = promotedPiece;
