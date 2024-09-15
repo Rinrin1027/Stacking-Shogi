@@ -93,7 +93,6 @@ public class ShogiPieceController : MonoBehaviour
                 // 駒が選択されていて、別の場所をクリックした場合
                 else if (selectedPiece != null)
                 {
-                    Debug.Log($"セルがクリックされました: {hitCell.collider.gameObject.name}");
                     Vector2Int clickedGridPosition = shogiBoardScript.GetGridPositionFromWorldPosition(mousePos);
 
                     // 有効な移動範囲か確認
