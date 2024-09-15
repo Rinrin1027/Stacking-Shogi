@@ -382,6 +382,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 246820406}
   shogiBoard: {fileID: 1259669178}
+  pieceLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  cellLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &1557040283
 GameObject:
   m_ObjectHideFlags: 0
