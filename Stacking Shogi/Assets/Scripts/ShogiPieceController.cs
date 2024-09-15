@@ -74,8 +74,7 @@ public class ShogiPieceController : MonoBehaviour
                     else if (hitPiece.collider.gameObject.CompareTag("Captured" + gameManager.GetCurrentPlayerTag()))
                     {
                         // 持ち駒が選択された
-                        if (capturedPieces[gameManager.GetCurrentPlayerTag()]
-                            .HasPiece(hitPiece.collider.gameObject.name))
+                        if (capturedPieces[gameManager.GetCurrentPlayerTag()].HasPiece(hitPiece.collider.gameObject.name))
                         {
                             Debug.Log($"持ち駒が選択されました: {hitPiece.collider.gameObject.name}");
                             selectedPiece = hitPiece.collider.gameObject; // 駒を選択
@@ -151,7 +150,6 @@ public class ShogiPieceController : MonoBehaviour
         validMovePositions.Clear();
     }
 
-    // 駒の移動範囲を表示する
     void ShowMoveRange(GameObject piece)
     {
         // 新しい駒を選択する前に前回の駒の移動範囲ハイライトをクリア
@@ -177,22 +175,24 @@ public class ShogiPieceController : MonoBehaviour
                     // グリッドの範囲内かを確認
                     if (newPosition.x >= 0 && newPosition.x < shogiBoardScript.cols && newPosition.y >= 0 && newPosition.y < shogiBoardScript.rows)
                     {   
-                        if (shogiBoardScript.pieceArray[newPosition.x, newPosition.y] != null)
+                        GameObject targetPiece = shogiBoardScript.pieceArray[newPosition.x, newPosition.y];
+                        
+                        // 味方の駒があれば合成可能範囲として追加
+                        if (targetPiece != null && targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
                         {
-                            if (shogiBoardScript.pieceArray[newPosition.x, newPosition.y].CompareTag(gameManager.GetCurrentPlayerTag()))
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                AddValidMovePosition(newPosition);
-                                break;
-                            }
+                            AddValidMovePosition(newPosition, true); // 味方の上に移動可能な位置として追加
+                            break; // それ以上進めない
                         }
-                        else // 駒がない場合
+                        else if (targetPiece != null && targetPiece.CompareTag("Enemy"))
                         {
+                            // 敵の駒があれば、その駒を取ることができるので追加
                             AddValidMovePosition(newPosition);
-                            Debug.Log($"駒 {pieceName} が移動できる範囲: {newPosition}");
+                            break; // それ以上進めない
+                        }
+                        else
+                        {
+                            // 駒がない場合は移動範囲に追加
+                            AddValidMovePosition(newPosition);
                         }
                     }
                 }
@@ -206,7 +206,7 @@ public class ShogiPieceController : MonoBehaviour
             Debug.LogWarning("移動範囲が見つかりません。");
         }
     }
-    
+
     // 持ち駒の打てる範囲を表示する
     void ShowPutRange(GameObject piece)
     {
@@ -242,7 +242,6 @@ public class ShogiPieceController : MonoBehaviour
                             if (NoHuhyou(candidateGridPosition.x))
                             {
                                 AddValidMovePosition(candidateGridPosition);
-                                
                             }
                         }
                         else
@@ -255,11 +254,11 @@ public class ShogiPieceController : MonoBehaviour
         }
     }
 
-    void AddValidMovePosition(Vector2Int newPosition)
+    void AddValidMovePosition(Vector2Int newPosition, bool isFriendly = false)
     {
         validMovePositions.Add(newPosition);
-        // グリッドをハイライト
-        shogiBoardScript.HighlightCell(newPosition.x, newPosition.y, true);
+        // グリッドをハイライト（味方の駒がある場合は特別なスプライトを使用）
+        shogiBoardScript.HighlightCell(newPosition.x, newPosition.y, true, isFriendly);
     }
 
     // 駒を移動する
@@ -315,7 +314,6 @@ public class ShogiPieceController : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene(winnerScene);
     }
 
-    
     // 駒を新しく配置する関数
     public void PlacePiece(int x, int y, string pieceName, bool isEnemy = false)
     {

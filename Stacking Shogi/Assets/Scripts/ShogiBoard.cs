@@ -12,6 +12,7 @@ public class ShogiBoard : MonoBehaviour
     public GameObject[,] pieceArray; // 駒の配列
     public Sprite defaultSprite; // 通常のマス目スプライト
     public Sprite highlightedSprite; // ハイライト用のマス目スプライト
+    public Sprite friendlyHighlightSprite; // 味方の上に移動可能な場合のスプライト
 
     void Awake()
     {
@@ -107,7 +108,7 @@ public class ShogiBoard : MonoBehaviour
     }
 
     // グリッドのスプライトを変更
-    public void HighlightCell(int x, int y, bool highlight)
+    public void HighlightCell(int x, int y, bool highlight, bool isFriendly = false)
     {
         GameObject cell = GetCellAtPosition(x, y);
         if (cell != null)
@@ -115,8 +116,18 @@ public class ShogiBoard : MonoBehaviour
             SpriteRenderer renderer = cell.GetComponent<SpriteRenderer>();
             if (renderer != null)
             {
-                renderer.sprite = highlight ? highlightedSprite : defaultSprite;
+                if (highlight)
+                {
+                    // 味方の駒がいる場合は特別なスプライトを使用
+                    renderer.sprite = isFriendly ? friendlyHighlightSprite : highlightedSprite;
+                }
+                else
+                {
+                    // ハイライトを外す場合は通常のスプライトに戻す
+                    renderer.sprite = defaultSprite;
+                }
             }
         }
     }
 }
+
