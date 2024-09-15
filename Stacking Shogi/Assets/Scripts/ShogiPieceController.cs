@@ -56,9 +56,7 @@ public class ShogiPieceController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)) // マウスボタンが押された時
         {
-            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-
-            if (hit.collider != null)
+            if (selectedPiece == null)
             {
                 // 駒を選択する処理（駒レイヤーのみを対象）
                 RaycastHit2D hitPiece = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, pieceLayerMask);
@@ -89,9 +87,15 @@ public class ShogiPieceController : MonoBehaviour
                         }
                     }
                 }
-                // 駒が選択されていて、別の場所をクリックした場合
-                else if (selectedPiece != null)
+            }
+            else
+            {
+                // セルをクリックして駒を移動する処理（セルレイヤーを対象）
+                RaycastHit2D hitCell = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, cellLayerMask);
+
+                if (hitCell.collider != null)
                 {
+                    Debug.Log($"セルがクリックされました: {hitCell.collider.gameObject.name}");
                     Vector2Int clickedGridPosition = shogiBoardScript.GetGridPositionFromWorldPosition(mousePos);
 
                     // 有効な移動範囲か確認
@@ -225,10 +229,8 @@ public class ShogiPieceController : MonoBehaviour
                         }
                         else
                         {
-
                             // 駒がない場合は移動範囲に追加
                             AddValidMovePosition(newPosition);
-
                         }
                     }
                 }
@@ -243,56 +245,7 @@ public class ShogiPieceController : MonoBehaviour
         }
     }
 
-
     void AddValidMovePosition(Vector2Int newPosition, bool isFriendly = false)
-    // 持ち駒の打てる範囲を表示する
-    void ShowPutRange(GameObject piece)
-    {
-        // 新しい駒を選択する前に前回の駒の移動範囲ハイライトをクリア
-        ClearMoveRange();
-        
-        string pieceName = piece.name; // 駒の名前を取得
-        ShogiPieceData pieceData = pieceManager.GetPieceData(pieceName); // 駒の移動データを取得
-
-        if (pieceData != null)
-        {
-            int frontMin = shogiBoardScript.rows - 1; // 最小前進マス数
-            foreach (var move in pieceData.移動)
-            {
-                if (move.y < frontMin) frontMin = move.y;
-            }
-
-            for (int r = 0; r < Math.Min(shogiBoardScript.rows, shogiBoardScript.rows - frontMin); r++)
-            {
-                for (int c = 0; c < shogiBoardScript.cols; c++)
-                {
-                    // 打てるマス候補
-                    Vector2Int candidateGridPosition = piece.CompareTag("CapturedPlayer")
-                        ? new Vector2Int(c, r)
-                        : new Vector2Int(c, shogiBoardScript.rows - 1 - r);
-                    
-                    // 駒がない
-                    if (shogiBoardScript.pieceArray[candidateGridPosition.x, candidateGridPosition.y] == null)
-                    {
-                        if (pieceName == "歩兵")
-                        {
-                            // 歩兵は2歩禁止
-                            if (NoHuhyou(candidateGridPosition.x))
-                            {
-                                AddValidMovePosition(candidateGridPosition);
-                                
-                            }
-                        }
-                        else
-                        {
-                            AddValidMovePosition(candidateGridPosition);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     {
         validMovePositions.Add(newPosition);
         // グリッドをハイライト（味方の駒がある場合は特別なスプライトを使用）
@@ -401,11 +354,12 @@ public class ShogiPieceController : MonoBehaviour
 
         return true;
     }
+
     void LogPieceArray()
     {
         string log = "";
 
-        for (int y = shogiBoardScript.rows - 1; y >= 0 ; y--)
+        for (int y = shogiBoardScript.rows - 1; y >= 0; y--)
         {
             for (int x = 0; x < shogiBoardScript.cols; x++)
             {

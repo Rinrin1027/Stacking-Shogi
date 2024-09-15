@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5153293257436030528}
   - component: {fileID: 6700482187685986458}
   - component: {fileID: -5514410678767251386}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pawnPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}

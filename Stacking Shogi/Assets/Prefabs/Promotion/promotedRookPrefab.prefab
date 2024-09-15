@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3197469520575228637}
   - component: {fileID: 134266694833807746}
   - component: {fileID: -5586917947532178623}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: promotedRookPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}

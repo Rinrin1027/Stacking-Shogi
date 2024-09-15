@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1463934010594108861}
   - component: {fileID: 6167520870260552358}
   - component: {fileID: -5147267535883012418}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: rookPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
