@@ -20,8 +20,7 @@ public class records_logic : MonoBehaviour
         createBoard();
         setPieces();
         // StreamReader lines = new StreamReader("01.txt"); //txtに置き換える
-        int count = 0;
-
+        // int count = 0;
         // foreach (string line in lines)
         // {
         //     string[] element = line.Split(',');
@@ -41,28 +40,27 @@ public class records_logic : MonoBehaviour
         //             takenPieceCount.Add(takenpiece, 1);
         //             createNewPieceSlot(takenpiece);
         //         }
-
-                
         //     }
+        //await Task.Delay(1000);
         // }
     }
 
     void createBoard()
     {
-        int boardWidth = 9;
-        int boardHeight = 9;
-        int boardSize = 9;
+        // int boardWidth = 9;
+        // int boardHeight = 9;
+        // int boardSize = 9;
 
-        for (int y = 0; y < boardHeight; y++)
-        {
-            for (int x = 0; x < boardWidth; x++)
-            {
-                // オフセットを適用して、中心を(0, 0)に調整
-                GameObject tile = Instantiate(tilePrefab);
-                tile.transform.position = new Vector3(x * boardSize, y * boardSize, 0);
-                tile.transform.SetParent(transform);
-            }
-        }
+        // for (int y = 0; y < boardHeight; y++)
+        // {
+        //     for (int x = 0; x < boardWidth; x++)
+        //     {
+        //         // オフセットを適用して、中心を(0, 0)に調整
+        //         GameObject tile = Instantiate(tilePrefab);
+        //         tile.transform.position = new Vector3(x * boardSize, y * boardSize, 0);
+        //         tile.transform.SetParent(transform);
+        //     }
+        // }
     }
 
     void setPieces()
@@ -104,39 +102,37 @@ public class records_logic : MonoBehaviour
 
     void pieceMove(int startpoint, int endpoint, string piece)
     {
-        if (element[1] == 0)
-        {
-            takenPieceCount[piece]--;
-            if (takenPieceCount[piece] == 0)
-            {
-                takenPieceCount.Remove(piece);
-                //持ち駒削除
-            }
-        }
-        else
-        {
-            removePiece(startpoint);
-            pieceController.PlacePiece(endpoint / 10, endpoint % 10, piece);
-        }
+        // if (element[1] == 0)
+        // {
+        //     takenPieceCount[piece]--;
+        //     if (takenPieceCount[piece] == 0)
+        //     {
+        //         takenPieceCount.Remove(piece);
+        //         //持ち駒削除
+        //     }
+        // }
+        // else
+        // {
+        //     removePiece(startpoint);
+        //     pieceController.PlacePiece(endpoint / 10, endpoint % 10, piece);
+        // }
     
     }
 
     void removePiece(int position)
     {
-    // ShogiPieceControllerから指定された位置の駒を取得
-        GameObject piece = pieceController.GetPieceAtPosition(position/10, position%10);
-
-        if (piece != null)
-        {
-            // 駒を盤上から削除
-            Destroy(piece);
-            Debug.Log($"位置 {position} にある駒を削除しました。");
-        }
-        else
-        {
-            Debug.LogError($"位置 {position} に駒が存在しません。");
-        }
-
+    // // ShogiPieceControllerから指定された位置の駒を取得
+    //     GameObject piece = pieceController.GetPieceAtPosition(position/10, position%10);
+    //     if (piece != null)
+    //     {
+    //         // 駒を盤上から削除
+    //         Destroy(piece);
+    //         Debug.Log($"位置 {position} にある駒を削除しました。");
+    //     }
+    //     else
+    //     {
+    //         Debug.LogError($"位置 {position} に駒が存在しません。");
+    //     }
     }
     void createNewPieceSlot(string piece)
     {
