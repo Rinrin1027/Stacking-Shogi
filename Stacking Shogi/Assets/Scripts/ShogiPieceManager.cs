@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 // 駒の移動情報を格納するクラス
 [System.Serializable]
@@ -17,6 +18,7 @@ public class ShogiPieceData
     public string 名前;
     public List<PieceMove> 移動;
     public string 成り;
+    
 }
 
 // JSON全体を格納するクラス
@@ -45,7 +47,7 @@ public class ShogiPieceManager : MonoBehaviour
     private Dictionary<string, GameObject> piecePrefabDictionary; // 駒名とPrefabの対応を保存する辞書
     private ShogiPieceDictionary shogiPiecesData; // 駒データを格納する変数
 
-    void Start()
+    void Awake()
     {
         // 駒のPrefabを辞書に登録
         piecePrefabDictionary = new Dictionary<string, GameObject>
@@ -70,7 +72,7 @@ public class ShogiPieceManager : MonoBehaviour
     void LoadShogiPiecesData()
     {
         TextAsset jsonText = Resources.Load<TextAsset>("ShogiPieces"); // ShogiPieces.jsonを読み込む
-        shogiPiecesData = JsonUtility.FromJson<ShogiPieceDictionary>(jsonText.text);
+        shogiPiecesData = JsonConvert.DeserializeObject<ShogiPieceDictionary>(jsonText.text);
     }
 
     // 駒のPrefabを取得する関数
@@ -90,6 +92,7 @@ public class ShogiPieceManager : MonoBehaviour
     // 指定された駒のデータを取得
     public ShogiPieceData GetPieceData(string pieceName)
     {
+        Debug.Log(shogiPiecesData.駒.Count);
         if (shogiPiecesData.駒.ContainsKey(pieceName))
         {
             return shogiPiecesData.駒[pieceName];
