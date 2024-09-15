@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ShogiPieceController shogiPieceController;
     
     private bool isPlayerTurn = true; // プレイヤーのターンかどうか
-    private string currentPlayerTag = "Player"; // 現在のプレイヤーのタグ
+    [SerializeField] private string currentPlayerTag = "Player"; // 現在のプレイヤーのタグ
 
     // ゲームの初期化
     private void Start()
