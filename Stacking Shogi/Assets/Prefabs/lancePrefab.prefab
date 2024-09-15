@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1860575197225714273}
   - component: {fileID: 6721573318721253068}
   - component: {fileID: 7163360141821991151}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: lancePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
