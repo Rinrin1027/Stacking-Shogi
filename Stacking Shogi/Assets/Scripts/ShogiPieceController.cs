@@ -176,9 +176,11 @@ public class ShogiPieceController : MonoBehaviour
                     {   
                         GameObject targetPiece = shogiBoardScript.pieceArray[newPosition.x, newPosition.y];
 
-                        if (targetPiece != null && (targetPiece.name == "玉将" || targetPiece.name == pieceName || IsFourCharacter(targetPiece.name)))
+                        if (targetPiece != null && (targetPiece.name == "玉将" ||
+                                                    (targetPiece.name == pieceName && targetPiece.CompareTag(gameManager.GetCurrentPlayerTag())) || 
+                                                    IsFourCharacter(targetPiece.name)) && targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
                         {
-                            continue; // 玉将、同じ駒、四文字の駒に移動不可
+                            break; // 玉将、同じ駒、四文字の駒に移動不可
                         }
 
                         if (targetPiece != null && targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
@@ -187,9 +189,9 @@ public class ShogiPieceController : MonoBehaviour
                             {
                                 AddValidMovePosition(newPosition, true); 
                             }
-                            break; 
+                            break;
                         }
-                        else if (targetPiece != null && targetPiece.CompareTag("Enemy"))
+                        else if (targetPiece != null && !targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
                         {
                             AddValidMovePosition(newPosition);
                             break; 
@@ -222,17 +224,17 @@ public class ShogiPieceController : MonoBehaviour
 
             GameObject targetPiece = shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y];
 
-            if (piece.name == "玉将" || IsFourCharacter(piece.name))
-            {
-                Debug.Log("玉将や四文字の駒は合成できません。");
-                return;
-            }
-
-            if (targetPiece != null && (targetPiece.name == "玉将" || targetPiece.name == piece.name || IsFourCharacter(targetPiece.name)))
-            {
-                Debug.Log("玉将や同じ駒、四文字の駒との合成はスキップされます。");
-                return;
-            }
+            // if (piece.name == "玉将" || IsFourCharacter(piece.name))
+            // {
+            //     Debug.Log("玉将や四文字の駒は合成できません。");
+            //     return;
+            // }
+            //
+            // if (targetPiece != null && (targetPiece.name == "玉将" || targetPiece.name == piece.name || IsFourCharacter(targetPiece.name)))
+            // {
+            //     Debug.Log("玉将や同じ駒、四文字の駒との合成はスキップされます。");
+            //     return;
+            // }
 
             if (targetPiece != null && targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
             {
