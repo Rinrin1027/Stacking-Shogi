@@ -308,6 +308,8 @@ public class ShogiPieceManager : MonoBehaviour
         {
             // 駒を生成
             GameObject newPiece = Instantiate(combinedPiecePrefab);
+            newPiece.name = combinedPieceName;
+            newPiece.tag = isEnemy ? "Enemy" : "Player"; // タグを設定
 
             // 敵側の駒であれば180度回転させる
             if (isEnemy)

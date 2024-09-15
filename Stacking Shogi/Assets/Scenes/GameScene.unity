@@ -1420,7 +1420,7 @@ MonoBehaviour:
   tokinkyousyaPrefab: {fileID: 5016941722118373350, guid: e40bd4ec3ffd694498b2b062a8a8894e, type: 3}
   huhyounarikyouPrefab: {fileID: 3853716880415799730, guid: 5139fec61d3a6b344861eafc6cd0efee, type: 3}
   tokinnarikyouPrefab: {fileID: 8191554837250912647, guid: b4a4317576696074692973538df34548, type: 3}
-  huhyoukeimaPrefab: {fileID: 9035919120735784903, guid: 69546ba5aba51234794f14a52ce68035, type: 3}
+  huhyoukeimaPrefab: {fileID: 1505112513791302915, guid: c1b33b9585e3617448c5338d61c965c9, type: 3}
   tokinkeimaPrefab: {fileID: 129403326145009087, guid: 438e305b9fc72b24ab3067431dfcf79b, type: 3}
   huhyounarikeiPrefab: {fileID: 9035919120735784903, guid: 69546ba5aba51234794f14a52ce68035, type: 3}
   tokinnarikeiPrefab: {fileID: 3911420343357279015, guid: 2ced73eac2f3931468b4d122b34bb771, type: 3}
@@ -1429,7 +1429,7 @@ MonoBehaviour:
   kyousyanarikeiPrefab: {fileID: 2606169211525839710, guid: 640f61a9ce6de9d4f84d7fbb835b33ea, type: 3}
   narikyounarikeiPrefab: {fileID: 2297475356811812505, guid: ede6200a009cff746ae47116e11368d4, type: 3}
   huhyouginsyouPrefab: {fileID: 4915364438913881904, guid: 862dd22c8e1f0934b8b9ce32cedbe3ba, type: 3}
-  tokinginsyouPrefab: {fileID: 0}
+  tokinginsyouPrefab: {fileID: 407965694295141740, guid: e9a4e538fc36f4147a47513987f7c104, type: 3}
   huhyounariginPrefab: {fileID: 8379776422254660973, guid: 22e28f9c5a3fb474eb2bee554753207d, type: 3}
   tokinnariginPrefab: {fileID: 3214552341153083636, guid: c4b2cad597429ee47af70bcb5a00e044, type: 3}
   kyousyaginsyouPrefab: {fileID: 2940415224536180881, guid: ee8263929e971704c8eb8014adb39e76, type: 3}
