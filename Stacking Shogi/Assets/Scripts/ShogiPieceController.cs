@@ -126,45 +126,7 @@ public class ShogiPieceController : MonoBehaviour
 
         return turnEnded;
     }
-// 持ち駒の打てる範囲を表示する
-    void ShowPutRange(GameObject piece)
-    {
-        // 新しい駒を選択する前に前回の駒の移動範囲ハイライトをクリア
-        ClearMoveRange();
 
-        string pieceName = piece.name; // 駒の名前を取得
-        ShogiPieceData pieceData = pieceManager.GetPieceData(pieceName); // 駒の移動データを取得
-
-        if (pieceData != null)
-        {
-            for (int r = 0; r < shogiBoardScript.rows; r++)
-            {
-                for (int c = 0; c < shogiBoardScript.cols; c++)
-                {
-                    // 打てるマス候補
-                    Vector2Int candidateGridPosition = new Vector2Int(c, r);
-                
-                    // 駒がない
-                    if (shogiBoardScript.pieceArray[candidateGridPosition.x, candidateGridPosition.y] == null)
-                    {
-                        if (pieceName == "歩兵")
-                        {
-                            // 歩兵は2歩禁止
-                            if (NoHuhyou(candidateGridPosition.x))
-                            {
-                                AddValidMovePosition(candidateGridPosition);
-                            }
-                        }
-                        else
-                        {
-                            AddValidMovePosition(candidateGridPosition);
-                        }
-                    }
-                }
-            }
-        }
-    }
-   
     // 駒を動かす時のSEを再生する
     void PlayMoveSound()
     {
@@ -244,7 +206,6 @@ public class ShogiPieceController : MonoBehaviour
     }
 
 
-    void AddValidMovePosition(Vector2Int newPosition, bool isFriendly = false)
     // 持ち駒の打てる範囲を表示する
     void ShowPutRange(GameObject piece)
     {
@@ -293,6 +254,7 @@ public class ShogiPieceController : MonoBehaviour
         }
     }
 
+    void AddValidMovePosition(Vector2Int newPosition, bool isFriendly = false)
     {
         validMovePositions.Add(newPosition);
         // グリッドをハイライト（味方の駒がある場合は特別なスプライトを使用）
