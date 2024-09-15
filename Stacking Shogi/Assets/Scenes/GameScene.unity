@@ -412,7 +412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pieceSize: 40
-  offset: {x: 1.1, y: 0.7}
+  offset: {x: 1, y: 0.7}
   textOffset: 0.5
   pieceManager: {fileID: 1259669181}
   pieceCounterPrefab: {fileID: 2608358046975520851, guid: 17998724dbffd495fa9d1bab7281f706, type: 3}
@@ -897,7 +897,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -2
+  m_SortingOrder: -4
   m_Sprite: {fileID: 21300000, guid: 14d3825c99b364691a6f42bf34f19d50, type: 3}
   m_Color: {r: 1, g: 0.9098039, b: 0.7058824, a: 1}
   m_FlipX: 0
@@ -1163,7 +1163,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -3
   m_Sprite: {fileID: 21300000, guid: 087c9cd5e1ad142a5b615691e8a759ee, type: 3}
   m_Color: {r: 0.3301887, g: 0.19376887, b: 0.076317206, a: 0.8156863}
   m_FlipX: 0
@@ -1242,9 +1242,10 @@ GameObject:
   - component: {fileID: 1475427324}
   - component: {fileID: 1475427323}
   - component: {fileID: 1475427322}
+  - component: {fileID: 1475427325}
   m_Layer: 5
   m_Name: SurrenderButton
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1265,7 +1266,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 428, y: -1119}
+  m_AnchoredPosition: {x: 428, y: -950}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1475427322
@@ -1350,6 +1351,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1475427320}
   m_CullTransparentMesh: 1
+--- !u!114 &1475427325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475427320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1724fb979390c4b9da35f73146556be1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 246820406}
+  resignPanel: {fileID: 1579365820}
+  resignButton: {fileID: 1475427322}
+  yesButton: {fileID: 1186270120}
+  noButton: {fileID: 316680098}
+  buttonTag: Player
 --- !u!1 &1557040283
 GameObject:
   m_ObjectHideFlags: 0
@@ -1448,7 +1467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.84313726, g: 0.90588236, b: 0.9490196, a: 1}
+  m_Color: {r: 0.9009434, g: 0.9596436, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1522,7 +1541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pieceSize: 40
-  offset: {x: 1.1, y: 0.7}
+  offset: {x: 1, y: 0.7}
   textOffset: 0.5
   pieceManager: {fileID: 1259669181}
   pieceCounterPrefab: {fileID: 2608358046975520851, guid: 17998724dbffd495fa9d1bab7281f706, type: 3}
@@ -1538,9 +1557,10 @@ GameObject:
   - component: {fileID: 1959626856}
   - component: {fileID: 1959626855}
   - component: {fileID: 1959626854}
+  - component: {fileID: 1959626857}
   m_Layer: 5
   m_Name: 'SurrenderButton '
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1561,7 +1581,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -428, y: 1000}
+  m_AnchoredPosition: {x: -428, y: 950}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1959626854
@@ -1646,6 +1666,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1959626852}
   m_CullTransparentMesh: 1
+--- !u!114 &1959626857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959626852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1724fb979390c4b9da35f73146556be1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 246820406}
+  resignPanel: {fileID: 1579365820}
+  resignButton: {fileID: 1959626854}
+  yesButton: {fileID: 1186270120}
+  noButton: {fileID: 316680098}
+  buttonTag: Enemy
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
