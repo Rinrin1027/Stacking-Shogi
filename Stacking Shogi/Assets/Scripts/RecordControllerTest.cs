@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -12,38 +13,43 @@ public class RecordControllerTest : MonoBehaviour
     [SerializeField] private Slider slider;
     [SerializeField] private int currentIndex;
     private List<string> lines = new List<string>();
-    
-    
-    void Start()
+
+
+    // void Start()
+    // {
+    //     if (textFile != null)
+    //     {
+    //         ReadTextFile();
+    //     }
+    // }
+
+
+    // void Update()
+    // {
+    //     DisplayCurrentLine();
+    // }
+
+    public void ReadTextFile()
     {
         if (textFile != null)
         {
-            ReadTextFile();
+            StringReader reader = new StringReader(textFile.text);
+            while (reader.Peek() != -1)
+            {
+                string line = reader.ReadLine();
+                lines.Add(line);
+            }
         }
     }
 
-    
-    void Update()
-    {
-        DisplayCurrentLine();
-    }
 
-    void ReadTextFile()
-    {
-        StringReader reader = new StringReader(textFile.text);
-        while (reader.Peek() != -1)
-        {
-            string line = reader.ReadLine();
-            lines.Add(line);
-        }
-    }
-
-    void DisplayCurrentLine()
+    public void DisplayCurrentLine()
     {
         Debug.Log(currentIndex);
         if (currentIndex >= 0 && currentIndex < lines.Count)
         {
-            displayText.text = lines[currentIndex];
+            String[] element = lines[currentIndex].Split(",");
+            displayText.text = element[0];
         }
     }
 
