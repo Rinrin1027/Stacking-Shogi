@@ -37,17 +37,20 @@ public class ShogiPieceController : MonoBehaviour
 
             if (hit.collider != null)
             {
+                Debug.Log($"クリックされたオブジェクト: {hit.collider.gameObject.name}");
                 GameObject hitObject = hit.collider.gameObject;
 
                 // 駒をクリックした場合
                 if (selectedPiece == null && hitObject.tag == currentPlayerTag)
                 {
+                    Debug.Log("駒が選択されました");
                     selectedPiece = hitObject; // 駒を選択
                     ShowMoveRange(selectedPiece); // 駒の移動範囲を表示
                 }
                 // 駒が選択されていて、別の場所をクリックした場合
                 else if (selectedPiece != null)
                 {
+                    Debug.Log("別の場所がクリックされました");
                     Vector2Int clickedGridPosition = GetGridPositionFromWorldPosition(mousePos);
 
                     // 有効な移動範囲か確認
@@ -112,11 +115,24 @@ public class ShogiPieceController : MonoBehaviour
 
                     // グリッドの範囲内かを確認
                     if (newPosition.x >= 0 && newPosition.x < shogiBoardScript.cols && newPosition.y >= 0 && newPosition.y < shogiBoardScript.rows)
-                    {
-                        validMovePositions.Add(newPosition);
-                        // グリッドをハイライト
-                        shogiBoardScript.HighlightCell(newPosition.x, newPosition.y, true);
-                        Debug.Log($"駒 {pieceName} が移動できる範囲: {newPosition}");
+                    {   
+                        if (shogiBoardScript.pieceArray[newPosition.x, newPosition.y] != null)
+                        {
+                            if (shogiBoardScript.pieceArray[newPosition.x, newPosition.y].CompareTag(currentPlayerTag))
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                AddValidMovePosition(newPosition);
+                                break;
+                            }
+                        }
+                        else // 駒がない場合
+                        {
+                           AddValidMovePosition(newPosition);
+                           Debug.Log($"駒 {pieceName} が移動できる範囲: {newPosition}");
+                        }
                     }
                 }
             }
@@ -129,6 +145,13 @@ public class ShogiPieceController : MonoBehaviour
             Debug.LogWarning("移動範囲が見つかりません。");
         }
     }
+    
+    void AddValidMovePosition(Vector2Int newPosition)
+    {
+        validMovePositions.Add(newPosition);
+        // グリッドをハイライト
+        shogiBoardScript.HighlightCell(newPosition.x, newPosition.y, true);
+    }
 
     // 駒を移動する
     void MovePiece(GameObject piece, Vector2Int gridPosition)
@@ -137,8 +160,13 @@ public class ShogiPieceController : MonoBehaviour
         GameObject cell = shogiBoardScript.GetCellAtPosition(gridPosition.x, gridPosition.y);
         if (cell != null)
         {
+            Vector2Int originPosition = GetGridPositionFromWorldPosition(piece.transform.position); // 元の位置を取得
+            
             piece.transform.position = cell.transform.position; // 駒をセルの位置にスナップ
-            Debug.Log($"駒 {piece.name} が {gridPosition} に移動しました");
+            Debug.Log($"駒 {piece.name} が {originPosition} から {gridPosition} に移動しました");
+            
+            shogiBoardScript.pieceArray[originPosition.x, originPosition.y] = null; // 元の位置の配列をクリア
+            shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = piece; // 駒を配列に保存
 
             // 移動が完了したら、ハイライトを元に戻す
             ClearMoveRange();
@@ -154,6 +182,7 @@ public class ShogiPieceController : MonoBehaviour
         currentPlayerTag = isPlayerTurn ? "Player" : "Enemy"; // タグを更新
 
         Debug.Log($"次は {currentPlayerTag} のターンです");
+        LogPieceArray();
     }
 
     // 駒を初期配置する関数
@@ -180,11 +209,35 @@ public class ShogiPieceController : MonoBehaviour
                 {
                     piece.transform.rotation = Quaternion.Euler(0, 0, 180); // 敵の駒を回転
                 }
+                
+                shogiBoardScript.pieceArray[x, y] = piece; // 駒を配列に保存
             }
             else
             {
                 Debug.LogError($"セルが見つかりません: ({x}, {y})");
             }
         }
+    }
+    
+    void LogPieceArray()
+    {
+        string log = "";
+
+        for (int y = shogiBoardScript.rows - 1; y >= 0 ; y--)
+        {
+            for (int x = 0; x < shogiBoardScript.cols; x++)
+            {
+                if (shogiBoardScript.pieceArray[x, y] != null)
+                {
+                    log += shogiBoardScript.pieceArray[x, y].name + " ";
+                }
+                else
+                {
+                    log += "null ";
+                }
+            }
+            log += "\n";
+        }
+        Debug.Log(log);
     }
 }

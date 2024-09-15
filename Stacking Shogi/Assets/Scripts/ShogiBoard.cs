@@ -9,12 +9,14 @@ public class ShogiBoard : MonoBehaviour
     public ShogiPieceController pieceController; // 駒の管理クラス
 
     private GameObject[,] boardArray; // 9x9の将棋盤の配列
+    public GameObject[,] pieceArray; // 駒の配列
     public Sprite defaultSprite; // 通常のマス目スプライト
     public Sprite highlightedSprite; // ハイライト用のマス目スプライト
 
     void Start()
     {
         boardArray = new GameObject[rows, cols];
+        pieceArray = new GameObject[rows, cols];
         GenerateBoard();
         PlaceInitialPieces(); // 駒を初期配置する
     }
@@ -83,8 +85,8 @@ public class ShogiBoard : MonoBehaviour
         pieceController.PlacePiece(3, 8, "金", true);
         pieceController.PlacePiece(5, 8, "金", true);
         pieceController.PlacePiece(4, 8, "王", true);
-        pieceController.PlacePiece(7, 7, "飛車", true);
-        pieceController.PlacePiece(1, 7, "角行", true);
+        pieceController.PlacePiece(1, 7, "飛車", true);
+        pieceController.PlacePiece(7, 7, "角行", true);
     }
 
     // 特定の座標にあるマス目を取得する関数
