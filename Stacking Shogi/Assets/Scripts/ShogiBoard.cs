@@ -13,16 +13,14 @@ public class ShogiBoard : MonoBehaviour
     public Sprite defaultSprite; // 通常のマス目スプライト
     public Sprite highlightedSprite; // ハイライト用のマス目スプライト
 
-    void Start()
+    void Awake()
     {
         boardArray = new GameObject[rows, cols];
         pieceArray = new GameObject[rows, cols];
-        GenerateBoard();
-        PlaceInitialPieces(); // 駒を初期配置する
     }
 
     // 将棋盤を生成する
-    void GenerateBoard()
+    public void GenerateBoard()
     {
         // グリッド全体の幅と高さ
         float gridWidth = cols * cellSize;
@@ -52,7 +50,7 @@ public class ShogiBoard : MonoBehaviour
     }
 
     // 駒を初期配置する
-    void PlaceInitialPieces()
+    public void PlaceInitialPieces()
     {
         // 味方側の駒の配置
         for (int x = 0; x < cols; x++)
@@ -97,6 +95,15 @@ public class ShogiBoard : MonoBehaviour
             return boardArray[x, y];
         }
         return null;
+    }
+    
+    // グリッド座標をワールド座標から計算
+    public Vector2Int GetGridPositionFromWorldPosition(Vector3 worldPosition)
+    {
+        Vector2 offset = new Vector2(cellSize * cols / 2, cellSize * rows / 2);
+        int x = Mathf.FloorToInt((worldPosition.x + offset.x) / cellSize);
+        int y = Mathf.FloorToInt((worldPosition.y + offset.y) / cellSize);
+        return new Vector2Int(x, y);
     }
 
     // グリッドのスプライトを変更
