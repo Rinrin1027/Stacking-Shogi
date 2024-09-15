@@ -108,20 +108,6 @@ public class ShogiPieceManager : MonoBehaviour
         }
     }
 
-    // 成り駒のPrefabを取得する関数
-    public GameObject GetPromotedPiecePrefab(string pieceName)
-    {
-        if (promotedPiecePrefabDictionary.ContainsKey(pieceName))
-        {
-            return promotedPiecePrefabDictionary[pieceName];
-        }
-        else
-        {
-            Debug.LogError("成り駒のPrefabが見つかりません: " + pieceName);
-            return null;
-        }
-    }
-
     // 指定された駒のデータを取得
     public ShogiPieceData GetPieceData(string pieceName)
     {

@@ -51,7 +51,7 @@ public class ShogiPromotionManager : MonoBehaviour
 
         if (data.成り.Count != 0)
         {
-            promotedPiecePrefab = pieceManager.GetPromotedPiecePrefab(data.成り[0]);
+            promotedPiecePrefab = pieceManager.GetPiecePrefab(data.成り[0]);
         }
 
         if (promotedPiecePrefab != null)
