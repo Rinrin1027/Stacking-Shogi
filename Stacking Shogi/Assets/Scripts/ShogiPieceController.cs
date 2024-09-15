@@ -12,6 +12,8 @@ public class ShogiPieceController : MonoBehaviour
     [SerializeField] private CapturedPieces playerCapturedPieces; // プレイヤーの持ち駒
     [SerializeField] private CapturedPieces enemyCapturedPieces; // 敵の持ち駒
     private Dictionary<string, CapturedPieces> capturedPieces;
+    public AudioClip moveSoundEffect; // 駒を動かす時のSE
+    private AudioSource audioSource;
 
     public LayerMask pieceLayerMask; // 駒を検出するためのレイヤーマスク
     public LayerMask cellLayerMask;  // セルを検出するためのレイヤーマスク
@@ -23,6 +25,13 @@ public class ShogiPieceController : MonoBehaviour
 
         // ShogiBoardのスクリプト参照を取得
         shogiBoardScript = shogiBoard.GetComponent<ShogiBoard>();
+        // AudioSourceを取得
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            // AudioSourceが存在しない場合は自動で追加
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
 
         capturedPieces = new Dictionary<string, CapturedPieces>();
         capturedPieces["Player"] = playerCapturedPieces;
@@ -69,6 +78,8 @@ public class ShogiPieceController : MonoBehaviour
                     if (validMovePositions.Contains(clickedGridPosition))
                     {
                         MovePiece(selectedPiece, clickedGridPosition); // 駒を移動
+                        // SEを再生する
+                        PlayMoveSound();
                         turnEnded = true;
                     }
 
@@ -85,6 +96,14 @@ public class ShogiPieceController : MonoBehaviour
         return turnEnded;
     }
 
+    // 駒を動かす時のSEを再生する
+    void PlayMoveSound()
+    {
+        if (moveSoundEffect != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(moveSoundEffect); // SEを再生
+        }
+    }
     // 前の駒の移動範囲ハイライトをリセット
     void ClearMoveRange()
     {
