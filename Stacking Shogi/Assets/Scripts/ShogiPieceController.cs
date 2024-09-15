@@ -9,6 +9,9 @@ public class ShogiPieceController : MonoBehaviour
     private GameObject selectedPiece = null; // 現在選択されている駒
     private List<Vector2Int> validMovePositions = new List<Vector2Int>(); // 有効な移動範囲を保存
     private ShogiBoard shogiBoardScript; // ShogiBoardの参照
+    [SerializeField] private CapturedPieces playerCapturedPieces; // プレイヤーの持ち駒
+    [SerializeField] private CapturedPieces enemyCapturedPieces; // 敵の持ち駒
+    private Dictionary<string, CapturedPieces> capturedPieces;
 
     public LayerMask pieceLayerMask; // 駒を検出するためのレイヤーマスク
     public LayerMask cellLayerMask;  // セルを検出するためのレイヤーマスク
@@ -20,6 +23,10 @@ public class ShogiPieceController : MonoBehaviour
 
         // ShogiBoardのスクリプト参照を取得
         shogiBoardScript = shogiBoard.GetComponent<ShogiBoard>();
+
+        capturedPieces = new Dictionary<string, CapturedPieces>();
+        capturedPieces["Player"] = playerCapturedPieces;
+        capturedPieces["Enemy"] = enemyCapturedPieces;
     }
 
     void Update()
@@ -162,6 +169,14 @@ public class ShogiPieceController : MonoBehaviour
             
             piece.transform.position = cell.transform.position; // 駒をセルの位置にスナップ
             Debug.Log($"駒 {piece.name} が {originPosition} から {gridPosition} に移動しました");
+            
+            // 移動先に相手の駒があった場合は取る
+            if (shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] != null && !shogiBoardScript
+                    .pieceArray[gridPosition.x, gridPosition.y].CompareTag(gameManager.GetCurrentPlayerTag()))
+            {
+                capturedPieces[gameManager.GetCurrentPlayerTag()].AddPiece(shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y].name);
+                Destroy(shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y]);
+            }
             
             shogiBoardScript.pieceArray[originPosition.x, originPosition.y] = null; // 元の位置の配列をクリア
             shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = piece; // 駒を配列に保存
