@@ -390,6 +390,7 @@ GameObject:
   - component: {fileID: 1011521662}
   - component: {fileID: 1011521661}
   - component: {fileID: 1011521660}
+  - component: {fileID: 1011521663}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -459,7 +460,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1011521661}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1011521663}
+        m_TargetAssemblyTypeName: SceneSwitcher, Assembly-CSharp
+        m_MethodName: OnButtonPress
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1011521661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,6 +511,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1011521658}
   m_CullTransparentMesh: 1
+--- !u!114 &1011521663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011521658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f174ff51dfeb64ff49c15032172d4158, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: TitleScene
 --- !u!1 &1408621533
 GameObject:
   m_ObjectHideFlags: 0
