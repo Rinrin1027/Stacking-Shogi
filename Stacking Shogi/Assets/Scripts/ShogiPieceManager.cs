@@ -315,7 +315,6 @@ public class ShogiPieceManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("駒のPrefabが見つかりません: " + pieceName);
             return null;
         }
     }
@@ -358,7 +357,6 @@ public class ShogiPieceManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("駒が見つかりません: " + pieceName);
             return null;
         }
     }

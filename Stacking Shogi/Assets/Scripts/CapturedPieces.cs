@@ -60,12 +60,6 @@ public class CapturedPieces : MonoBehaviour
             numofPiecesTexts[pieceNames[i]] = pieceCounter.GetComponent<TextMeshProUGUI>();
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     
     // 持ち駒を追加する
     public void AddPiece(string pieceName)

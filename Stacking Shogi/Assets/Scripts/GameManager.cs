@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
     {
         shogiBoard.GenerateBoard();
         shogiBoard.PlaceInitialPieces();
-        Debug.Log("ゲームを初期化しました。プレイヤーから開始します。");
     }
 
     private void Update()
@@ -42,7 +41,6 @@ public class GameManager : MonoBehaviour
         isPlayerTurn = !isPlayerTurn; // ターンを切り替え
         currentPlayerTag = isPlayerTurn ? "Player" : "Enemy"; // タグを更新
         timerManager.SwitchTurn(isPlayerTurn); // TimerManagerに現在のターンを伝える
-        Debug.Log($"次は {currentPlayerTag} のターンです");
     }
 
     // 現在のプレイヤーのタグを取得する

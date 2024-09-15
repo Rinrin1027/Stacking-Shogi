@@ -41,11 +41,7 @@ public class ShogiPieceController : MonoBehaviour
         capturedPieces["Player"] = playerCapturedPieces;
         capturedPieces["Enemy"] = enemyCapturedPieces;
     }
-
-    void Update()
-    {
-    }
-
+    
     // 駒の選択と移動を処理
     public bool HandlePieceSelectionAndMovement()
     {
@@ -56,7 +52,6 @@ public class ShogiPieceController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)) // マウスボタンが押された時
         {
-            Debug.Log("マウスがクリックされました");
             if (selectedPiece == null)
             {
                 // 駒を選択する処理（駒レイヤーのみを対象）
@@ -67,7 +62,6 @@ public class ShogiPieceController : MonoBehaviour
                     if (hitPiece.collider.gameObject.CompareTag(gameManager.GetCurrentPlayerTag()))
                     {
                         // 盤上の駒が選択された
-                        Debug.Log($"駒が選択されました: {hitPiece.collider.gameObject.name}");
                         selectedPiece = hitPiece.collider.gameObject; // 駒を選択
                         isCapturedPiece = false;
                         ShowMoveRange(selectedPiece); // 駒の移動範囲を表示
@@ -77,27 +71,23 @@ public class ShogiPieceController : MonoBehaviour
                         // 持ち駒が選択された
                         if (capturedPieces[gameManager.GetCurrentPlayerTag()].HasPiece(hitPiece.collider.gameObject.name))
                         {
-                            Debug.Log($"持ち駒が選択されました: {hitPiece.collider.gameObject.name}");
                             selectedPiece = hitPiece.collider.gameObject; // 駒を選択
                             isCapturedPiece = true;
                             ShowPutRange(selectedPiece); // 持ち駒の打てる範囲を表示
                         }
                         else
                         {
-                            Debug.Log("その駒は持っていません");
                         }
                     }
                 }
             }
             else
             {
-                Debug.Log("駒が選択されています");
                 // セルをクリックして駒を移動する処理（セルレイヤーを対象）
                 RaycastHit2D hitCell = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, cellLayerMask);
 
                 if (hitCell.collider != null)
                 {
-                    Debug.Log($"セルがクリックされました: {hitCell.collider.gameObject.name}");
                     Vector2Int clickedGridPosition = shogiBoardScript.GetGridPositionFromWorldPosition(mousePos);
 
                     // 有効な移動範囲か確認
@@ -223,19 +213,7 @@ public class ShogiPieceController : MonoBehaviour
             shogiBoardScript.pieceArray[originPosition.x, originPosition.y] = null;
 
             GameObject targetPiece = shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y];
-
-            // if (piece.name == "玉将" || IsFourCharacter(piece.name))
-            // {
-            //     Debug.Log("玉将や四文字の駒は合成できません。");
-            //     return;
-            // }
-            //
-            // if (targetPiece != null && (targetPiece.name == "玉将" || targetPiece.name == piece.name || IsFourCharacter(targetPiece.name)))
-            // {
-            //     Debug.Log("玉将や同じ駒、四文字の駒との合成はスキップされます。");
-            //     return;
-            // }
-
+            
             if (targetPiece != null && targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
             {
                 GameObject combinedPiece = pieceManager.GetCombinedPiecePrefab(piece.name, targetPiece.name, piece.CompareTag("Enemy"));
@@ -246,7 +224,6 @@ public class ShogiPieceController : MonoBehaviour
                     Destroy(targetPiece);
                     combinedPiece.transform.position = cell.transform.position;
                     shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = combinedPiece;
-                    Debug.Log($"駒が合成されました: {piece.name} と {targetPiece.name}");
                 }
             }
             else if (targetPiece != null && !targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
@@ -312,8 +289,6 @@ public class ShogiPieceController : MonoBehaviour
     void EndGameForKingCapture(string capturedKingTag)
     {
         string winnerScene = (capturedKingTag == "Player") ? "SecondMoveWin" : "FirstMoveWin";
-        Debug.Log($"{capturedKingTag} の王が取られました。{winnerScene} に遷移します。");
-
         UnityEngine.SceneManagement.SceneManager.LoadScene(winnerScene);
     }
 
@@ -341,7 +316,6 @@ public class ShogiPieceController : MonoBehaviour
             }
             else
             {
-                Debug.LogError($"セルが見つかりません: ({x}, {y})");
             }
         }
     }
@@ -358,27 +332,5 @@ public class ShogiPieceController : MonoBehaviour
         }
 
         return true;
-    }
-
-    void LogPieceArray()
-    {
-        string log = "";
-
-        for (int y = shogiBoardScript.rows - 1; y >= 0; y--)
-        {
-            for (int x = 0; x < shogiBoardScript.cols; x++)
-            {
-                if (shogiBoardScript.pieceArray[x, y] != null)
-                {
-                    log += shogiBoardScript.pieceArray[x, y].name + " ";
-                }
-                else
-                {
-                    log += "null ";
-                }
-            }
-            log += "\n";
-        }
-        Debug.Log(log);
     }
 }
