@@ -75,12 +75,7 @@ public class ShogiPieceManager : MonoBehaviour
             { "角行", bishopPrefab },
             { "金将", goldPrefab },
             { "銀将", silverPrefab },
-            { "玉", kingPrefab }
-        };
-
-        // 成り駒のPrefabを辞書に登録
-        promotedPiecePrefabDictionary = new Dictionary<string, GameObject>
-        {
+            { "玉", kingPrefab },
             { "と金", promotedPawnPrefab },
             { "竜王", promotedRookPrefab },
             { "竜馬", promotedBishopPrefab },
