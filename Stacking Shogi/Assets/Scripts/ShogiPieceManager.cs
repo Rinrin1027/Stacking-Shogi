@@ -30,6 +30,9 @@ public class ShogiPieceDictionary
 
 public class ShogiPieceManager : MonoBehaviour
 {
+    // 成る前の駒の名前    
+    public Dictionary<string, string> toNormal;
+
     // 駒のPrefabを設定する
     public GameObject pawnPrefab;   // 歩のPrefab
     public GameObject rookPrefab;   // 飛車のPrefab
@@ -52,6 +55,16 @@ public class ShogiPieceManager : MonoBehaviour
 
     void Awake()
     {
+        toNormal = new Dictionary<string, string>()
+        {
+            {"と金", "歩"},
+            {"成香", "香車"},
+            {"成桂", "桂馬"},
+            {"成銀", "銀"},
+            {"竜馬", "角行"},
+            {"竜王", "飛車"},
+        };
+        
         // 駒のPrefabを辞書に登録
         piecePrefabDictionary = new Dictionary<string, GameObject>
         {
