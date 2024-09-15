@@ -233,10 +233,22 @@ public class ShogiPieceController : MonoBehaviour
                         ? new Vector2Int(c, r)
                         : new Vector2Int(c, shogiBoardScript.rows - 1 - r);
                     
-                    if (shogiBoardScript.pieceArray[candidateGridPosition.x, candidateGridPosition.y] == null &&
-                        NoHuhyou(c))
+                    // 駒がない
+                    if (shogiBoardScript.pieceArray[candidateGridPosition.x, candidateGridPosition.y] == null)
                     {
-                        AddValidMovePosition(candidateGridPosition);
+                        if (pieceName == "歩兵")
+                        {
+                            // 歩兵は2歩禁止
+                            if (NoHuhyou(candidateGridPosition.x))
+                            {
+                                AddValidMovePosition(candidateGridPosition);
+                                
+                            }
+                        }
+                        else
+                        {
+                            AddValidMovePosition(candidateGridPosition);
+                        }
                     }
                 }
             }
