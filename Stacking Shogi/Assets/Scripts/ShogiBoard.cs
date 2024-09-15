@@ -55,34 +55,34 @@ public class ShogiBoard : MonoBehaviour
         // 味方側の駒の配置
         for (int x = 0; x < cols; x++)
         {
-            pieceController.PlacePiece(x, 2, "歩"); // 2段目に歩を配置
+            pieceController.PlacePiece(x, 2, "歩兵"); // 2段目に歩を配置
         }
         pieceController.PlacePiece(0, 0, "香車");
         pieceController.PlacePiece(8, 0, "香車");
         pieceController.PlacePiece(1, 0, "桂馬");
         pieceController.PlacePiece(7, 0, "桂馬");
-        pieceController.PlacePiece(2, 0, "銀");
-        pieceController.PlacePiece(6, 0, "銀");
-        pieceController.PlacePiece(3, 0, "金");
-        pieceController.PlacePiece(5, 0, "金");
-        pieceController.PlacePiece(4, 0, "王");
+        pieceController.PlacePiece(2, 0, "銀将");
+        pieceController.PlacePiece(6, 0, "銀将");
+        pieceController.PlacePiece(3, 0, "金将");
+        pieceController.PlacePiece(5, 0, "金将");
+        pieceController.PlacePiece(4, 0, "玉将");
         pieceController.PlacePiece(7, 1, "飛車");
         pieceController.PlacePiece(1, 1, "角行");
 
         // 敵側の駒の配置
         for (int x = 0; x < cols; x++)
         {
-            pieceController.PlacePiece(x, 6, "歩", true); // 敵側の歩を6段目に配置（isEnemy = true）
+            pieceController.PlacePiece(x, 6, "歩兵", true); // 敵側の歩を6段目に配置（isEnemy = true）
         }
         pieceController.PlacePiece(0, 8, "香車", true);
         pieceController.PlacePiece(8, 8, "香車", true);
         pieceController.PlacePiece(1, 8, "桂馬", true);
         pieceController.PlacePiece(7, 8, "桂馬", true);
-        pieceController.PlacePiece(2, 8, "銀", true);
-        pieceController.PlacePiece(6, 8, "銀", true);
-        pieceController.PlacePiece(3, 8, "金", true);
-        pieceController.PlacePiece(5, 8, "金", true);
-        pieceController.PlacePiece(4, 8, "王", true);
+        pieceController.PlacePiece(2, 8, "銀将", true);
+        pieceController.PlacePiece(6, 8, "銀将", true);
+        pieceController.PlacePiece(3, 8, "金将", true);
+        pieceController.PlacePiece(5, 8, "金将", true);
+        pieceController.PlacePiece(4, 8, "玉将", true);
         pieceController.PlacePiece(1, 7, "飛車", true);
         pieceController.PlacePiece(7, 7, "角行", true);
     }
