@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class CapturedPieces : MonoBehaviour
 {
+    public float pieceSize;
+    public Vector2 offset;
+    
     string[] pieceNames =
     {
         "歩",
@@ -39,13 +42,13 @@ public class CapturedPieces : MonoBehaviour
             int x = i % 4, y = i / 4;
             GameObject piece = Instantiate(pieceManager.GetPiecePrefab(pieceNames[i]), gameObject.transform);
             piece.name = "持ち駒 " + pieceNames[i];
-            piece.transform.position = origin + new Vector3(x, -y);
-            piece.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            piece.transform.position = origin + new Vector3(x * offset.x, -y * offset.y, 0);
+            piece.transform.localScale = new Vector3(pieceSize, pieceSize, pieceSize);
             piece.tag = gameObject.tag;
             
             GameObject pieceCounter = Instantiate(pieceCounterPrefab, gameObject.transform);
             pieceCounter.name = "持ち駒の個数 " + pieceNames[i];
-            pieceCounter.transform.position = origin + new Vector3(x + 0.5f, -y);
+            pieceCounter.transform.position = origin + new Vector3(x * offset.x + 0.5f, -y * offset.y, 0);
         }
     }
 
