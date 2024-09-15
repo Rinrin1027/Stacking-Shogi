@@ -8,8 +8,9 @@ public class RecordsLogic : MonoBehaviour
     [SerializeField]private Text displayText; //指した手を表示するUI要素
     [SerializeField]private GameObject takenPieceImage; //取った駒を表示するUI要素
     [SerializeField]private ShogiPieceController pieceController; // 駒の配置を行うスクリプト
-
     [SerializeField]public ShogiBoard shogiBoard; //将棋盤のスクリプト
+
+    [SerializeField]private RecordControllerTest recordControllerTest; //RecordControllerTestスクリプトを参照
 
     private string[,] recordBoard = new string[9,9]; //盤面を保存する配列
     private Dictionary<int, string[,]> collectionBoards = new Dictionary<int, string[,]>(); //盤面を保存する辞書
@@ -62,14 +63,14 @@ public class RecordsLogic : MonoBehaviour
 
     void generatedRecord()
     {
-        foreach()
-        {
-            // recordBoard[,] = null;
-            // recordBoard[,] = piece;
-            // count++;
+        // foreach()
+        // {
+        //     // recordBoard[,] = null;
+        //     // recordBoard[,] = piece;
+        //     // count++;
 
-            collectionBoards.Add(count, recordBoard);
-        }
+        //     collectionBoards.Add(count, recordBoard);
+        // }
         // //手数を数える
         // int count = 0;
         // //手数を表示
@@ -80,10 +81,9 @@ public class RecordsLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if() //ボタン押したら次の手に進む
+        // if (recordControllerTest.OnRightButtonClick() ) //ボタン押したら次の手に進む
         // {
-
-        // }else if() //ボタン押したら前の手に戻る
+        // } else if (recordControllerTest.OnLeftButtonClick()) //ボタン押したら前の手に戻る
         // { 
         // }
     }
