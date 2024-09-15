@@ -266,19 +266,19 @@ public class ShogiPieceController : MonoBehaviour
             GameObject targetPiece = shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y];
             if (targetPiece != null && !targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
             {
-                // 王が取られた場合、ゲーム終了処理を実行
-                if (targetPiece.name == "王")
+                // 玉将が取られた場合、ゲーム終了処理を実行
+                if (targetPiece.name == "玉将")
                 {
-                    Debug.Log("王が取られました。ゲーム終了処理を実行します。");
-                    // 王が取られた場合の特別な処理（ゲーム終了など）
+                    Debug.Log("玉将が取られました。ゲーム終了処理を実行します。");
+                    // 玉将が取られた場合の特別な処理（ゲーム終了など）
                     EndGameForKingCapture(targetPiece.tag);
                     Destroy(targetPiece); // 王を削除
                 }
                 else
                 {
-                    // 王以外の駒を持ち駒に追加
+                    // 玉将以外の駒を持ち駒に追加
                     capturedPieces[gameManager.GetCurrentPlayerTag()].AddPiece(targetPiece.name);
-                    Destroy(targetPiece); // 王以外の駒を削除
+                    Destroy(targetPiece); // 玉将以外の駒を削除
                 }
             }
         
@@ -292,10 +292,10 @@ public class ShogiPieceController : MonoBehaviour
         }
     }
 
-    // 王が取られた際のゲーム終了処理を実行する関数
+    // 玉将が取られた際のゲーム終了処理を実行する関数
     void EndGameForKingCapture(string capturedKingTag)
     {
-        // 王が取られたプレイヤーを確認し、勝者のシーンに遷移する
+        // 玉将が取られたプレイヤーを確認し、勝者のシーンに遷移する
         string winnerScene = (capturedKingTag == "Player") ? "SecondMoveWin" : "FirstMoveWin";
         Debug.Log($"{capturedKingTag} の王が取られました。{winnerScene} に遷移します。");
 
@@ -338,6 +338,7 @@ public class ShogiPieceController : MonoBehaviour
         }
     }
 
+    // 指定した列に自分の歩兵がないかどうか調べる
     bool NoHuhyou(int x)
     {
         for (int y = 0; y < shogiBoardScript.rows; y++)
