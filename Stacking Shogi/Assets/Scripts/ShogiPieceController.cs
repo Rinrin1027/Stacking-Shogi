@@ -141,7 +141,6 @@ public class ShogiPieceController : MonoBehaviour
         }
     }
     
-
     // 前の駒の移動範囲ハイライトをリセット
     void ClearMoveRange()
     {
@@ -233,8 +232,9 @@ public class ShogiPieceController : MonoBehaviour
                     Vector2Int candidateGridPosition = piece.CompareTag("CapturedPlayer")
                         ? new Vector2Int(c, r)
                         : new Vector2Int(c, shogiBoardScript.rows - 1 - r);
-           
-                    if (shogiBoardScript.pieceArray[candidateGridPosition.x, candidateGridPosition.y] == null)
+                    
+                    if (shogiBoardScript.pieceArray[candidateGridPosition.x, candidateGridPosition.y] == null &&
+                        NoHuhyou(c))
                     {
                         AddValidMovePosition(candidateGridPosition);
                     }
@@ -292,7 +292,7 @@ public class ShogiPieceController : MonoBehaviour
         }
     }
 
-// 王が取られた際のゲーム終了処理を実行する関数
+    // 王が取られた際のゲーム終了処理を実行する関数
     void EndGameForKingCapture(string capturedKingTag)
     {
         // 王が取られたプレイヤーを確認し、勝者のシーンに遷移する
@@ -304,7 +304,7 @@ public class ShogiPieceController : MonoBehaviour
     }
 
     
-    // 駒を初期配置する関数
+    // 駒を新しく配置する関数
     public void PlacePiece(int x, int y, string pieceName, bool isEnemy = false)
     {
         // 駒の名前に応じたPrefabを取得
@@ -336,6 +336,21 @@ public class ShogiPieceController : MonoBehaviour
                 Debug.LogError($"セルが見つかりません: ({x}, {y})");
             }
         }
+    }
+
+    bool NoHuhyou(int x)
+    {
+        for (int y = 0; y < shogiBoardScript.rows; y++)
+        {
+            if (shogiBoardScript.pieceArray[x, y] != null && 
+                shogiBoardScript.pieceArray[x, y].name == "歩兵" &&
+                shogiBoardScript.pieceArray[x, y].CompareTag(gameManager.GetCurrentPlayerTag())) 
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     void LogPieceArray()
