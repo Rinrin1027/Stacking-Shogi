@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7345006750819262309}
   - component: {fileID: 8874230051119580488}
   m_Layer: 3
-  m_Name: narigin-ginsyouPrefab
+  m_Name: narigin-kinsyouPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
