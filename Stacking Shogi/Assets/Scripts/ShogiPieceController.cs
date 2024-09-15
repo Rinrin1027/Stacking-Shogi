@@ -12,9 +12,7 @@ public class ShogiPieceController : MonoBehaviour
 
     public LayerMask pieceLayerMask; // 駒を検出するためのレイヤーマスク
     public LayerMask cellLayerMask;  // セルを検出するためのレイヤーマスク
-
-    private bool isPlayerTurn = true; // プレイヤーのターンかどうか
-
+    
     void Awake()
     {
         // ShogiPieceManagerコンポーネントを取得
@@ -43,7 +41,7 @@ public class ShogiPieceController : MonoBehaviour
                 RaycastHit2D hitPiece = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, pieceLayerMask);
 
 
-                if (hitPiece.collider != null)
+                if (hitPiece.collider != null && hitPiece.collider.gameObject.CompareTag(gameManager.GetCurrentPlayerTag()))
                 {
                     Debug.Log($"駒が選択されました: {hitPiece.collider.gameObject.name}");
                     selectedPiece = hitPiece.collider.gameObject; // 駒を選択
