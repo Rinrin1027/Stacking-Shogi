@@ -1174,10 +1174,10 @@ MonoBehaviour:
   promotedLancePrefab: {fileID: 3331374121607220427, guid: c67ff047082c24c1387d13b41b1c5941, type: 3}
   promotedKnightPrefab: {fileID: 3331374121607220427, guid: c67ff047082c24c1387d13b41b1c5941, type: 3}
   promotedSilverPrefab: {fileID: 3331374121607220427, guid: c67ff047082c24c1387d13b41b1c5941, type: 3}
-  huhyoukyousyaPrehab: {fileID: 0}
+  huhyoukyousyaPrefab: {fileID: 0}
   tokinkyousyaPrefab: {fileID: 0}
-  huhyounarikyouPrehab: {fileID: 0}
-  tokinnarikyouPrehab: {fileID: 0}
+  huhyounarikyouPrefab: {fileID: 0}
+  tokinnarikyouPrefab: {fileID: 0}
   huhyoukeimaPrefab: {fileID: 0}
   tokinkeimaPrefab: {fileID: 0}
   huhyounarikeiPrefab: {fileID: 0}
@@ -1186,6 +1186,66 @@ MonoBehaviour:
   narikyoukeimaPrefab: {fileID: 0}
   kyousyanarikeiPrefab: {fileID: 0}
   narikyounarikeiPrefab: {fileID: 0}
+  huhyouginsyouPrefab: {fileID: 0}
+  tokingunsyouPrefab: {fileID: 0}
+  huhyounariginPrefab: {fileID: 0}
+  tokinnariginPrefab: {fileID: 0}
+  kyousyaginsyouPrefab: {fileID: 0}
+  narikyouginsyouPrefab: {fileID: 0}
+  kyousyanariginPrefab: {fileID: 0}
+  narikyounariginPrefab: {fileID: 0}
+  keimaginsyouPrefab: {fileID: 0}
+  narikeiginsyouPrefab: {fileID: 0}
+  keimanariginPrefab: {fileID: 0}
+  narikeinariginPrefab: {fileID: 0}
+  huhyoukinsyouPrefab: {fileID: 0}
+  tokinkinsyouPrefab: {fileID: 0}
+  kyousyakinsyouPrefab: {fileID: 0}
+  narikyoukinsyouPrefab: {fileID: 0}
+  keimakinsyouPrefab: {fileID: 0}
+  narikeikinsyouPrefab: {fileID: 0}
+  ginsyoukinsyouPrefab: {fileID: 0}
+  nariginkinsyouPrefab: {fileID: 0}
+  huhyoukakugyouPrefab: {fileID: 0}
+  tokinkakugyouPrefab: {fileID: 0}
+  huhyouryumaPrefab: {fileID: 0}
+  tokinryumaPrefab: {fileID: 0}
+  kyousyakakugyouPrefab: {fileID: 0}
+  narikyoukakugyouPrefab: {fileID: 0}
+  kyousyaryumaPrefab: {fileID: 0}
+  narikyouryumaPrefab: {fileID: 0}
+  keimakakugyouPrefab: {fileID: 0}
+  narikeikakugyouPrefab: {fileID: 0}
+  keimaryumaPrefab: {fileID: 0}
+  narikeiryumaPrefab: {fileID: 0}
+  ginsyoukakugyouPrefab: {fileID: 0}
+  nariginkakugyouPrefab: {fileID: 0}
+  ginsyouryumaPrefab: {fileID: 0}
+  nariginryumaPrefab: {fileID: 0}
+  kinsyoukakugyouPrefab: {fileID: 0}
+  kinsyouryumaPrefab: {fileID: 0}
+  huhyouhisyaPrefab: {fileID: 0}
+  tokinhisyaPrefab: {fileID: 0}
+  huhyouryuouPrefab: {fileID: 0}
+  tokinryuouPrefab: {fileID: 0}
+  kyousyahisyaPrefab: {fileID: 0}
+  narikyouhisyaPrefab: {fileID: 0}
+  kyousyaryuouPrefab: {fileID: 0}
+  narikyouryuouPrefab: {fileID: 0}
+  keimahisyaPrefab: {fileID: 0}
+  narikeihisyaPrefab: {fileID: 0}
+  keimaryuouPrefab: {fileID: 0}
+  narikeiryuouPrefab: {fileID: 0}
+  ginsyouhisyaPrefab: {fileID: 0}
+  nariginhisyaPrefab: {fileID: 0}
+  ginsyouryuouPrefab: {fileID: 0}
+  nariginryuouPrefab: {fileID: 0}
+  kinsyouhisyaPrefab: {fileID: 0}
+  kinsyouryuouPrefab: {fileID: 0}
+  kakugyouhisyaPrefab: {fileID: 0}
+  ryumahisyaPrefab: {fileID: 0}
+  kakugyouryuouPrefab: {fileID: 0}
+  ryumaryuouPrefab: {fileID: 0}
 --- !u!212 &1259669182
 SpriteRenderer:
   m_ObjectHideFlags: 0
