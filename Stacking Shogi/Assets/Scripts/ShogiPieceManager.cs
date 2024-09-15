@@ -57,10 +57,10 @@ public class ShogiPieceManager : MonoBehaviour
     {
         toNormal = new Dictionary<string, string>()
         {
-            {"と金", "歩"},
+            {"と金", "歩兵"},
             {"成香", "香車"},
             {"成桂", "桂馬"},
-            {"成銀", "銀"},
+            {"成銀", "銀将"},
             {"竜馬", "角行"},
             {"竜王", "飛車"},
         };
@@ -75,7 +75,7 @@ public class ShogiPieceManager : MonoBehaviour
             { "角行", bishopPrefab },
             { "金将", goldPrefab },
             { "銀将", silverPrefab },
-            { "玉", kingPrefab },
+            { "玉将", kingPrefab },
             { "と金", promotedPawnPrefab },
             { "竜王", promotedRookPrefab },
             { "竜馬", promotedBishopPrefab },

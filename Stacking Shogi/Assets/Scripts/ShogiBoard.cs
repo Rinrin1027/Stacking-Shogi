@@ -65,7 +65,7 @@ public class ShogiBoard : MonoBehaviour
         pieceController.PlacePiece(6, 0, "銀将");
         pieceController.PlacePiece(3, 0, "金将");
         pieceController.PlacePiece(5, 0, "金将");
-        pieceController.PlacePiece(4, 0, "玉");
+        pieceController.PlacePiece(4, 0, "玉将");
         pieceController.PlacePiece(7, 1, "飛車");
         pieceController.PlacePiece(1, 1, "角行");
 
@@ -82,7 +82,7 @@ public class ShogiBoard : MonoBehaviour
         pieceController.PlacePiece(6, 8, "銀将", true);
         pieceController.PlacePiece(3, 8, "金将", true);
         pieceController.PlacePiece(5, 8, "金将", true);
-        pieceController.PlacePiece(4, 8, "玉", true);
+        pieceController.PlacePiece(4, 8, "玉将", true);
         pieceController.PlacePiece(1, 7, "飛車", true);
         pieceController.PlacePiece(7, 7, "角行", true);
     }
