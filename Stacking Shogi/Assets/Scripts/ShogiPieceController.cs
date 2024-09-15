@@ -138,6 +138,8 @@ public class ShogiPieceController : MonoBehaviour
             audioSource.PlayOneShot(moveSoundEffect); // SEを再生
         }
     }
+    
+
     // 前の駒の移動範囲ハイライトをリセット
     void ClearMoveRange()
     {
@@ -254,18 +256,30 @@ public class ShogiPieceController : MonoBehaviour
         if (cell != null)
         {
             Vector2Int originPosition = shogiBoardScript.GetGridPositionFromWorldPosition(piece.transform.position); // 元の位置を取得
-            
+        
             piece.transform.position = cell.transform.position; // 駒をセルの位置にスナップ
             Debug.Log($"駒 {piece.name} が {originPosition} から {gridPosition} に移動しました");
-            
-            // 移動先に相手の駒があった場合は取る
-            if (shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] != null && !shogiBoardScript
-                    .pieceArray[gridPosition.x, gridPosition.y].CompareTag(gameManager.GetCurrentPlayerTag()))
+        
+            // 移動先に相手の駒があった場合
+            GameObject targetPiece = shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y];
+            if (targetPiece != null && !targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
             {
-                capturedPieces[gameManager.GetCurrentPlayerTag()].AddPiece(shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y].name);
-                Destroy(shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y]);
+                // 王が取られた場合、ゲーム終了処理を実行
+                if (targetPiece.name == "王")
+                {
+                    Debug.Log("王が取られました。ゲーム終了処理を実行します。");
+                    // 王が取られた場合の特別な処理（ゲーム終了など）
+                    EndGameForKingCapture(targetPiece.tag);
+                    Destroy(targetPiece); // 王を削除
+                }
+                else
+                {
+                    // 王以外の駒を持ち駒に追加
+                    capturedPieces[gameManager.GetCurrentPlayerTag()].AddPiece(targetPiece.name);
+                    Destroy(targetPiece); // 王以外の駒を削除
+                }
             }
-            
+        
             shogiBoardScript.pieceArray[originPosition.x, originPosition.y] = null; // 元の位置の配列をクリア
             shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = piece; // 駒を配列に保存
 
@@ -273,6 +287,18 @@ public class ShogiPieceController : MonoBehaviour
             ClearMoveRange();
         }
     }
+
+// 王が取られた際のゲーム終了処理を実行する関数
+    void EndGameForKingCapture(string capturedKingTag)
+    {
+        // 王が取られたプレイヤーを確認し、勝者のシーンに遷移する
+        string winnerScene = (capturedKingTag == "Player") ? "SecondMoveWin" : "FirstMoveWin";
+        Debug.Log($"{capturedKingTag} の王が取られました。{winnerScene} に遷移します。");
+
+        // 勝利シーンに遷移
+        UnityEngine.SceneManagement.SceneManager.LoadScene(winnerScene);
+    }
+
     
     // 駒を初期配置する関数
     public void PlacePiece(int x, int y, string pieceName, bool isEnemy = false)
