@@ -48,6 +48,18 @@ public class ShogiPieceManager : MonoBehaviour
     public GameObject promotedLancePrefab;  // 成香のPrefab
     public GameObject promotedKnightPrefab; // 成桂のPrefab
     public GameObject promotedSilverPrefab; // 成銀のPrefab
+    public GameObject huhyoukyousyaPrehab; // 歩兵香車のPrefab
+    public GameObject tokinkyousyaPrefab; // と金香車のPrefab
+    public GameObject huhyounarikyouPrehab; // 歩兵成香のPrefab
+    public GameObject tokinnarikyouPrehab; // と金成香のPrefab
+    public GameObject huhyoukeimaPrefab; // 歩兵桂馬のPrefab
+    public GameObject tokinkeimaPrefab; // と金桂馬のPrefab
+    public GameObject huhyounarikeiPrefab; // 歩兵成桂のPrefab
+    public GameObject tokinnarikeiPrefab; // と金成桂のPrefab
+    public GameObject kyousyakeimaPrefab; // 香車桂馬のPrefab
+    public GameObject narikyoukeimaPrefab; // 成香桂馬のPrefab
+    public GameObject kyousyanarikeiPrefab; // 香車成桂のPrefab
+    public GameObject narikyounarikeiPrefab; // 成香成桂のPrefab
 
     private Dictionary<string, GameObject> piecePrefabDictionary; // 駒名とPrefabの対応を保存する辞書
     private Dictionary<string, GameObject> promotedPiecePrefabDictionary; // 成り駒の辞書
