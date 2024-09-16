@@ -60,16 +60,18 @@ public class CapturedPieces : MonoBehaviour
             numofPiecesTexts[pieceNames[i]] = pieceCounter.GetComponent<TextMeshProUGUI>();
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     
     // 持ち駒を追加する
     public void AddPiece(string pieceName)
     {
+        // 合成された駒だったら、前半と後半に分けて追加
+        if (pieceName.Length == 4)
+        {
+            AddPiece(pieceName.Substring(0, 2));
+            AddPiece(pieceName.Substring(2, 2));
+            return;
+        }
+        
         if (pieces.ContainsKey(pieceName))
         {
             pieces[pieceName]++;

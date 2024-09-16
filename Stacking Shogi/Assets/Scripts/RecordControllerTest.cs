@@ -51,13 +51,11 @@ public class RecordControllerTest : MonoBehaviour
     {
         currentIndex--;
         slider.value--;
-        Debug.Log("左が押された!");
     }
 
     public void OnRightButtonClick()
     {
         currentIndex++;
         slider.value++;
-        Debug.Log("右が押された!");
     }
 }

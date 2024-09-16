@@ -1402,25 +1402,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 006168f4181494b7ea4bb67b94b5ee2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pawnPrefab: {fileID: 6215884487801149712, guid: 0483431b086074cd1bb7a6928892c890, type: 3}
-  rookPrefab: {fileID: 6840942833145540052, guid: 33fe067d984054c29ba4899b85f73f94, type: 3}
-  lancePrefab: {fileID: 6271430128993247837, guid: 8da223c7d8e5d4de3aef4c0ab1080f75, type: 3}
-  knightPrefab: {fileID: 7504359141255216193, guid: f74c507bff5f848848e642a3b735450c, type: 3}
-  bishopPrefab: {fileID: 2326860487988308537, guid: 60aba53810c4a4fd1a103d60e31bc9fb, type: 3}
-  goldPrefab: {fileID: 6032958838164629484, guid: 546044f92712845058fa189af1f78953, type: 3}
-  silverPrefab: {fileID: 5185333693657173764, guid: d64c51f71c2304a6b8b6a3b99861797e, type: 3}
-  kingPrefab: {fileID: 324927797114228403, guid: 227047876fd194cb9b2d7eeed167c409, type: 3}
-  promotedPawnPrefab: {fileID: 3331374121607220427, guid: c67ff047082c24c1387d13b41b1c5941, type: 3}
-  promotedRookPrefab: {fileID: 5844345671130577368, guid: e776ea01541024c2ca4d0e582b137a21, type: 3}
-  promotedBishopPrefab: {fileID: 8932080873203744503, guid: 112bcff3027104f769e7ebe0c3ea20c1, type: 3}
-  promotedLancePrefab: {fileID: 3331374121607220427, guid: c67ff047082c24c1387d13b41b1c5941, type: 3}
-  promotedKnightPrefab: {fileID: 3331374121607220427, guid: c67ff047082c24c1387d13b41b1c5941, type: 3}
-  promotedSilverPrefab: {fileID: 3331374121607220427, guid: c67ff047082c24c1387d13b41b1c5941, type: 3}
+  pawnPrefab: {fileID: 4220184402415998892, guid: f5b7fed421744a04a9b0c2033d64db0e, type: 3}
+  rookPrefab: {fileID: 5851691680460432862, guid: 9f665d26dc396f446b2f9eacf92b8d0b, type: 3}
+  lancePrefab: {fileID: 4793450427376715359, guid: 2696f037b39f84a04b6489012a7d0c8c, type: 3}
+  knightPrefab: {fileID: 5382162546540008842, guid: 5a0738f69af0d284d88fc481e88e9746, type: 3}
+  bishopPrefab: {fileID: 6042221402242839105, guid: 89a975028dfbe8745a806948b8659da5, type: 3}
+  goldPrefab: {fileID: 4340648417482901654, guid: 6ef6a3dd7e6271f4686b0f1c536bc79f, type: 3}
+  silverPrefab: {fileID: 5880190814534605614, guid: 013ce50e1bb3b744b896707d48a0db09, type: 3}
+  kingPrefab: {fileID: 6248273373260509488, guid: d0d173ebef3154b4eae2790258a9b958, type: 3}
+  promotedPawnPrefab: {fileID: 1773129387972762067, guid: 545dfa11a4c874f3ca50c27c8294ee2a, type: 3}
+  promotedRookPrefab: {fileID: 2304487043413970822, guid: 5a4aa68373c77dd469c8519292f156c0, type: 3}
+  promotedBishopPrefab: {fileID: 3437718016173826880, guid: ef42173fbdb097a4fa416534700b9cbd, type: 3}
+  promotedLancePrefab: {fileID: 7719608080677188153, guid: 3226d0a1ead86964197f3d549530e3fa, type: 3}
+  promotedKnightPrefab: {fileID: 6390166352059889378, guid: 507002c0a79f9e346a3d09c98c961eee, type: 3}
+  promotedSilverPrefab: {fileID: 4232104720596117857, guid: a78f78c42f2cfaf429a4c9a7d0aa5e02, type: 3}
   huhyoukyousyaPrefab: {fileID: 7442921391115449284, guid: dab93d3f506bec44191b48b18edecfcf, type: 3}
   tokinkyousyaPrefab: {fileID: 5016941722118373350, guid: e40bd4ec3ffd694498b2b062a8a8894e, type: 3}
   huhyounarikyouPrefab: {fileID: 3853716880415799730, guid: 5139fec61d3a6b344861eafc6cd0efee, type: 3}
   tokinnarikyouPrefab: {fileID: 8191554837250912647, guid: b4a4317576696074692973538df34548, type: 3}
-  huhyoukeimaPrefab: {fileID: 9035919120735784903, guid: 69546ba5aba51234794f14a52ce68035, type: 3}
+  huhyoukeimaPrefab: {fileID: 1505112513791302915, guid: c1b33b9585e3617448c5338d61c965c9, type: 3}
   tokinkeimaPrefab: {fileID: 129403326145009087, guid: 438e305b9fc72b24ab3067431dfcf79b, type: 3}
   huhyounarikeiPrefab: {fileID: 9035919120735784903, guid: 69546ba5aba51234794f14a52ce68035, type: 3}
   tokinnarikeiPrefab: {fileID: 3911420343357279015, guid: 2ced73eac2f3931468b4d122b34bb771, type: 3}
@@ -1429,7 +1429,7 @@ MonoBehaviour:
   kyousyanarikeiPrefab: {fileID: 2606169211525839710, guid: 640f61a9ce6de9d4f84d7fbb835b33ea, type: 3}
   narikyounarikeiPrefab: {fileID: 2297475356811812505, guid: ede6200a009cff746ae47116e11368d4, type: 3}
   huhyouginsyouPrefab: {fileID: 4915364438913881904, guid: 862dd22c8e1f0934b8b9ce32cedbe3ba, type: 3}
-  tokinginsyouPrefab: {fileID: 0}
+  tokinginsyouPrefab: {fileID: 407965694295141740, guid: e9a4e538fc36f4147a47513987f7c104, type: 3}
   huhyounariginPrefab: {fileID: 8379776422254660973, guid: 22e28f9c5a3fb474eb2bee554753207d, type: 3}
   tokinnariginPrefab: {fileID: 3214552341153083636, guid: c4b2cad597429ee47af70bcb5a00e044, type: 3}
   kyousyaginsyouPrefab: {fileID: 2940415224536180881, guid: ee8263929e971704c8eb8014adb39e76, type: 3}

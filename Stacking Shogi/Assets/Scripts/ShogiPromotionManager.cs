@@ -42,7 +42,12 @@ public class ShogiPromotionManager : MonoBehaviour
     public bool CanPromote(GameObject piece, int y)
     {
         bool isEnemy = piece.tag == "Enemy";
-
+        
+        if (pieceManager.GetPieceData(piece.name).成り.Count == 0) // 成れない駒は成り不可
+        {
+            return false;
+        }
+        
         if (isEnemy && y <= 2) // 敵がプレイヤー側の手前3列に進んだら成り可能
         {
             return true;
@@ -58,6 +63,8 @@ public class ShogiPromotionManager : MonoBehaviour
     // 成り選択を開始する
     void AskPromotion()
     {
+        selectionObjects.Clear();
+        selections.Clear();
         selectedIndex = 0;
         ShogiPieceData data = pieceManager.GetPieceData(piece.name);
         selections.Add(piece.name);

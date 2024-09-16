@@ -71,8 +71,6 @@ public class TimerManager : MonoBehaviour
             extraTime -= Time.deltaTime;
             if (extraTime <= 0)
             {
-                Debug.Log("タイマーがゼロになりました！");
-                
                 // 現在のプレイヤーのタグに基づいて勝者のシーンに遷移
                 string winnerScene = gameManager.GetCurrentPlayerTag() == "Player" ? "SecondMoveWin" : "FirstMoveWin";
                 UnityEngine.SceneManagement.SceneManager.LoadScene(winnerScene); // 勝者のシーンに遷移
