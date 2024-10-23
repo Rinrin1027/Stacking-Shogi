@@ -28,31 +28,31 @@ public class ShogiPromotionManager : MonoBehaviour
         
     }
 
-    public void HandlePromotion(GameObject piece)
+    public void HandlePromotion(GameObject movedPiece, int originY, int destinationY)
     {
         // 成り可能ならば成り選択を開始
-        if (CanPromote(piece, shogiBoard.GetGridPositionFromWorldPosition(piece.transform.position).y))
+        if (CanPromote(movedPiece, originY, destinationY))
         {
-            this.piece = piece;
+            this.piece = movedPiece;
             AskPromotion();
         }
     }
 
     // 駒が成れるかを判定する関数
-    public bool CanPromote(GameObject piece, int y)
+    public bool CanPromote(GameObject movedPiece, int originY, int destinationY)
     {
-        bool isEnemy = piece.tag == "Enemy";
+        bool isEnemy = movedPiece.CompareTag("Enemy");
         
-        if (pieceManager.GetPieceData(piece.name).成り.Count == 0) // 成れない駒は成り不可
+        if (pieceManager.GetPieceData(movedPiece.name).成り.Count == 0) // 成れない駒は成り不可
         {
             return false;
         }
         
-        if (isEnemy && y <= 2) // 敵がプレイヤー側の手前3列に進んだら成り可能
+        if (isEnemy && (originY <= 2 || destinationY <= 2)) // 敵がプレイヤー側の手前3列に進んだら成り可能
         {
             return true;
         }
-        else if (!isEnemy && y >= 6) // プレイヤーが敵陣の手前3列に進んだら成り可能
+        else if (!isEnemy && (originY >= 6 || destinationY >= 6)) // プレイヤーが敵陣の手前3列に進んだら成り可能
         {
             return true;
         }
