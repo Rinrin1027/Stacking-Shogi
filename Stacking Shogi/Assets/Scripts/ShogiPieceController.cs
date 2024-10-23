@@ -11,6 +11,8 @@ public class ShogiPieceController : MonoBehaviour
     private bool isCapturedPiece = false; // 持ち駒を選択しているかどうか
     private List<Vector2Int> validMovePositions = new List<Vector2Int>(); // 有効な移動範囲を保存
     public GameObject movedPiece = null;
+    public int movedPieceOriginY = -1;
+    public int movedPieceDestinationY = -1;
     private ShogiBoard shogiBoardScript; // ShogiBoardの参照
     [SerializeField] private CapturedPieces playerCapturedPieces; // プレイヤーの持ち駒
     [SerializeField] private CapturedPieces enemyCapturedPieces; // 敵の持ち駒
@@ -205,17 +207,18 @@ public class ShogiPieceController : MonoBehaviour
     // 駒を移動させる処理
     void MovePiece(GameObject piece, Vector2Int gridPosition)
     {
-        GameObject cell = shogiBoardScript.GetCellAtPosition(gridPosition.x, gridPosition.y);
+        GameObject cell = shogiBoardScript.GetCellAtPosition(gridPosition.x, gridPosition.y); // 移動先のセルを取得
         if (cell != null)
         {
-            Vector2Int originPosition = shogiBoardScript.GetGridPositionFromWorldPosition(piece.transform.position);
-            piece.transform.position = cell.transform.position;
-            shogiBoardScript.pieceArray[originPosition.x, originPosition.y] = null;
+            Vector2Int originPosition = shogiBoardScript.GetGridPositionFromWorldPosition(piece.transform.position); // 移動前の位置を取得
+            piece.transform.position = cell.transform.position; // 駒を移動
+            shogiBoardScript.pieceArray[originPosition.x, originPosition.y] = null; // 移動前の位置を空にする
 
-            GameObject targetPiece = shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y];
+            GameObject targetPiece = shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y]; // 移動先にある駒を取得
             
-            if (targetPiece != null && targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
+            if (targetPiece != null && targetPiece.CompareTag(gameManager.GetCurrentPlayerTag())) // 移動先に自分の駒がある場合
             {
+                // 合成処理
                 GameObject combinedPiece = pieceManager.GetCombinedPiecePrefab(piece.name, targetPiece.name, piece.CompareTag("Enemy"));
 
                 if (combinedPiece != null)
@@ -226,26 +229,29 @@ public class ShogiPieceController : MonoBehaviour
                     shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = combinedPiece;
                 }
             }
-            else if (targetPiece != null && !targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
+            else if (targetPiece != null && !targetPiece.CompareTag(gameManager.GetCurrentPlayerTag())) // 移動先に敵の駒がある場合
             {
-                if (targetPiece.name == "玉将")
+                if (targetPiece.name == "玉将") // 玉将を取った場合
                 {
-                    EndGameForKingCapture(targetPiece.tag);
+                    EndGameForKingCapture(targetPiece.tag); // ゲーム終了処理
                 }
-                else
+                else // その他の駒を取った場合
                 {
+                    // 駒を取る処理
                     shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = piece;
                     capturedPieces[gameManager.GetCurrentPlayerTag()].AddPiece(targetPiece.name);
                     Destroy(targetPiece);
                 }
             }
-            else
+            else // 移動先に駒がない場合
             {
                 shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = piece;
             }
 
-            ClearMoveRange();
-            movedPiece = shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y];
+            ClearMoveRange(); // 移動範囲ハイライトをリセット
+            movedPiece = shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y]; // 移動した駒を記録
+            movedPieceOriginY = originPosition.y; // 移動前のY座標を記録
+            movedPieceDestinationY = gridPosition.y; // 移動後のY座標を記録
         }
     }
 

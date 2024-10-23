@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
         bool turnEnded = shogiPieceController.HandlePieceSelectionAndMovement();
         if (shogiPieceController.movedPiece != null)
         {
-            shogiPromotionManager.HandlePromotion(shogiPieceController.movedPiece);
+            shogiPromotionManager.HandlePromotion(shogiPieceController.movedPiece, shogiPieceController.movedPieceOriginY, shogiPieceController.movedPieceDestinationY);
         }
 
         if (turnEnded) SwitchTurn();
