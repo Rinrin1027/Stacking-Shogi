@@ -47,7 +47,10 @@ public class ShogiPromotionManager : MonoBehaviour
     {
         bool isEnemy = piece.tag == "Enemy";
         
-        if (pieceManager.GetPieceData(piece.name).成り.Count == 0) // 成れない駒は成り不可
+        ShogiPieceData pieceData = pieceManager.GetPieceData(piece.name);
+        
+        // Nullチェックを追加。Inspector等でデータが未設定の場合でもクラッシュを防止
+        if (pieceData == null || pieceData.成り == null || pieceData.成り.Count == 0) // 成れない駒は成り不可
         {
             return false;
         }
@@ -78,9 +81,12 @@ public class ShogiPromotionManager : MonoBehaviour
         ShogiPieceData data = pieceManager.GetPieceData(piece.name);
         selections.Add(piece.name);
 
-        for (int i = 0; i < data.成り.Count; i++)
+        if (data != null && data.成り != null)
         {
-            selections.Add(data.成り[i]);
+            for (int i = 0; i < data.成り.Count; i++)
+            {
+                selections.Add(data.成り[i]);
+            }
         }
         
         for (int i = 0; i < selections.Count; i++)
@@ -154,6 +160,10 @@ public class ShogiPromotionManager : MonoBehaviour
                     Instantiate(promotedPiecePrefab, promotedPiecePosition, promotedPieceRotation);
                 promotedPiece.tag = isEnemy ? "Enemy" : "Player";
                 promotedPiece.name = selectedPieceName;
+                
+                ShogiPiece shogiPiece = promotedPiece.GetComponent<ShogiPiece>();
+                if (shogiPiece == null) shogiPiece = promotedPiece.AddComponent<ShogiPiece>();
+                shogiPiece.Init(selectedPieceName);
 
                 Vector2Int gridPosition = shogiBoard.GetGridPositionFromWorldPosition(promotedPiecePosition);
                 shogiBoard.pieceArray[gridPosition.x, gridPosition.y] = promotedPiece;

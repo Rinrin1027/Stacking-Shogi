@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -75,9 +75,6 @@ public class ShogiPieceController : MonoBehaviour
                             isCapturedPiece = true;
                             ShowPutRange(selectedPiece); // 持ち駒の打てる範囲を表示
                         }
-                        else
-                        {
-                        }
                     }
                 }
             }
@@ -117,7 +114,6 @@ public class ShogiPieceController : MonoBehaviour
                     selectedPiece = null;
                     validMovePositions.Clear(); // 移動範囲をリセット
                 }
-
             }
         }
 
@@ -166,16 +162,20 @@ public class ShogiPieceController : MonoBehaviour
                     {   
                         GameObject targetPiece = shogiBoardScript.pieceArray[newPosition.x, newPosition.y];
 
-                        if (targetPiece != null && (targetPiece.name == "玉将" ||
-                                                    (targetPiece.name == pieceName && targetPiece.CompareTag(gameManager.GetCurrentPlayerTag())) || 
-                                                    IsFourCharacter(targetPiece.name)) && targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
-                        {
-                            break; // 玉将、同じ駒、四文字の駒に移動不可
-                        }
-
                         if (targetPiece != null && targetPiece.CompareTag(gameManager.GetCurrentPlayerTag()))
                         {
-                            if (pieceName != "玉将" && !IsFourCharacter(pieceName)) 
+                            // 合成可能かチェックする（玉将は合成不可、また無効な合成はブロック）
+                            string combinedName = pieceManager.GetCombinedPieceName(pieceName, targetPiece.name);
+
+                            if (targetPiece.name == "玉将" || pieceName == "玉将")
+                            {
+                                break; // 玉将は合成不可のためこれ以上進めない
+                            }
+                            else if (string.IsNullOrEmpty(combinedName))
+                            {
+                                break; // 有効な合成パターンが存在しない（既にスタックされている等）ため移動不可
+                            }
+                            else
                             {
                                 AddValidMovePosition(newPosition, true); 
                             }
@@ -194,12 +194,6 @@ public class ShogiPieceController : MonoBehaviour
                 }
             }
         }
-    }
-
-    // 合成された駒が四文字かどうかを判定
-    bool IsFourCharacter(string pieceName)
-    {
-        return pieceName.Length == 4;
     }
 
     // 駒を移動させる処理
@@ -235,7 +229,7 @@ public class ShogiPieceController : MonoBehaviour
                 else
                 {
                     shogiBoardScript.pieceArray[gridPosition.x, gridPosition.y] = piece;
-                    capturedPieces[gameManager.GetCurrentPlayerTag()].AddPiece(targetPiece.name);
+                    capturedPieces[gameManager.GetCurrentPlayerTag()].AddPiece(targetPiece);
                     Destroy(targetPiece);
                 }
             }
@@ -320,10 +314,12 @@ public class ShogiPieceController : MonoBehaviour
                     piece.transform.rotation = Quaternion.Euler(0, 0, 180);
                 }
                 
+                // オブジェクトにコンポーネントを追加し、状態を持たせる
+                ShogiPiece shogiPiece = piece.GetComponent<ShogiPiece>();
+                if (shogiPiece == null) shogiPiece = piece.AddComponent<ShogiPiece>();
+                shogiPiece.Init(pieceName);
+                
                 shogiBoardScript.pieceArray[x, y] = piece;
-            }
-            else
-            {
             }
         }
     }

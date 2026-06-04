@@ -61,22 +61,34 @@ public class CapturedPieces : MonoBehaviour
         }
     }
     
-    // 持ち駒を追加する
-    public void AddPiece(string pieceName)
+    // GameObjectから持ち駒を追加する（オブジェクトのコンポーネントを参照）
+    public void AddPiece(GameObject pieceObj)
     {
-        // 合成された駒だったら、前半と後半に分けて追加
-        if (pieceName.Length == 4)
-        {
-            AddPiece(pieceName.Substring(0, 2));
-            AddPiece(pieceName.Substring(2, 2));
-            return;
-        }
+        ShogiPiece shogiPiece = pieceObj.GetComponent<ShogiPiece>();
         
+        if (shogiPiece != null && shogiPiece.IsStacked)
+        {
+            // 合成駒の場合は、元の構成駒をすべて追加する
+            foreach(string originalName in shogiPiece.originalPieceNames)
+            {
+                AddPieceByName(originalName);
+            }
+        }
+        else
+        {
+            // 単独の駒の場合
+            AddPieceByName(pieceObj.name);
+        }
+    }
+
+    // 名前指定で持ち駒を追加する
+    private void AddPieceByName(string pieceName)
+    {
         if (pieces.ContainsKey(pieceName))
         {
             pieces[pieceName]++;
         }
-        else
+        else if (pieceManager.toNormal.ContainsKey(pieceName))
         {
             pieces[pieceManager.toNormal[pieceName]]++;
         }
@@ -86,20 +98,26 @@ public class CapturedPieces : MonoBehaviour
     // 持ち駒を削除する
     public void RemovePiece(string pieceName)
     {
-        pieces[pieceName]--;
-        UpdateUI();
+        if (pieces.ContainsKey(pieceName))
+        {
+            pieces[pieceName]--;
+            UpdateUI();
+        }
     }
 
     public bool HasPiece(string pieceName)
     {
-        return pieces[pieceName] > 0;
+        return pieces.ContainsKey(pieceName) && pieces[pieceName] > 0;
     }
 
     void UpdateUI()
     {
         for (int i = 0; i < pieceNames.Length; i++)
         {
-            numofPiecesTexts[pieceNames[i]].text = "×" + pieces[pieceNames[i]];
+            if (numofPiecesTexts.ContainsKey(pieceNames[i]))
+            {
+                numofPiecesTexts[pieceNames[i]].text = "×" + pieces[pieceNames[i]];
+            }
         }
     }
 }

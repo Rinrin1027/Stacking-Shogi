@@ -230,109 +230,34 @@ public class ShogiPieceManager : MonoBehaviour
         
         LoadShogiPiecesData(); // JSONを読み込む
     }
+
     // 合成駒名を取得する関数
     public string GetCombinedPieceName(string pieceName1, string pieceName2)
     {
-        // 合成パターンを網羅
-        Dictionary<(string, string), string> combinePatterns = new Dictionary<(string, string), string>
+        // 辞書に pieceName1 + pieceName2 が存在すればそれを返す
+        if (piecePrefabDictionary.ContainsKey(pieceName1 + pieceName2))
         {
-            { ("歩兵", "香車"), "歩兵香車" },
-            { ("と金", "香車"), "と金香車" },
-            { ("歩兵", "成香"), "歩兵成香" },
-            { ("と金", "成香"), "と金成香" },
-            { ("歩兵", "桂馬"), "歩兵桂馬" },
-            { ("と金", "桂馬"), "と金桂馬" },
-            { ("歩兵", "成桂"), "歩兵成桂" },
-            { ("と金", "成桂"), "と金成桂" },
-            { ("香車", "桂馬"), "香車桂馬" },
-            { ("成香", "桂馬"), "成香桂馬" },
-            { ("香車", "成桂"), "香車成桂" },
-            { ("成香", "成桂"), "成香成桂" },
-            { ("歩兵", "銀将"), "歩兵銀将" },
-            { ("と金", "銀将"), "と金銀将" },
-            { ("歩兵", "成銀"), "歩兵成銀" },
-            { ("と金", "成銀"), "と金成銀" },
-            { ("香車", "銀将"), "香車銀将" },
-            { ("成香", "銀将"), "成香銀将" },
-            { ("香車", "成銀"), "香車成銀" },
-            { ("成香", "成銀"), "成香成銀" },
-            { ("桂馬", "銀将"), "桂馬銀将" },
-            { ("成桂", "銀将"), "成桂銀将" },
-            { ("桂馬", "成銀"), "桂馬成銀" },
-            { ("成桂", "成銀"), "成桂成銀" },
-            { ("歩兵", "金将"), "歩兵金将" },
-            { ("と金", "金将"), "と金金将" },
-            { ("香車", "金将"), "香車金将" },
-            { ("成香", "金将"), "成香金将" },
-            { ("桂馬", "金将"), "桂馬金将" },
-            { ("成桂", "金将"), "成桂金将" },
-            { ("銀将", "金将"), "銀将金将" },
-            { ("成銀", "金将"), "成銀金将" },
-            { ("歩兵", "角行"), "歩兵角行" },
-            { ("と金", "角行"), "と金角行" },
-            { ("歩兵", "竜馬"), "歩兵竜馬" },
-            { ("と金", "竜馬"), "と金竜馬" },
-            { ("香車", "角行"), "香車角行" },
-            { ("成香", "角行"), "成香角行" },
-            { ("香車", "竜馬"), "香車竜馬" },
-            { ("成香", "竜馬"), "成香竜馬" },
-            { ("桂馬", "角行"), "桂馬角行" },
-            { ("成桂", "角行"), "成桂角行" },
-            { ("桂馬", "竜馬"), "桂馬竜馬" },
-            { ("成桂", "竜馬"), "成桂竜馬" },
-            { ("銀将", "角行"), "銀将角行" },
-            { ("成銀", "角行"), "成銀角行" },
-            { ("銀将", "竜馬"), "銀将竜馬" },
-            { ("成銀", "竜馬"), "成銀竜馬" },
-            { ("金将", "角行"), "金将角行" },
-            { ("金将", "竜馬"), "金将竜馬" },
-            { ("歩兵", "飛車"), "歩兵飛車" },
-            { ("と金", "飛車"), "と金飛車" },
-            { ("歩兵", "竜王"), "歩兵竜王" },
-            { ("と金", "竜王"), "と金竜王" },
-            { ("香車", "飛車"), "香車飛車" },
-            { ("成香", "飛車"), "成香飛車" },
-            { ("香車", "竜王"), "香車竜王" },
-            { ("成香", "竜王"), "成香竜王" },
-            { ("桂馬", "飛車"), "桂馬飛車" },
-            { ("成桂", "飛車"), "成桂飛車" },
-            { ("桂馬", "竜王"), "桂馬竜王" },
-            { ("成桂", "竜王"), "成桂竜王" },
-            { ("銀将", "飛車"), "銀将飛車" },
-            { ("成銀", "飛車"), "成銀飛車" },
-            { ("銀将", "竜王"), "銀将竜王" },
-            { ("成銀", "竜王"), "成銀竜王" },
-            { ("金将", "飛車"), "金将飛車" },
-            { ("金将", "竜王"), "金将竜王" },
-            { ("角行", "飛車"), "角行飛車" },
-            { ("竜馬", "飛車"), "竜馬飛車" },
-            { ("角行", "竜王"), "角行竜王" },
-            { ("竜馬", "竜王"), "竜馬竜王" }
-
-        };
-
-        // 組み合わせが辞書に存在する場合は合成した名前を返す
-        var key1 = (pieceName1, pieceName2);
-        var key2 = (pieceName2, pieceName1);  // 順番を逆にしたキー
-
-        if (combinePatterns.ContainsKey(key1))
-        {
-            return combinePatterns[key1];
+            return pieceName1 + pieceName2;
         }
-        else if (combinePatterns.ContainsKey(key2))
+        // 逆の組み合わせが存在すればそれを返す
+        else if (piecePrefabDictionary.ContainsKey(pieceName2 + pieceName1))
         {
-            return combinePatterns[key2];  // 順番逆の場合の結果を返す
+            return pieceName2 + pieceName1;
         }
 
-        // 組み合わせが存在しない場合は片方の駒を返す
-        return pieceName1;
+        // 組み合わせが存在しない場合は null を返し、無効な合成であることを示す
+        return null;
     }
-
 
     // JSONファイルから駒データを読み込む
     void LoadShogiPiecesData()
     {
         TextAsset jsonText = Resources.Load<TextAsset>("ShogiPieces"); // ShogiPieces.jsonを読み込む
+        if (jsonText == null)
+        {
+            Debug.LogError("[ShogiPieceManager] ShogiPieces.json was not found in Resources folder. Please make sure the file exists and is named correctly.");
+            return;
+        }
         shogiPiecesData = JsonConvert.DeserializeObject<ShogiPieceDictionary>(jsonText.text);
     }
 
@@ -353,6 +278,11 @@ public class ShogiPieceManager : MonoBehaviour
         // 合成された駒の名前を取得
         string combinedPieceName = GetCombinedPieceName(pieceName1, pieceName2);
 
+        if (string.IsNullOrEmpty(combinedPieceName)) 
+        {
+            return null; // 無効な合成パターン
+        }
+
         // 駒のPrefabを取得
         GameObject combinedPiecePrefab = GetPiecePrefab(combinedPieceName);
 
@@ -369,6 +299,16 @@ public class ShogiPieceManager : MonoBehaviour
                 newPiece.transform.rotation = Quaternion.Euler(0, 0, 180); // 180度回転
             }
 
+            // 合成情報を追加
+            ShogiPiece shogiPiece = newPiece.GetComponent<ShogiPiece>();
+            if (shogiPiece == null) shogiPiece = newPiece.AddComponent<ShogiPiece>();
+            
+            // pieceName1 や pieceName2 自体が既に合成駒である可能性を考慮して展開する
+            List<string> components = new List<string>();
+            components.Add(pieceName1);
+            components.Add(pieceName2);
+            shogiPiece.Init(components);
+
             return newPiece;
         }
 
@@ -381,7 +321,7 @@ public class ShogiPieceManager : MonoBehaviour
     // 指定された駒のデータを取得
     public ShogiPieceData GetPieceData(string pieceName)
     {
-        if (shogiPiecesData.駒.ContainsKey(pieceName))
+        if (shogiPiecesData != null && shogiPiecesData.駒 != null && shogiPiecesData.駒.ContainsKey(pieceName))
         {
             return shogiPiecesData.駒[pieceName];
         }
