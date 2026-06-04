@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     private bool isPlayerTurn = true; // プレイヤーのターンかどうか
     [SerializeField] private string currentPlayerTag = "Player"; // 現在のプレイヤーのタグ
+    private bool isWaitingForPromotionTurnEnd = false;
 
     // ゲームの初期化
     private void Start()
@@ -26,13 +27,37 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        bool turnEnded = shogiPieceController.HandlePieceSelectionAndMovement();
-        if (shogiPieceController.movedPiece != null)
+        if (shogiPromotionManager.IsPromotionActive)
         {
-            shogiPromotionManager.HandlePromotion(shogiPieceController.movedPiece);
+            return;
         }
 
-        if (turnEnded) SwitchTurn();
+        if (isWaitingForPromotionTurnEnd)
+        {
+            isWaitingForPromotionTurnEnd = false;
+            SwitchTurn();
+            return;
+        }
+
+        bool turnEnded = shogiPieceController.HandlePieceSelectionAndMovement();
+        bool promotionStarted = false;
+
+        if (shogiPieceController.movedPiece != null)
+        {
+            promotionStarted = shogiPromotionManager.HandlePromotion(shogiPieceController.movedPiece);
+        }
+
+        if (turnEnded)
+        {
+            if (promotionStarted)
+            {
+                isWaitingForPromotionTurnEnd = true;
+            }
+            else
+            {
+                SwitchTurn();
+            }
+        }
     }
 
     // ターンを切り替える

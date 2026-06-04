@@ -19,6 +19,7 @@ public class ShogiPromotionManager : MonoBehaviour
     List<string> selections = new List<string>(); // 成り選択肢
     List<GameObject> selectionObjects = new List<GameObject>(); // 成り選択肢のオブジェクト
     public int selectedIndex = 0; // 選択された駒のインデックス
+    public bool IsPromotionActive { get; private set; } = false;
 
     private void Start()
     {
@@ -28,14 +29,17 @@ public class ShogiPromotionManager : MonoBehaviour
         
     }
 
-    public void HandlePromotion(GameObject piece)
+    public bool HandlePromotion(GameObject piece)
     {
         // 成り可能ならば成り選択を開始
         if (CanPromote(piece, shogiBoard.GetGridPositionFromWorldPosition(piece.transform.position).y))
         {
             this.piece = piece;
             AskPromotion();
+            return true;
         }
+
+        return false;
     }
 
     // 駒が成れるかを判定する関数
@@ -63,9 +67,14 @@ public class ShogiPromotionManager : MonoBehaviour
     // 成り選択を開始する
     void AskPromotion()
     {
-        selectionObjects.Clear();
+        ClearSelectionObjects();
         selections.Clear();
         selectedIndex = 0;
+        IsPromotionActive = true;
+
+        bool isEnemy = piece.CompareTag("Enemy");
+        promotionPanel.transform.localRotation = Quaternion.Euler(0f, 0f, isEnemy ? 180f : 0f);
+
         ShogiPieceData data = pieceManager.GetPieceData(piece.name);
         selections.Add(piece.name);
 
@@ -77,7 +86,10 @@ public class ShogiPromotionManager : MonoBehaviour
         for (int i = 0; i < selections.Count; i++)
         {
             GameObject selectionObject = Instantiate(pieceManager.GetPiecePrefab(selections[i]), promotionPanel.transform);
-            selectionObject.transform.position = promotionPanel.transform.position + new Vector3(origin.x + i * offset, origin.y, 0);
+            Vector3 selectionOffset = Quaternion.Euler(0f, 0f, isEnemy ? 180f : 0f) *
+                                      new Vector3(origin.x + i * offset, origin.y, 0);
+            selectionObject.transform.position = promotionPanel.transform.position + selectionOffset;
+            selectionObject.transform.localRotation = Quaternion.identity;
             selectionObject.transform.localScale = new Vector3(pieceSize, pieceSize, pieceSize);
             selectionObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
             selectionObject.name = selections[i];
@@ -93,6 +105,11 @@ public class ShogiPromotionManager : MonoBehaviour
     
     void OnSelected()
     {
+        if (!IsPromotionActive)
+        {
+            return;
+        }
+
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         
         for (int i = 0; i < selectionObjects.Count; i++)
@@ -111,6 +128,16 @@ public class ShogiPromotionManager : MonoBehaviour
     
     void OnConfirmed()
     {
+        if (!IsPromotionActive)
+        {
+            return;
+        }
+
+        if (selectedIndex < 0 || selectedIndex >= selections.Count)
+        {
+            selectedIndex = 0;
+        }
+
         if (selectedIndex != 0) // そのままでなければ成り処理を行う
         {
             string selectedPieceName = selections[selectedIndex];
@@ -135,9 +162,21 @@ public class ShogiPromotionManager : MonoBehaviour
 
         promotionPanel.SetActive(false); // 成り選択パネルを非表示にする
         selections.Clear();
+        IsPromotionActive = false;
+        piece = null;
+        ClearSelectionObjects();
+    }
+
+    void ClearSelectionObjects()
+    {
         foreach (GameObject selectionObject in selectionObjects)
         {
-            Destroy(selectionObject);
+            if (selectionObject != null)
+            {
+                Destroy(selectionObject);
+            }
         }
+
+        selectionObjects.Clear();
     }
 }
